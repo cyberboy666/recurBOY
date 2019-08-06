@@ -14,21 +14,22 @@ a table of parts ordered, tested, recieved etc to come here soon plus more dates
 
 the status flow might look something like this: `test ordered` -> `test arrived` -> `test checked` -> `bulk ordered` -> `bulk arrived` -> `bulk checked`
 
+
 REF | NAME | COST | STATUS
 --- | --- | --- | ---
-- | [raspberry pi zero] | 5 |  `test checked`
-- | custom pcb 100x100mm | 1.8 | `test wip`
-- | [smaller screen (1.8"?)] | 3.5 | `test arrived`
-- | 10-12 [push buttons + caps from china] | 1  | `bulk arrived`
-- | 4 pots for analog input | 3 | `test checked`
-- | 4 [thonkicon jack] inputs | 1.5 | `some arrived need to count`
-- | [a2d (mcp3008) from china] | 2 | `awaiting order`
-- | few resistors + diodes (8 bat85 + 4 1kohm) | 2 | `bulk diodes arrived awaiting resistors`
-- | few pin headers | 0.5 | `bulk male arrived, awaiting female`
-- | [composite video jack] | 1 | `test ordered`
-- | [sd card 8gb] | 2 | `awaiting order`
-- | [power-adapter] |  4 |  `test ordered`
-- | (optional) [raspi camera clone] | 7 | `test arrvied` 
+na | [raspberry pi zero] | 5 |  `test checked`
+na | custom pcb 100x100mm | 1.8 | `test wip`
+na | [smaller screen (1.8"?)] | 3.5 | `test arrived`
+na | 10-12 [push buttons + caps from china] | 1  | `bulk arrived`
+na | 4 pots for analog input | 3 | `test checked`
+na | 4 [thonkicon jack] inputs | 1.5 | `some arrived need to count`
+na | [a2d (mcp3008) from china] | 2 | `awaiting order`
+na | few resistors + diodes (8 bat85 + 4 1kohm) | 2 | `bulk diodes arrived awaiting resistors`
+na | few pin headers | 0.5 | `bulk male arrived, awaiting female`
+na | [composite video jack] | 1 | `test ordered`
+na | [sd card 8gb] | 2 | `awaiting order`
+na | [power-adapter] |  4 |  `test ordered`
+na | (optional) [raspi camera clone] | 7 | `test arrvied` 
 
 
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
