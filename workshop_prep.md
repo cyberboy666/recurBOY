@@ -31,6 +31,9 @@ na | [sd card 8gb] | 2 | `awaiting order`
 na | [power-adapter] |  4 |  `test ordered`
 na | (optional) [raspi camera clone] | 7 | `test arrvied` 
 
+### 5 way push button
+
+it might also be worth considering a [5-way push button] like this - saves on space , may make navigation more intuitave - prob will need a few more pins but that is ok
 
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
 [smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
@@ -41,3 +44,4 @@ na | (optional) [raspi camera clone] | 7 | `test arrvied`
 [composite video jack]: https://www.mouser.de/ProductDetail/CUI/RCJ-024?qs=%2Fha2pyFadujC6XIlhTY7nF4RUCR%2FYibjfCLz8sPuiKglF9KHFnEXMg%3D%3D
 [power-adapter]: https://www.aliexpress.com/item/32898334338.html
 [raspi camera clone]: https://www.aliexpress.com/item/32825264717.html
+[5-way push button]: https://www.aliexpress.com/item/33020121294.html
