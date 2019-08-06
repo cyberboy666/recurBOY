@@ -9,3 +9,34 @@ given the ali-parts are confirmed the next step is to get started on the circuit
 ofcourse if needed i can pay more to get things faster closer to the deadline - i would like to have decided a cutoff date early so i know when to act fast.
 
 a table of parts ordered, tested, recieved etc to come here soon plus more dates and deadlines tbc
+
+## parts and their status :
+
+the status flow might look something like this: `test ordered` -> `test arrived` -> `test checked` -> `bulk ordered` -> `bulk arrived` -> `bulk checked`
+
+REF | NAME | COST | STATUS
+--- | --- | --- | ---
+- | [raspberry pi zero] | 5 |  `test checked`
+- | custom pcb 100x100mm | 1.8 | `test wip`
+- | [smaller screen (1.8"?)] | 3.5 | `test arrived`
+- | 10-12 [push buttons + caps from china] | 1  | `bulk arrived`
+- | 4 pots for analog input | 3 | `test checked`
+- | 4 [thonkicon jack] inputs | 1.5 | `some arrived need to count`
+- | [a2d (mcp3008) from china] | 2 | `awaiting order`
+- | few resistors + diodes (8 bat85 + 4 1kohm) | 2 | `bulk diodes arrived awaiting resistors`
+- | few pin headers | 0.5 | `bulk male arrived, awaiting female`
+- | [composite video jack] | 1 | `test ordered`
+- | [sd card 8gb] | 2 | `awaiting order`
+- | [power-adapter] |  4 |  `test ordered`
+- | (optional) [raspi camera clone] | 7 | `test arrvied` 
+
+
+[raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
+[smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
+[a2d (mcp3008) from china]: https://www.aliexpress.com/item/32735896933.html
+[push buttons + caps from china]: https://www.aliexpress.com/item/32826994795.html
+[thonkicon jack]: https://modularaddict.com/pj301m12-jacks
+[sd card 8gb]: https://www.aliexpress.com/item/33040093922.html
+[composite video jack]: https://www.mouser.de/ProductDetail/CUI/RCJ-024?qs=%2Fha2pyFadujC6XIlhTY7nF4RUCR%2FYibjfCLz8sPuiKglF9KHFnEXMg%3D%3D
+[power-adapter]: https://www.aliexpress.com/item/32898334338.html
+[raspi camera clone]: https://www.aliexpress.com/item/32825264717.html
