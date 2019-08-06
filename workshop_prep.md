@@ -44,4 +44,4 @@ it might also be worth considering a [5-way push button] like this - saves on sp
 [composite video jack]: https://www.mouser.de/ProductDetail/CUI/RCJ-024?qs=%2Fha2pyFadujC6XIlhTY7nF4RUCR%2FYibjfCLz8sPuiKglF9KHFnEXMg%3D%3D
 [power-adapter]: https://www.aliexpress.com/item/32898334338.html
 [raspi camera clone]: https://www.aliexpress.com/item/32825264717.html
-[5-way push button]: https://www.aliexpress.com/item/33020121294.html
+[5-way push button]: https://www.aliexpress.com/item/32845147449.html
