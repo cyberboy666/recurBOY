@@ -35,6 +35,13 @@ na | (optional) [raspi camera clone] | 7 | `test arrvied`
 
 it might also be worth considering a [5-way push button] like this - saves on space , may make navigation more intuitave - prob will need a few more pins but that is ok `also bulk ordered`
 
+### experiments to try:
+
+some tech things to confirm:
+
+- try getting the [1.8" display] running -> python first - maybe think about directly in of if time permits?
+- reading button presses, direct and from matrix -> python first -> will then extend this to of
+
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
 [smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
 [a2d (mcp3008) from china]: https://www.aliexpress.com/item/32735896933.html
@@ -45,3 +52,4 @@ it might also be worth considering a [5-way push button] like this - saves on sp
 [power-adapter]: https://www.aliexpress.com/item/32898334338.html
 [raspi camera clone]: https://www.aliexpress.com/item/32825264717.html
 [5-way push button]: https://www.aliexpress.com/item/32845147449.html
+[1.8" display]: https://jakew.me/2018/01/19/st7735-pi/
