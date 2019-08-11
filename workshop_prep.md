@@ -19,13 +19,13 @@ REF | NAME | COST | STATUS
 --- | --- | --- | ---
 na | [raspberry pi zero] | 5 |  `test checked`
 na | custom pcb 100x100mm | 1.8 | `test wip`
-na | [smaller screen (1.8"?)] | 3.5 | `test arrived`
+na | [smaller screen (1.8"?)] | 3.5 | `bulk ordered`
 na | 10-12 [push buttons + caps from china] | 1  | `bulk arrived`
 na | 4 pots for analog input | 3 | `test checked`
 na | 4 [thonkicon jack] inputs | 1.5 | `some arrived need to count`
 na | [a2d (mcp3008) from china] | 2 | `bulk ordered`
 na | few resistors + diodes (8 bat85 + 4 1kohm) | 2 | `bulk diodes arrived awaiting resistors`
-na | few pin headers | 0.5 | `bulk male arrived, awaiting female`
+na | few pin headers | 0.5 | `bulk male+female arrived, `
 na | [composite video jack] | 1 | `test ordered`
 na | [sd card 8gb] | 2 | `bulk ordered`
 na | [power-adapter] |  4 |  `test ordered`
@@ -41,6 +41,11 @@ some tech things to confirm:
 
 - try getting the [1.8" display] running -> python first - maybe think about directly in of if time permits?
 - reading button presses, direct and from matrix -> working with [pad4pi] package -> will then extend this to of
+
+### things still to order
+
+i still need to order the pi0s, they are close tho. waiting on the power supply to test how it works will the pi - then can order a bunch ...
+also need to get resisters, pots, maybe a few thonkiconn jacks and pcbs ofcourse - hopefully things dont get lost !
 
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
 [smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
