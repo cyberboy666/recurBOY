@@ -40,7 +40,7 @@ it might also be worth considering a [5-way push button] like this - saves on sp
 some tech things to confirm:
 
 - try getting the [1.8" display] running -> python first - maybe think about directly in of if time permits?
-- reading button presses, direct and from matrix -> python first -> will then extend this to of
+- reading button presses, direct and from matrix -> working with [pad4pi] package -> will then extend this to of
 
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
 [smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
@@ -53,3 +53,4 @@ some tech things to confirm:
 [raspi camera clone]: https://www.aliexpress.com/item/32825264717.html
 [5-way push button]: https://www.aliexpress.com/item/32845147449.html
 [1.8" display]: https://jakew.me/2018/01/19/st7735-pi/
+[pad4pi]: https://github.com/brettmclean/pad4pi/
