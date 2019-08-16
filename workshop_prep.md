@@ -25,11 +25,12 @@ na | 4 pots for analog input | 3 | `test checked`
 na | 4 [thonkicon jack] inputs | 1.5 | `some arrived need to count`
 na | [a2d (mcp3008) from china] | 2 | `bulk ordered`
 na | few resistors + diodes (8 bat85 + 4 1kohm) | 2 | `bulk diodes arrived awaiting resistors`
-na | few pin headers | 0.5 | `bulk male+female arrived, `
-na | [composite video jack] | 1 | `test ordered`
+na | few pin headers | 0.5 | `bulk male arrived,bulk female ordered`
+na | [composite video jack] | 1 | `bulk arrived`
 na | [sd card 8gb] | 2 | `bulk ordered`
 na | [power-adapter] |  4 |  `test ordered`
-na | (optional) [raspi camera clone] | 7 | `test arrvied` 
+na | (optional) [raspi camera clone] | 7 | `bulk ordered` 
+na | 5-way nav switch | 1.5 | `bulk ordered`
 
 ### 5 way push button
 
@@ -46,6 +47,20 @@ some tech things to confirm:
 
 i still need to order the pi0s, they are close tho. waiting on the power supply to test how it works will the pi - then can order a bunch ...
 also need to get resisters, pots, maybe a few thonkiconn jacks and pcbs ofcourse - hopefully things dont get lost !
+
+## features
+
+video-sampler and synthesizer : 
+
+### 3 input modes:
+
+- `sampler` : play videos from sd or usb - seamless ? how much control over player tbc - ie seeking, setting start/end points , seamless or not ? havnt quite decided on this yet
+- `shader` : running frag-shaders from sd or usb - param inputs from 4 knobs and 4 cv in
+- `capture` : live input from piCamera - can preview and record
+
+### -> effects
+
+any of the 3 inputs can be piped through an _effect_ shader.
 
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
 [smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
