@@ -1,30 +1,59 @@
-# About emptyExample
+# recurBOY
+a pi0 video-instrument designed for diy soldering workshops
 
-![Screenshot of emptyExample](emptyExample.png)
+## brainstorming repo
 
-### Learning Objectives
+the finished repo may not be here - this is just a placeholder for brainstorming
 
-This example is the simplest possible openFrameworks app! It does nothing. 
+## goal
 
-...Well, *almost* nothing. Although it may not be apparent, the emptyExample activates all of the default system states. (For example, it sets the default fill color to white; it just doesn't happen to draw anything with it.)
+to design a 'lite' version of r_e_c_u_r (raspberry pi based video-sampler) that can be built from a kit in a group workshop for under 30euro per unit
 
-The emptyExample is great for making sure that your openFrameworks development environment is compiling properly. It can also be useful as a "starter template" for making simple programs. 
+## hardware
 
-The emptyExample will help you understand what are the bare necessities of an openFrameworks program. In this regard, you can think of it as a "Hello World" for OF. 
+currently i am thinking of using :
+
+- [raspberry pi zero] - 5euro
+- custom pcb 100x100mm - 1.8euro
+- [smaller screen (1.8"?)] - 3.5euro
+- 10-12 [push buttons + caps from china] - ~ 1euro
+
+- 4 pots for analog input - 3euro from tayda (less if from china)
+- 4 [thonkicon jack] inputs - 1.5euro 
+- [a2d (mcp3008) from china] - 2euro
+
+- few resistors + diodes (8 bat85 + 4 1kohm) - 2euro
+- few pin headers ~ 0.5euro
+- [composite video jack] (from mouser) - 1euro
+- [sd card 8gb] (from china) - 2euro
+- [power-adapter] ~ 4euro (if the ones from china work ?)
+
+- (maybe) [raspi camera clone] - 7euro
+
+__estimate total : ~ 27.5 + (optional 7 camera)__
+(this includes postage on most things / assumes free for mouser etc ...)
+
+## software
+
+my idea is for the code to run completely in openframeworks. video-playing / shader-effects / capture input all are already running in my _ofxVideoArtTools_ repo. things still to do / check :
+- reading from gpio pins in OF ; for mcp3008 and button matrix...
+- writing to the gpio-screen from openframeworks ; it might need to use python as workaround here , im not sure ...
+- video-looping / data-storing / ui navigating still to be written i guess
+
+## layout idea
+
+![image](https://user-images.githubusercontent.com/12017938/60989363-1d87fb80-a346-11e9-8037-842e402947fb.png)
 
 
-### Expected Behavior
+...
 
-When launching this app, you should see a light-gray screen. 
 
-* There's no interaction. 
-* There's nothing to see. 
-* That's it. 
-
-Instructions for using the app:
-
-* There's nothing to do. Move along.
-
-### Other classes used in this file
-
-This example uses no other classes.
+[raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
+[smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
+[a2d (mcp3008) from china]: https://www.aliexpress.com/item/32735896933.html
+[push buttons + caps from china]: https://www.aliexpress.com/item/32826994795.html
+[thonkicon jack]: https://modularaddict.com/pj301m12-jacks
+[sd card 8gb]: https://www.aliexpress.com/item/33040093922.html
+[composite video jack]: https://www.mouser.de/ProductDetail/CUI/RCJ-024?qs=%2Fha2pyFadujC6XIlhTY7nF4RUCR%2FYibjfCLz8sPuiKglF9KHFnEXMg%3D%3D
+[power-adapter]: https://www.aliexpress.com/item/32898334338.html
+[raspi camera clone]: https://www.aliexpress.com/item/32825264717.html
