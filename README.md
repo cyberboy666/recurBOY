@@ -42,8 +42,13 @@ my idea is for the code to run completely in openframeworks. video-playing / sha
 
 ## layout idea
 
+### initial brainstorm
+
 ![image](https://user-images.githubusercontent.com/12017938/60989363-1d87fb80-a346-11e9-8037-842e402947fb.png)
 
+### revision0.1
+
+![image](https://user-images.githubusercontent.com/12017938/63300041-8b292f00-c2d7-11e9-9079-4668646ccf98.png)
 
 ...
 
