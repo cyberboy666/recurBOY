@@ -1,6 +1,8 @@
 # recurBOY
 a pi0 video-instrument designed for diy soldering workshops
 
+![alt text](splash.gif "Splash Screen")
+
 ## brainstorming repo
 
 the finished repo may not be here - this is just a placeholder for brainstorming
