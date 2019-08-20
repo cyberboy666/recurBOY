@@ -45,8 +45,12 @@ some tech things to confirm:
 
 ### things still to order
 
-i still need to order the pi0s, they are close tho. waiting on the power supply to test how it works will the pi - then can order a bunch ...
-also need to get resisters, pots, maybe a few thonkiconn jacks and pcbs ofcourse - hopefully things dont get lost !
+~~i still need to order the pi0s~~, it is not possible to bulk order pi0s - people will have to bring their own.. waiting on the power supply to test how it works will the pi 
+
+things still left to order :
+ - pots and resisitors i will get from mouser i think
+ - will get other set of thonkiconn jacks (either from modular or otherwise..)
+ - decide and order a cheap - ish power supply that will arrive on time ... (the one from ali i think will be too slow)
 
 ## features
 
