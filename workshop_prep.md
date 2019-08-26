@@ -66,6 +66,15 @@ video-sampler and synthesizer :
 
 any of the 3 inputs can be piped through an _effect_ shader.
 
+# final pcb order deadline.
+
+i have some stress about getting pcbs fabbed and delivered in time for this workshop. flight from berlin is oct 4th.
+
+with fast shipping would still need to allow 14 days to get pcbs fabbed and arrive, which means the final cutoff for a second revision of the board is 18th september. since first revision hasnt been shipped yet, and is with slow post , it would need to get here at most in 3 weeks (this would give me a few days to do the soldering and make any needed revisions)
+i think this is possible but also not so likely. also will need to aleast have enough parts to do this test build before mid september. 
+
+what other options are there ? possibly to use the revision1 boards if possible (but then there is only 10 in total - one of which i will need to use as a test board but maybe can give away at the workshop ... )
+
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
 [smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
 [a2d (mcp3008) from china]: https://www.aliexpress.com/item/32735896933.html
