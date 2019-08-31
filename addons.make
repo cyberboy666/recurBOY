@@ -5,6 +5,7 @@ ofxVideoArtTools
 ofxVideoRecorder
 ofxOMXPlayer
 ofxPoco
+ofxGPIO
 
 ofxMidi
 ofxJSON
