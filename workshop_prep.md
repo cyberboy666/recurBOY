@@ -17,20 +17,20 @@ the status flow might look something like this: `test ordered` -> `test arrived`
 
 REF | NAME | COST | STATUS
 --- | --- | --- | ---
-na | [raspberry pi zero] | 5 |  `test checked`
-na | custom pcb 100x100mm | 1.8 | `test wip`
+na | [raspberry pi zero] | 5 |  ``
+na | custom pcb 100x100mm | 1.8 | `r0.1 ordered`
 na | [smaller screen (1.8"?)] | 3.5 | `bulk ordered`
 na | 10-12 [push buttons + caps from china] | 1  | `bulk arrived`
-na | 4 pots for analog input | 3 | `test checked`
-na | 4 [thonkicon jack] inputs | 1.5 | `some arrived need to count`
-na | [a2d (mcp3008) from china] | 2 | `bulk ordered`
-na | few resistors + diodes (8 bat85 + 4 1kohm) | 2 | `bulk diodes arrived awaiting resistors`
+na | 4 pots for analog input | 3 | `mouser order standby`
+na | 4 [thonkicon jack] inputs | 1.5 | `bulk ordered`
+na | [a2d (mcp3008) from china] | 2 | `bulk arrived`
+na | few resistors + diodes (8 bat85 + 4 1kohm) | 2 | `bulk diodes arrived awaiting resistors mouser standby`
 na | few pin headers | 0.5 | `bulk male arrived,bulk female ordered`
 na | [composite video jack] | 1 | `bulk arrived`
 na | [sd card 8gb] | 2 | `bulk ordered`
 na | [power-adapter] |  4 |  `test ordered`
 na | (optional) [raspi camera clone] | 7 | `bulk ordered` 
-na | 5-way nav switch | 1.5 | `bulk ordered`
+na | 5-way nav switch | 1.5 | `bulk arrived`
 
 ### 5 way push button
 
@@ -45,8 +45,12 @@ some tech things to confirm:
 
 ### things still to order
 
-i still need to order the pi0s, they are close tho. waiting on the power supply to test how it works will the pi - then can order a bunch ...
-also need to get resisters, pots, maybe a few thonkiconn jacks and pcbs ofcourse - hopefully things dont get lost !
+~~i still need to order the pi0s~~, it is not possible to bulk order pi0s - people will have to bring their own.. waiting on the power supply to test how it works will the pi 
+
+things still left to order :
+ - pots and resisitors i will get from mouser i think
+ - will get other set of thonkiconn jacks (either from modular or otherwise..)
+ - decide and order a cheap - ish power supply that will arrive on time ... (the one from ali i think will be too slow)
 
 ## features
 
@@ -61,6 +65,15 @@ video-sampler and synthesizer :
 ### -> effects
 
 any of the 3 inputs can be piped through an _effect_ shader.
+
+# final pcb order deadline.
+
+i have some stress about getting pcbs fabbed and delivered in time for this workshop. flight from berlin is oct 4th.
+
+with fast shipping would still need to allow 14 days to get pcbs fabbed and arrive, which means the final cutoff for a second revision of the board is 18th september. since first revision hasnt been shipped yet, and is with slow post , it would need to get here at most in 3 weeks (this would give me a few days to do the soldering and make any needed revisions)
+i think this is possible but also not so likely. also will need to aleast have enough parts to do this test build before mid september. 
+
+what other options are there ? possibly to use the revision1 boards if possible (but then there is only 10 in total - one of which i will need to use as a test board but maybe can give away at the workshop ... )
 
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
 [smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
