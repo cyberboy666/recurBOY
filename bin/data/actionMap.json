@@ -1,0 +1,31 @@
+{
+    "MIDI" : {
+        "NOTE_ON" : [
+            ["20", "doThisThing"],
+            ["22", "doAnotherThing"]
+        ],
+        "CC" : [
+            ["1", "setThisThing"],
+            ["4", "updateToThisValue"]
+        ]
+    },
+    "OSC" : [
+        ["/player/a/load", "loadPlayerA"],
+        ["/capture/stop", "stopTheCapture"],
+        ["/player/a/speed", "setPlayerSpeed"],
+        ["/player/b/position", "setPlayerPosition"]
+    ],
+    "ANALOG" : [
+        ["0", "setShaderParam0"],
+        ["1", "setShaderParam1"]
+    ],
+    "KEY" : [
+        ["q", "exit"],
+        ["w", "moveUp" ],
+        ["s", "moveDown" ],
+        ["a", "moveLeft" ],
+        ["d", "moveRight" ],
+        ["p", "enter" ],
+        ["c", "switchInput" ]
+    ]
+}

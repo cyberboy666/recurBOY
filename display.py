@@ -6,8 +6,12 @@ import ST7735 as TFT
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.SPI as SPI
 
-#from pythonosc import dispatcher
-import keyboard
+from pythonosc import osc_server
+from pythonosc import osc_message_builder
+from pythonosc import dispatcher
+import threading
+import argparse
+import time
 
 WIDTH = 128
 HEIGHT = 160
@@ -62,9 +66,9 @@ def draw_rotated_text(image, text, position, angle, font, fill=(255,255,255),bac
 
 class Display(object):
     def __init__(self):
-        self.text = 'Hello World! this is \n the place where we would \n draw the infomation \n about recurBOY'
+        self.osc_server = self.setup_osc_server()
         self.inputs = ['SAMPLER', 'SHADERS', 'CAMERA']
-        self.sample_list = ['long_spinning.mp4', 'mushroom_dreams.mp4', 'motorway1.mp4', 'motorway2.mp4', 'motorway3.mp4', 'simple_loop.mp4', 'tv_screen.mp4', 'tv_screen2.mp4', 'tv_screen3.mp4']
+        self.sample_list = []
         self.sampler_state = False
         self.shaders_state = False
         self.shader_list = ['colours.frag', 'spinning.frag', 'flips.frag', 'flowing.frag', 'blobs1.frag', 'blobs2.frag', 'bounce.frag', 'colours3.frag', 'colours4.frag']
@@ -104,13 +108,9 @@ class Display(object):
             self.title = '__CAMERA___'
             self.current_list = ['preview', 'recording']
             self.current_title_colour = (0,255,255)
-
-
         
         self.current_list_offset = 0
         self.selected_row = 0        
-        
- 
 
     def create_this_screen(self):
         self.create_sample_screen()
@@ -120,81 +120,75 @@ class Display(object):
         draw_rotated_text(disp.buffer, self.title, (110, 10),270, font_title, fill=(0,0,0), background=self.current_title_colour)
         # print content
         for i, value in enumerate(self.get_view_list()):
-            if i == self.selected_row:
+            if i == self.selected_row - self.current_list_offset:
                 draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(0,0,0), background=(255,255,255))        
             else:
                 draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(255,255,255), )
 
 
-    def check_for_key_press(self):
+    
+    def setup_osc_server(self):
+        server_parser = argparse.ArgumentParser()
+        server_parser.add_argument("--ip", default="127.0.0.1", help="the ip")
+        server_parser.add_argument("--port", type=int, default=9000, help="the port")
+        
+        server_args = server_parser.parse_args()
 
-        if keyboard.is_pressed('up'):
-            if self.selected_row == 0 and self.current_list_offset == 0 :
-                pass
-            elif self.selected_row == 0 and self.current_list_offset != 0 :
-                self.current_list_offset = self.current_list_offset - 1
-            else:  
-                self.selected_row = self.selected_row - 1
-        elif keyboard.is_pressed('down'):
+        this_dispatcher = dispatcher.Dispatcher()
 
-            if self.selected_row == 5 and self.current_list_offset == len(self.sample_list) - 6 or self.selected_row == len(self.current_list) - 1 :
-                pass
-            elif self.selected_row == 5 and self.current_list_offset != len(self.sample_list) - 6:
-                self.current_list_offset = self.current_list_offset + 1
-            else:  
-                self.selected_row = self.selected_row + 1
-        elif keyboard.is_pressed('c'):
-            self.inputs = self.inputs[1:] + self.inputs[:-1]
-            self.current_mode = self.inputs[0]
-            self.switch_input_mode()
-        elif keyboard.is_pressed('right'):
-            self.fx_screen_visible = True
-            self.switch_input_mode()
-        elif keyboard.is_pressed('left'):
-            if self.fx_screen_visible:
-                self.fx_screen_visible = False
-                self.switch_input_mode()
-        elif keyboard.is_pressed('enter'):
-            if self.fx_screen_visible:
-                pass
-            elif self.current_mode == 'SAMPLER':
-                self.sampler_state = not self.sampler_state
-                self.title = '__SAMPLER_{}_'.format(self.get_state_symbol(self.sampler_state))
-            elif self.current_mode == 'SHADERS':
-                self.shaders_state = not self.shaders_state 
-                self.title = '__SHADERS_{}_'.format(self.get_state_symbol(self.shaders_state))
+        this_dispatcher.map("/sampleList", self.set_sample_list)
+        this_dispatcher.map("/shaderList", self.set_shader_list)
+        this_dispatcher.map("/fxList", self.set_fx_list)
+        this_dispatcher.map("/selectedRow", self.set_selected_row)
+        this_dispatcher.map("/inputMode", self.set_input_mode)
+        this_dispatcher.map("/fxScreenVisible", self.set_fx_screen_visible)
 
+
+        server = osc_server.ThreadingOSCUDPServer((server_args.ip, server_args.port), this_dispatcher)
+        server_thread = threading.Thread(target=server.serve_forever)
+        server_thread.start()
+        return server
+
+    def set_sample_list(self, unused_addr, *args):
+        print('geting list here !!!!!')
+        self.sample_list = [i.split("/")[-1] for i in list(args)]
+        self.switch_input_mode()         
+
+
+    def set_shader_list(self, unused_addr, *args):
+        self.shader_list = [i.split("/")[-1] for i in list(args)]
+        self.switch_input_mode()
+
+    def set_fx_list(self, unused_addr, *args):
+        self.fx_list = [i.split("/")[-1] for i in list(args)]
+        self.switch_input_mode()
+
+         
+
+    def set_selected_row(self, unused_addr, row):
+        self.selected_row = row
+        if self.selected_row == self.current_list_offset - 1:
+            self.current_list_offset = self.current_list_offset - 1
+        elif self.selected_row == self.current_list_offset + 5 + 1:
+            self.current_list_offset = self.current_list_offset + 1
+
+    def set_input_mode(self, unused_addr, mode):
+        self.current_mode = mode
+        self.switch_input_mode()
+
+    def set_fx_screen_visible(self, unused_addr, is_visible):
+        self.fx_screen_visible = bool(is_visible)
+        self.switch_input_mode()
 
     def loop_over_display_update(self):
         while True:
 
             disp.clear()
-            self.create_this_screen()
-            self.check_for_key_press()    
+            self.create_this_screen()  
             disp.draw()
             disp.display()
-
+            #time.sleep(1)
 
 display = Display()
 display.loop_over_display_update()
-
-def setup_osc_server(self):
-    server_parser = argparse.ArgumentParser()
-    server_parser.add_argument("--ip", default="127.0.0.1", help="the ip")
-    server_parser.add_argument("--port", type=int, default=9000, help="the port")
-
-    server_args = server_parser.parse_args()
-
-    this_dispatcher = dispatcher.Dispatcher()
-    this_dispatcher.map("/player/c/status", self.video_driver.receive_status, "c.c")
-    this_dispatcher.map("/detour/detour_info", self.receive_detour_info)
-    this_dispatcher.map("/capture/recording_finished", self.capture.receive_recording_finished)
-    this_dispatcher.map("/shutdown", self.exit_osc_server)
-
-    server = osc_server.ThreadingOSCUDPServer((server_args.ip, server_args.port), this_dispatcher)
-    server_thread = threading.Thread(target=server.serve_forever)
-    server_thread.start()
-    return server
-
-
 
