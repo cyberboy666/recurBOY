@@ -17,7 +17,7 @@ the status flow might look something like this: `test ordered` -> `test arrived`
 
 REF | NAME | COST | STATUS
 --- | --- | --- | ---
-na | [raspberry pi zero] | 5 |  ``
+na | [raspberry pi zero] | 5 |  `bulk ordered`
 na | custom pcb 100x100mm | 1.8 | `r0.1 ordered`
 na | [smaller screen (1.8"?)] | 3.5 | `bulk ordered`
 na | 10-12 [push buttons + caps from china] | 1  | `bulk arrived`
@@ -25,10 +25,10 @@ na | 4 pots for analog input | 3 | `mouser order standby`
 na | 4 [thonkicon jack] inputs | 1.5 | `bulk ordered`
 na | [a2d (mcp3008) from china] | 2 | `bulk arrived`
 na | few resistors + diodes (8 bat85 + 4 1kohm) | 2 | `bulk diodes arrived awaiting resistors mouser standby`
-na | few pin headers | 0.5 | `bulk male arrived,bulk female ordered`
+na | few pin headers | 0.5 | `bulk arrived`
 na | [composite video jack] | 1 | `bulk arrived`
-na | [sd card 8gb] | 2 | `bulk ordered`
-na | [power-adapter] |  4 |  `test ordered`
+na | [sd card 8gb] | 2 | `bulk arrived`
+na | [power-adapter] |  4 |  `bulk ordered`
 na | (optional) [raspi camera clone] | 7 | `bulk ordered` 
 na | 5-way nav switch | 1.5 | `bulk arrived`
 
