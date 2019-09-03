@@ -19,7 +19,7 @@ REF | NAME | COST | STATUS
 --- | --- | --- | ---
 na | [raspberry pi zero] | 5 |  `bulk ordered`
 na | custom pcb 100x100mm | 1.8 | `r0.1 ordered`
-na | [smaller screen (1.8"?)] | 3.5 | `bulk ordered`
+na | [smaller screen (1.8"?)] | 3.5 | `bulk arrived`
 na | 10-12 [push buttons + caps from china] | 1  | `bulk arrived`
 na | 4 pots for analog input | 3 | `mouser order standby`
 na | 4 [thonkicon jack] inputs | 1.5 | `bulk ordered`
@@ -29,7 +29,7 @@ na | few pin headers | 0.5 | `bulk arrived`
 na | [composite video jack] | 1 | `bulk arrived`
 na | [sd card 8gb] | 2 | `bulk arrived`
 na | [power-adapter] |  4 |  `bulk ordered`
-na | (optional) [raspi camera clone] | 7 | `bulk ordered` 
+na | (optional) [raspi camera clone] | 7 | `bulk arrived` 
 na | 5-way nav switch | 1.5 | `bulk arrived`
 
 ### 5 way push button
@@ -45,7 +45,7 @@ some tech things to confirm:
 
 ### things still to order
 
-~~i still need to order the pi0s~~, it is not possible to bulk order pi0s - people will have to bring their own.. waiting on the power supply to test how it works will the pi 
+~~i still need to order the pi0s~~, ~~it is not possible to bulk order pi0s - people will have to bring their own.. waiting on the power supply to test how it works will the pi ~~ 
 
 things still left to order :
  - pots and resisitors i will get from mouser i think
@@ -74,6 +74,10 @@ with fast shipping would still need to allow 14 days to get pcbs fabbed and arri
 i think this is possible but also not so likely. also will need to aleast have enough parts to do this test build before mid september. 
 
 what other options are there ? possibly to use the revision1 boards if possible (but then there is only 10 in total - one of which i will need to use as a test board but maybe can give away at the workshop ... )
+
+## first r0.1_board problem:
+
+currently r0.1 of the board has the _display_ on pins for __SPI0__ and the _a2d_ on pins for __SPI1__. however it seems the a2d code can only read from __SPI0__ , whereas the _display_ can read from both. a easy hardware fix is to swap these pins around on the scematic/layout however as mentioned above there may not be much time for a second revision of the board to arrive. if everything else on r0.1 boards are ok another backup plan is to manually cut and rewire traces on the r0.1 boards for the workshop.
 
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
 [smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
