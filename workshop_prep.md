@@ -43,28 +43,15 @@ some tech things to confirm:
 - try getting the [1.8" display] running -> python first - maybe think about directly in of if time permits?
 - reading button presses, direct and from matrix -> working with [pad4pi] package -> will then extend this to of
 
-### things still to order
+### problem with sourcing the pi0s cheap
 
-~~i still need to order the pi0s~~, ~~it is not possible to bulk order pi0s - people will have to bring their own.. waiting on the power supply to test how it works will the pi ~~ 
+~~i still need to order the pi0s~~, ~~it is not possible to bulk order pi0s~~ - ~~people will have to bring their own..~~ ~~waiting on the power supply to test how it works will the pi~~ i ordered some _too cheap to be true_ pi0s on ebay - lets see if they arrive / work ? the backup plan is to buy enough pi0s at the bulk price : around 12euros, and give people at the workshop the choice out of a 12euro pi0 now from me or a 5euro pi0 later they can buy themself ... 
 
 things still left to order :
- - pots and resisitors i will get from mouser i think
- - will get other set of thonkiconn jacks (either from modular or otherwise..)
- - decide and order a cheap - ish power supply that will arrive on time ... (the one from ali i think will be too slow)
+ - pots and resisitors i will get from mouser i think : waiting till i test some other parts before ordering these incase the cheaper chips (for example) dont work
+ - ~~will get other set of thonkiconn jacks~~ : ordered from modular-addict
+ - ~~decide and order a cheap - ish power supply that will arrive on time ... (the one from ali i think will be too slow)~~ ordered 10 5euro powersupplys from ebay - should arrive by beginning of next week - i hope they work !!
 
-## features
-
-video-sampler and synthesizer : 
-
-### 3 input modes:
-
-- `sampler` : play videos from sd or usb - seamless ? how much control over player tbc - ie seeking, setting start/end points , seamless or not ? havnt quite decided on this yet
-- `shader` : running frag-shaders from sd or usb - param inputs from 4 knobs and 4 cv in
-- `capture` : live input from piCamera - can preview and record
-
-### -> effects
-
-any of the 3 inputs can be piped through an _effect_ shader.
 
 # final pcb order deadline.
 
