@@ -3,44 +3,51 @@ a pi0 video-instrument designed for diy soldering workshops
 
 ![alt text](splash.gif "Splash Screen")
 
-## brainstorming repo
-
-the finished repo may not be here - this is just a placeholder for brainstorming
-
 ## goal
 
-to design a 'lite' version of r_e_c_u_r (raspberry pi based video-sampler) that can be built from a kit in a group workshop for under 30euro per unit
+to design a 'lite' version of r_e_c_u_r (raspberry pi based video-sampler) that can be built from a kit in a group workshop for around 30euro per unit
 
-## hardware
+## hardware WIP-BOM
 
-currently i am thinking of using :
+REF | NAME | NUMBER | APROX COST 
+--- | --- | --- | ---
+na | [raspberry pi zero] | 1 | 5
+na | custom pcb 100x100mm | 1 | 1.8
+na | [1.8" screen] | 1 | 3.5
+na | [push buttons + caps from china] | 6 | 1 
+na | 1k linear pots | 4 | 3
+na | [thonkicon jack] inputs | 4 | 1.5
+na | [mcp3008 a2d dip] | 1 | 2
+na | 1kohm resistors | 4 | 2
+na | bat85 diodes| 8 | 2
+na | 2x20 pin header | 1 in 1 out | 0.5
+na | [composite video jack] | 1 | 1
+na | [sd card 8gb] | 1 | 2 |
+na | power-adapter | 1 |  5
+na | (optional) [raspi camera clone] | 1 | 7
+na | [5-way push button] | 1 | 1.5
 
-- [raspberry pi zero] - 5euro
-- custom pcb 100x100mm - 1.8euro
-- [smaller screen (1.8"?)] - 3.5euro
-- 10-12 [push buttons + caps from china] - ~ 1euro
 
-- 4 pots for analog input - 3euro from tayda (less if from china)
-- 4 [thonkicon jack] inputs - 1.5euro 
-- [a2d (mcp3008) from china] - 2euro
-
-- few resistors + diodes (8 bat85 + 4 1kohm) - 2euro
-- few pin headers ~ 0.5euro
-- [composite video jack] (from mouser) - 1euro
-- [sd card 8gb] (from china) - 2euro
-- [power-adapter] ~ 4euro (if the ones from china work ?)
-
-- (maybe) [raspi camera clone] - 7euro
-
-__estimate total : ~ 27.5 + (optional 7 camera)__
+__estimate total : ~ 28 + (optional 7 camera)__
 (this includes postage on most things / assumes free for mouser etc ...)
+
+## features
+
+video-sampler and synthesizer : 
+
+### 3 input modes:
+
+- `sampler` : play videos from sd or usb - seamless ? how much control over player tbc - ie seeking, setting start/end points , seamless or not ? havnt quite decided on this yet
+- `shader` : running frag-shaders from sd or usb - param inputs from 4 knobs and 4 cv in
+- `camera` : live input from piCamera - can preview and record
+
+plus `fx` mode:
+
+- any of the 3 inputs can be piped through an _fx_ shader.
 
 ## software
 
-my idea is for the code to run completely in openframeworks. video-playing / shader-effects / capture input all are already running in my _ofxVideoArtTools_ repo. things still to do / check :
-- reading from gpio pins in OF ; for mcp3008 and button matrix...
-- writing to the gpio-screen from openframeworks ; it might need to use python as workaround here , im not sure ...
-- video-looping / data-storing / ui navigating still to be written i guess
+my idea is for the code to run (mostly) completely in openframeworks. video-playing / shader-effects / capture input all are already running in my _ofxVideoArtTools_ repo. writing to the display is much easier in python so will push updates from OF to a python script via OSC , also sample-processing might also be done here ? lets see.
 
 ## layout idea
 
@@ -54,13 +61,13 @@ my idea is for the code to run completely in openframeworks. video-playing / sha
 
 ...
 
-
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
-[smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
-[a2d (mcp3008) from china]: https://www.aliexpress.com/item/32735896933.html
+[1.8" screen]: https://www.aliexpress.com/item/32996979276.html
+[mcp3008 a2d dip]: https://www.aliexpress.com/item/32735896933.html
 [push buttons + caps from china]: https://www.aliexpress.com/item/32826994795.html
 [thonkicon jack]: https://modularaddict.com/pj301m12-jacks
 [sd card 8gb]: https://www.aliexpress.com/item/33040093922.html
 [composite video jack]: https://www.mouser.de/ProductDetail/CUI/RCJ-024?qs=%2Fha2pyFadujC6XIlhTY7nF4RUCR%2FYibjfCLz8sPuiKglF9KHFnEXMg%3D%3D
-[power-adapter]: https://www.aliexpress.com/item/32898334338.html
 [raspi camera clone]: https://www.aliexpress.com/item/32825264717.html
+[5-way push button]: https://www.aliexpress.com/item/32845147449.html
+
