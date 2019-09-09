@@ -15,7 +15,7 @@ na | [raspberry pi zero] | 1 | 5
 na | custom pcb 100x100mm | 1 | 1.8
 na | [1.8" screen] | 1 | 3.5
 na | [push buttons + caps from china] | 6 | 1 
-na | 1k linear pots | 4 | 3
+na | 10k linear pots | 4 | 3
 na | [thonkicon jack] inputs | 4 | 1.5
 na | [mcp3008 a2d dip] | 1 | 2
 na | 1kohm resistors | 4 | 2
