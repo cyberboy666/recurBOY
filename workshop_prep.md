@@ -21,7 +21,7 @@ na | [raspberry pi zero] | 5 |  `bulk ordered`
 na | custom pcb 100x100mm | 1.8 | `r0.1 ordered`
 na | [smaller screen (1.8"?)] | 3.5 | `bulk arrived`
 na | 10-12 [push buttons + caps from china] | 1  | `bulk arrived`
-na | 4 pots for analog input | 3 | `mouser order standby`
+na | 4 10k pots for analog input | 3 | `mouser order standby`
 na | 4 [thonkicon jack] inputs | 1.5 | `bulk ordered`
 na | [a2d (mcp3008) from china] | 2 | `bulk arrived`
 na | few resistors + diodes (8 bat85 + 4 1kohm) | 2 | `bulk diodes arrived awaiting resistors mouser standby`
@@ -65,6 +65,31 @@ what other options are there ? possibly to use the revision1 boards if possible 
 ## first r0.1_board problem:
 
 currently r0.1 of the board has the _display_ on pins for __SPI0__ and the _a2d_ on pins for __SPI1__. however it seems the a2d code can only read from __SPI0__ , whereas the _display_ can read from both. a easy hardware fix is to swap these pins around on the scematic/layout however as mentioned above there may not be much time for a second revision of the board to arrive. if everything else on r0.1 boards are ok another backup plan is to manually cut and rewire traces on the r0.1 boards for the workshop.
+
+## r0.1 boards arrived !
+
+this took less time than i expected. i soldered the board together in 70mins. i think the workshop has two 3hour slots so hopefully this will be enough time for everyone. everything worked together suprizingly well. the only real problem is the spi1/spi0 problem i spotted earlier. otherwise the display, push buttons, a2d etc all are working ! woop (need to test the composite video output)
+
+i will create a new revision of the board, some changes include:
+- switching the spi ports around
+- slightly resizing the button footprint
+- labelling buttons with the silk-screen
+- moving button placement around a little
+- maybe moving resistor/diode placements around a little
+- ordering more than 10 this time with fast postage
+
+i also will order the mouser parts to make sure we have everything and enough spare parts.
+
+some testing for example, the display, the a2d, the other parts i used in the build all worked...
+
+## some performance problems
+
+we have yet to test all the parts together on a pi0 but i am antisipating some performance optimizations needed.
+some things to try:
+- updating screen less / only when something changes
+- reading from the a2d less
+- not running the ui desktop at all - launch everything from console
+- experimenting with different gpu/cpu splits
 
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
 [smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
