@@ -14,11 +14,11 @@ REF | NAME | NUMBER | APROX COST
 na | [raspberry pi zero] | 1 | 5
 na | custom pcb 100x100mm | 1 | 1.8
 na | [1.8" screen] | 1 | 3.5
-na | [push buttons + caps from china] | 6 | 1 
+na | [push buttons + caps from china] | 5 | 1 
 na | 10k linear pots | 4 | 3
 na | [thonkicon jack] inputs | 4 | 1.5
 na | [mcp3008 a2d dip] | 1 | 2
-na | 1kohm resistors | 4 | 2
+na | 1kohm resistors | 4 | 0.5
 na | bat85 diodes| 8 | 2
 na | 2x20 pin header | 1 in 1 out | 0.5
 na | [composite video jack] | 1 | 1
