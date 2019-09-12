@@ -1,3 +1,6 @@
+dear diary: 
+
+:P
 
 i just want to start some notes to keep track and plan for the first recurBOY workshop in OCTOBER. this is a little over 8 weeks from now. this is plently of time to get code working but not much room for wiggle if sourcing parts and pcbs cheaply from china.
 
