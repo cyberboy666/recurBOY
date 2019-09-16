@@ -205,8 +205,14 @@ void ofApp::enter(){
             playingMode = selectedInputMode;
         }
         else if(currentList[selectedRow] == "record"){
-            
+            videoInput.startRecording();
+            currentList = {"stop"};
         }
+        else if(currentList[selectedRow] == "stop"){
+            videoInput.stopRecording();
+            currentList = {"record"};
+        }
+        
     }
 }
 
@@ -294,7 +300,11 @@ vector<string> ofApp::getPathsInFolder(string folderPath){
 
 bool ofApp::detectCamera(){
     string resp = myExec("vcgencmd get_camera");
-    return resp == "supported=1 detected=1";
+    string substr = resp.substr(20, 21);
+    ofLog() << "resp !!!!!!!!!!!" << resp << "!!!";
+    ofLog() << "substr !!!!!!!!!!!" << substr << "!!!";
+    ofLog() << "the retrun is " << ofToString(resp == "supported=1 detected=1\n");
+    return resp == "supported=1 detected=1\n";
 }
 
 bool ofApp::diskspaceFull(){
