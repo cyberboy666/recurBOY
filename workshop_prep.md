@@ -1,3 +1,6 @@
+dear diary: 
+
+:P
 
 i just want to start some notes to keep track and plan for the first recurBOY workshop in OCTOBER. this is a little over 8 weeks from now. this is plently of time to get code working but not much room for wiggle if sourcing parts and pcbs cheaply from china.
 
@@ -17,19 +20,19 @@ the status flow might look something like this: `test ordered` -> `test arrived`
 
 REF | NAME | COST | STATUS
 --- | --- | --- | ---
-na | [raspberry pi zero] | 5 |  ``
+na | [raspberry pi zero] | 5 |  `bulk ordered`
 na | custom pcb 100x100mm | 1.8 | `r0.1 ordered`
-na | [smaller screen (1.8"?)] | 3.5 | `bulk ordered`
+na | [smaller screen (1.8"?)] | 3.5 | `bulk arrived`
 na | 10-12 [push buttons + caps from china] | 1  | `bulk arrived`
-na | 4 pots for analog input | 3 | `mouser order standby`
+na | 4 10k pots for analog input | 3 | `mouser order standby`
 na | 4 [thonkicon jack] inputs | 1.5 | `bulk ordered`
 na | [a2d (mcp3008) from china] | 2 | `bulk arrived`
 na | few resistors + diodes (8 bat85 + 4 1kohm) | 2 | `bulk diodes arrived awaiting resistors mouser standby`
-na | few pin headers | 0.5 | `bulk male arrived,bulk female ordered`
+na | few pin headers | 0.5 | `bulk arrived`
 na | [composite video jack] | 1 | `bulk arrived`
-na | [sd card 8gb] | 2 | `bulk ordered`
-na | [power-adapter] |  4 |  `test ordered`
-na | (optional) [raspi camera clone] | 7 | `bulk ordered` 
+na | [sd card 8gb] | 2 | `bulk arrived`
+na | [power-adapter] |  4 |  `bulk ordered`
+na | (optional) [raspi camera clone] | 7 | `bulk arrived` 
 na | 5-way nav switch | 1.5 | `bulk arrived`
 
 ### 5 way push button
@@ -43,28 +46,15 @@ some tech things to confirm:
 - try getting the [1.8" display] running -> python first - maybe think about directly in of if time permits?
 - reading button presses, direct and from matrix -> working with [pad4pi] package -> will then extend this to of
 
-### things still to order
+### problem with sourcing the pi0s cheap
 
-~~i still need to order the pi0s~~, it is not possible to bulk order pi0s - people will have to bring their own.. waiting on the power supply to test how it works will the pi 
+~~i still need to order the pi0s~~, ~~it is not possible to bulk order pi0s~~ - ~~people will have to bring their own..~~ ~~waiting on the power supply to test how it works will the pi~~ i ordered some _too cheap to be true_ pi0s on ebay - lets see if they arrive / work ? the backup plan is to buy enough pi0s at the bulk price : around 12euros, and give people at the workshop the choice out of a 12euro pi0 now from me or a 5euro pi0 later they can buy themself ... 
 
 things still left to order :
- - pots and resisitors i will get from mouser i think
- - will get other set of thonkiconn jacks (either from modular or otherwise..)
- - decide and order a cheap - ish power supply that will arrive on time ... (the one from ali i think will be too slow)
+ - pots and resisitors i will get from mouser i think : waiting till i test some other parts before ordering these incase the cheaper chips (for example) dont work
+ - ~~will get other set of thonkiconn jacks~~ : ordered from modular-addict
+ - ~~decide and order a cheap - ish power supply that will arrive on time ... (the one from ali i think will be too slow)~~ ordered 10 5euro powersupplys from ebay - should arrive by beginning of next week - i hope they work !!
 
-## features
-
-video-sampler and synthesizer : 
-
-### 3 input modes:
-
-- `sampler` : play videos from sd or usb - seamless ? how much control over player tbc - ie seeking, setting start/end points , seamless or not ? havnt quite decided on this yet
-- `shader` : running frag-shaders from sd or usb - param inputs from 4 knobs and 4 cv in
-- `capture` : live input from piCamera - can preview and record
-
-### -> effects
-
-any of the 3 inputs can be piped through an _effect_ shader.
 
 # final pcb order deadline.
 
@@ -74,6 +64,35 @@ with fast shipping would still need to allow 14 days to get pcbs fabbed and arri
 i think this is possible but also not so likely. also will need to aleast have enough parts to do this test build before mid september. 
 
 what other options are there ? possibly to use the revision1 boards if possible (but then there is only 10 in total - one of which i will need to use as a test board but maybe can give away at the workshop ... )
+
+## first r0.1_board problem:
+
+currently r0.1 of the board has the _display_ on pins for __SPI0__ and the _a2d_ on pins for __SPI1__. however it seems the a2d code can only read from __SPI0__ , whereas the _display_ can read from both. a easy hardware fix is to swap these pins around on the scematic/layout however as mentioned above there may not be much time for a second revision of the board to arrive. if everything else on r0.1 boards are ok another backup plan is to manually cut and rewire traces on the r0.1 boards for the workshop.
+
+## r0.1 boards arrived !
+
+this took less time than i expected. i soldered the board together in 70mins. i think the workshop has two 3hour slots so hopefully this will be enough time for everyone. everything worked together suprizingly well. the only real problem is the spi1/spi0 problem i spotted earlier. otherwise the display, push buttons, a2d etc all are working ! woop (need to test the composite video output)
+
+i will create a new revision of the board, some changes include:
+- switching the spi ports around
+- slightly resizing the button footprint
+- labelling buttons with the silk-screen
+- moving button placement around a little
+- maybe moving resistor/diode placements around a little
+- ordering more than 10 this time with fast postage
+
+i also will order the mouser parts to make sure we have everything and enough spare parts.
+
+some testing for example, the display, the a2d, the other parts i used in the build all worked...
+
+## some performance problems
+
+we have yet to test all the parts together on a pi0 but i am antisipating some performance optimizations needed.
+some things to try:
+- updating screen less / only when something changes
+- reading from the a2d less
+- not running the ui desktop at all - launch everything from console
+- experimenting with different gpu/cpu splits
 
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
 [smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
