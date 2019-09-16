@@ -75,6 +75,7 @@ class Display(object):
         self.fx_list = ['hsv.frag', 'kalia.frag', 'spinning.frag', 'blacknwhite.frag', 'colourizer.frag', 'wobble.frag', 'wobble2.frag', 'wobble3.frag', 'too_much_wobbble.frag']
         self.current_mode = 'SAMPLER'
         self.fx_screen_visible = False
+        self.is_camera_on = False  
         self.switch_input_mode()
         self.current_list_offset = 0
         self.view_list = self.get_view_list()
@@ -106,7 +107,10 @@ class Display(object):
             self.current_title_colour = (255,255,0)
         elif self.current_mode == 'CAMERA':
             self.title = '__CAMERA___'
-            self.current_list = ['preview', 'recording']
+            if self.is_camera_on:
+                self.current_list = ['record']
+            else:
+                self.current_list = ['preview']
             self.current_title_colour = (0,255,255)
         
         self.current_list_offset = 0
@@ -142,6 +146,7 @@ class Display(object):
         this_dispatcher.map("/selectedRow", self.set_selected_row)
         this_dispatcher.map("/inputMode", self.set_input_mode)
         this_dispatcher.map("/fxScreenVisible", self.set_fx_screen_visible)
+        this_dispatcher.map("/isCameraOn", self.set_is_camera_on)
 
 
         server = osc_server.ThreadingOSCUDPServer((server_args.ip, server_args.port), this_dispatcher)
@@ -150,7 +155,6 @@ class Display(object):
         return server
 
     def set_sample_list(self, unused_addr, *args):
-        print('geting list here !!!!!')
         self.sample_list = [i.split("/")[-1] for i in list(args)]
         self.switch_input_mode()         
 
@@ -163,8 +167,11 @@ class Display(object):
         self.fx_list = [i.split("/")[-1] for i in list(args)]
         self.switch_input_mode()
 
-         
+    def set_is_camera_on(self, unused_addr, is_camera_on):
+        self.is_camera_on = bool(is_camera_on)
+        self.switch_input_mode()
 
+         
     def set_selected_row(self, unused_addr, row):
         self.selected_row = row
         if self.selected_row == self.current_list_offset - 1:
@@ -187,7 +194,7 @@ class Display(object):
             self.create_this_screen()  
             disp.draw()
             disp.display()
-            #time.sleep(1)
+            time.sleep(0.1)
 
 display = Display()
 display.loop_over_display_update()

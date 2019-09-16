@@ -16,8 +16,8 @@
         ["/player/b/position", "setPlayerPosition"]
     ],
     "ANALOG" : [
-        ["0", "setShaderParam0"],
-        ["1", "setShaderParam1"]
+        ["5", "setShaderParam0"],
+        ["6", "setShaderParam1"]
     ],
     "KEY" : [
         ["q", "exit"],
@@ -26,6 +26,7 @@
         ["a", "moveLeft" ],
         ["d", "moveRight" ],
         ["p", "enter" ],
+        ["f", "fxSwitch" ],
         ["c", "switchInput" ]
     ]
 }

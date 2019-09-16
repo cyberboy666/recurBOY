@@ -6,10 +6,11 @@ void ofApp::setup(){
 	ofSetVerticalSync(false);
     
     // screen in dev modefor testing ...
-    ofSetFullscreen(0);
-    ofSetWindowShape(300,200);
-    ofSetWindowPosition(25,500);
+    ofSetFullscreen(1);
+    //ofSetWindowShape(300,200);
+    //ofSetWindowPosition(50,500);
     fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGB);
+    fxFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGB);
 
     userInput.setupThis("actionMap.json");
 
@@ -26,29 +27,64 @@ void ofApp::setup(){
     inputIndex = 0;
     currentList = sampleList;
     fxScreenVisible = false;
+    fxOn = false;
+    isCameraOn = false;
+    isCameraRecording = false;
 
     selectedRow = 0;
 
     selectedInputMode = inputModes[0];
-
+    playingMode = "SPLASH";
+    splashImg.load("/home/pi/openframeworks10.1/apps/myApps/recurBOY/splash.gif");
+    
     recurPlayer.setup();
+
+    shaderPlayer.setup();
+    fxPlayer.setup();
+
+    
 
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     readActions();
-    recurPlayer.update();
 
+    if(playingMode == "SAMPLER"){
+        recurPlayer.update();
+        fbo.begin();
+            recurPlayer.playerDraw();
+        fbo.end();
+    }
+    else if(playingMode == "SHADERS"){
+        fbo = shaderPlayer.apply({});
+    }
+    else if(playingMode == "CAMERA" && videoInput.isReady() ){
+        videoInput.update();
+        fbo.begin();
+            videoInput.draw(0,0);
+        fbo.end();
+    }
+    else if(playingMode == "SPLASH"){
+        fbo.begin();
+            splashImg.draw(0,0, ofGetWidth(), ofGetHeight());
+        fbo.end();
+    }
+    if(fxOn){
+    fxFbo = fxPlayer.apply({fbo.getTexture()});
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    recurPlayer.playerDraw();
+    if(fxOn){
+        fxFbo.draw(0,0);
+    }
+    else{
+        fbo.draw(0,0);
+    }
+
 }
-
-
-
 
 
 void ofApp::readActions(){
@@ -58,7 +94,6 @@ void ofApp::readActions(){
         ofLog() << "action is " << actionsList[i][0] << "value is " << actionsList[i][1];
         runAction(actionsList[i][0], actionsList[i][1]);
     }
-
 
 }
 
@@ -77,6 +112,7 @@ void ofApp::keyPressed  (int key){
      else if(action == "moveLeft"){ moveLeft();}
      else if(action == "moveRight"){ moveRight();}
      else if(action == "enter"){ enter();}
+     else if(action == "fxSwitch"){ fxSwitch();}
      else if(action == "switchInput"){ switchInput();}
  }
 
@@ -113,16 +149,44 @@ void ofApp::moveRight(){
     }
 }
 
+void ofApp::fxSwitch(){
+    fxOn = !fxOn;
+}
+
 void ofApp::enter(){
-    if(selectedInputMode == "SAMPLER"){
-        //ofLog() << "current file " <<currentList[selectedRow];
+    closeUnusedInput();
+    if(fxScreenVisible){
+        ofLog() << fxList[selectedRow];
+        fxPlayer.loadShaderFiles("default.vert", fxList[selectedRow]);        
+        fxOn = true;   
+    } 
+    else if(selectedInputMode == "SAMPLER"){
         playVideo(currentList[selectedRow]);
+        playingMode = selectedInputMode;
+    } 
+    else if(selectedInputMode == "SHADERS"){
+        shaderPlayer.loadShaderFiles("default.vert", currentList[selectedRow]);
+        playingMode = selectedInputMode;
+    }   
+    else if(selectedInputMode == "CAMERA"){
+        ofLog() << "camera input " << currentList[selectedRow];
+        if(currentList[selectedRow] == "start"){
+            videoInput.setup("piCamera", ofGetWidth(), ofGetHeight(), 30 );
+            currentList = {"record"};
+            isCameraOn = true;
+            sendIntMessage("/isCameraOn", 1);
+            playingMode = selectedInputMode;
+        }
+        else if(currentList[selectedRow] == "record"){
+            
+        }
     }
 }
 
 void ofApp::switchInput(){
     inputIndex = (inputIndex + 1) % inputModes.size() ;
     selectedInputMode = inputModes[inputIndex];
+
     sendStringMessage("/inputMode", selectedInputMode);
     if(selectedInputMode == "SAMPLER"){
         currentList = sampleList;
@@ -133,13 +197,25 @@ void ofApp::switchInput(){
         sendListMessage("/shaderList", shaderList);
     }
     else if(selectedInputMode == "CAMERA"){
-        currentList = {"preview", "recording"};
+        if(!isCameraOn){currentList = {"start"};}
+        else{currentList = {"record"};}
+        
     } 
 
     selectedRow = 0;
     sendIntMessage("/selectedRow", selectedRow);
 }
 
+void ofApp::closeUnusedInput(){
+    if(selectedInputMode != "SAMPLER"){
+        recurPlayer.closeAll();
+    }
+    else if(selectedInputMode != "CAMERA"){
+        videoInput.close();
+        isCameraOn = false;
+        sendIntMessage("/isCameraOn", 0);
+    }
+}
 
 void ofApp::sendStringMessage(string address, string value){
     ofxOscMessage response;
