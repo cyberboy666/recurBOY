@@ -67,22 +67,31 @@ def draw_rotated_text(image, text, position, angle, font, fill=(255,255,255),bac
 class Display(object):
     def __init__(self):
         self.osc_server = self.setup_osc_server()
+        self.update_count = 0
         self.inputs = ['SAMPLER', 'SHADERS', 'CAMERA']
         self.sample_list = []
         self.sampler_state = False
         self.shaders_state = False
-        self.shader_list = ['colours.frag', 'spinning.frag', 'flips.frag', 'flowing.frag', 'blobs1.frag', 'blobs2.frag', 'bounce.frag', 'colours3.frag', 'colours4.frag']
-        self.fx_list = ['hsv.frag', 'kalia.frag', 'spinning.frag', 'blacknwhite.frag', 'colourizer.frag', 'wobble.frag', 'wobble2.frag', 'wobble3.frag', 'too_much_wobbble.frag']
+        self.shader_list = []
+        self.fx_list = []
         self.current_mode = 'SAMPLER'
         self.fx_screen_visible = False
         self.is_camera_on = False  
         self.switch_input_mode()
         self.current_list_offset = 0
+        self.fx_list_offset = 0
         self.view_list = self.get_view_list()
         self.selected_row = 0
+        self.selected_fx_row = 0
+        self.playing_sample_row = -1
+        self.playing_shader_row = -1  
+        self.playing_fx_row = -1
 
     def get_view_list(self):
         return self.current_list[self.current_list_offset:self.current_list_offset + 6] 
+
+    def get_fx_view_list(self):
+        return self.fx_list[self.fx_list_offset:self.fx_list_offset + 6] 
 
     @staticmethod
     def get_state_symbol(state):
@@ -92,12 +101,7 @@ class Display(object):
             return '[]' #'■'        
 
     def switch_input_mode(self):
-
-        if self.fx_screen_visible:
-            self.title = '__FX___'
-            self.current_list = self.fx_list
-            self.current_title_colour = (0,255,255)
-        elif self.current_mode == 'SAMPLER':
+        if self.current_mode == 'SAMPLER':
             self.title = '__SAMPLER_{}_'.format(self.get_state_symbol(self.sampler_state))
             self.current_title_colour = (255,0,255)
             self.current_list = self.sample_list
@@ -112,23 +116,39 @@ class Display(object):
             else:
                 self.current_list = ['preview']
             self.current_title_colour = (0,255,255)
-        
-        self.current_list_offset = 0
-        self.selected_row = 0        
+                
 
     def create_this_screen(self):
-        self.create_sample_screen()
+        if self.fx_screen_visible:
+            self.create_fx_screen()
+        else:
+            self.create_mode_screen()
 
-    def create_sample_screen(self):
+    def create_mode_screen(self):
         # print title
         draw_rotated_text(disp.buffer, self.title, (110, 10),270, font_title, fill=(0,0,0), background=self.current_title_colour)
         # print content
         for i, value in enumerate(self.get_view_list()):
             if i == self.selected_row - self.current_list_offset:
                 draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(0,0,0), background=(255,255,255))        
+            elif (i == self.playing_sample_row and self.current_mode == 'SAMPLER') or (i == self.playing_shader_row and self.current_mode == 'SHADERS'):
+                draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(255,255,255), background=self.current_title_colour)   
             else:
                 draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(255,255,255), )
 
+    def create_fx_screen(self):
+        fx_title = '__FX____'
+        fx_title_colour = (0, 255, 255)
+        # print title
+        draw_rotated_text(disp.buffer, fx_title, (110, 10),270, font_title, fill=(0,0,0), background=fx_title_colour)
+        # print content
+        for i, value in enumerate(self.get_fx_view_list()):
+            if i == self.selected_fx_row - self.fx_list_offset:
+                draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(0,0,0), background=(255,255,255))        
+            elif i == self.playing_fx_row:
+                draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(0,0,0), background=fx_title_colour)
+            else:
+                draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(255,255,255), )
 
     
     def setup_osc_server(self):
@@ -144,9 +164,14 @@ class Display(object):
         this_dispatcher.map("/shaderList", self.set_shader_list)
         this_dispatcher.map("/fxList", self.set_fx_list)
         this_dispatcher.map("/selectedRow", self.set_selected_row)
+        this_dispatcher.map("/selectedFxRow", self.set_selected_fx_row)
         this_dispatcher.map("/inputMode", self.set_input_mode)
         this_dispatcher.map("/fxScreenVisible", self.set_fx_screen_visible)
         this_dispatcher.map("/isCameraOn", self.set_is_camera_on)
+        this_dispatcher.map("/playingSampleRow", self.set_playing_sample_row)
+        this_dispatcher.map("/playingShaderRow", self.set_playing_shader_row)
+        this_dispatcher.map("/playingFxRow", self.set_playing_fx_row)
+
 
 
         server = osc_server.ThreadingOSCUDPServer((server_args.ip, server_args.port), this_dispatcher)
@@ -157,44 +182,79 @@ class Display(object):
     def set_sample_list(self, unused_addr, *args):
         self.sample_list = [i.split("/")[-1] for i in list(args)]
         self.switch_input_mode()         
+        self.update_display_count()
 
 
     def set_shader_list(self, unused_addr, *args):
         self.shader_list = [i.split("/")[-1] for i in list(args)]
         self.switch_input_mode()
+        self.update_display_count()
 
     def set_fx_list(self, unused_addr, *args):
         self.fx_list = [i.split("/")[-1] for i in list(args)]
         self.switch_input_mode()
+        self.update_display_count()
 
     def set_is_camera_on(self, unused_addr, is_camera_on):
         self.is_camera_on = bool(is_camera_on)
         self.switch_input_mode()
-
+        self.update_display_count()
          
+    def set_playing_sample_row(self, unused_addr, playing_sample_row):
+        self.playing_sample_row = playing_sample_row
+        self.update_display_count()
+
+    def set_playing_shader_row(self, unused_addr, playing_shader_row):
+        self.playing_shader_row = playing_shader_row
+        self.update_display_count()
+
+    def set_playing_fx_row(self, unused_addr, playing_fx_row):
+        self.playing_fx_row = playing_fx_row
+        self.update_display_count()
+
     def set_selected_row(self, unused_addr, row):
         self.selected_row = row
         if self.selected_row == self.current_list_offset - 1:
             self.current_list_offset = self.current_list_offset - 1
         elif self.selected_row == self.current_list_offset + 5 + 1:
             self.current_list_offset = self.current_list_offset + 1
+        self.update_display_count()
+
+    def set_selected_fx_row(self, unused_addr, row):
+        self.selected_fx_row = row
+        if self.selected_fx_row == self.fx_list_offset - 1:
+            self.fx_list_offset = self.fx_list_offset - 1
+        elif self.selected_fx_row == self.fx_list_offset + 5 + 1:
+            self.fx_list_offset = self.fx_list_offset + 1
+        self.update_display_count()
 
     def set_input_mode(self, unused_addr, mode):
         self.current_mode = mode
+        self.current_list_offset = 0
+        self.selected_row = 0
         self.switch_input_mode()
+        self.update_display_count()
 
     def set_fx_screen_visible(self, unused_addr, is_visible):
         self.fx_screen_visible = bool(is_visible)
-        self.switch_input_mode()
+        self.update_display_count()
 
     def loop_over_display_update(self):
         while True:
+            if self.update_count > 0:
+                self.update_display()
+                time.sleep(0.1)
+                self.update_count = self.update_count - 1
 
-            disp.clear()
-            self.create_this_screen()  
-            disp.draw()
-            disp.display()
-            time.sleep(0.1)
+    def update_display(self):
+        disp.clear()
+        self.create_this_screen()  
+        disp.draw()
+        disp.display()
+        time.sleep(0.1)
+
+    def update_display_count(self):
+        self.update_count = self.update_count + 1        
 
 display = Display()
 display.loop_over_display_update()

@@ -36,6 +36,10 @@ class ofApp : public ofBaseApp{
 
     ofImage splashImg;
 
+    bool diskspaceFull();
+    bool detectCamera();
+    string myExec(char* cmd);
+
 
     void exit(string input);
     void moveUp();
@@ -57,10 +61,15 @@ class ofApp : public ofBaseApp{
     string selectedInputMode;
     string playingMode;
     int selectedRow;
+    int selectedFxRow;
+    int playingShaderRow;
+    int playingSampleRow;
+    int playingFxRow;
     vector<string> inputModes;
     int inputIndex; 
     bool fxScreenVisible;
     bool fxOn;
     bool isCameraOn;
+    bool isCameraDetected;
     bool isCameraRecording;  
 };

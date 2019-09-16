@@ -4,14 +4,20 @@
 void ofApp::setup(){
 	ofBackground(0, 0, 0);
 	ofSetVerticalSync(false);
+    bool isDev = true;
+    if(isDev){
+        ofSetFullscreen(0);
+        ofSetWindowShape(300,200);
+        ofSetWindowPosition(50,500);
+        fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGB);
+        fxFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGB);
+    }
+    else{
+        ofSetFullscreen(1);
+        fbo.allocate(ofGetScreenWidth(), ofGetScreenHeight(), GL_RGB);
+        fxFbo.allocate(ofGetScreenWidth(), ofGetScreenHeight(), GL_RGB);
+    }
     
-    // screen in dev modefor testing ...
-    ofSetFullscreen(1);
-    //ofSetWindowShape(300,200);
-    //ofSetWindowPosition(50,500);
-    fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGB);
-    fxFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGB);
-
     userInput.setupThis("actionMap.json");
 
     sender.setup("localhost", 9000);
@@ -23,15 +29,23 @@ void ofApp::setup(){
     fxList = getPathsInFolder("/home/pi/Fx/");
     sendListMessage("/fxList", fxList);
 
-    inputModes = {"SAMPLER", "SHADERS", "CAMERA"};
+    inputModes = {"SAMPLER", "SHADERS"};
     inputIndex = 0;
     currentList = sampleList;
     fxScreenVisible = false;
     fxOn = false;
+    isCameraDetected = detectCamera();
+    if(isCameraDetected){inputModes.push_back("CAMERA");}
     isCameraOn = false;
     isCameraRecording = false;
 
+    
     selectedRow = 0;
+    selectedFxRow = 0;
+
+    playingSampleRow = -1;
+    playingShaderRow = -1;
+    playingFxRow = -1;
 
     selectedInputMode = inputModes[0];
     playingMode = "SPLASH";
@@ -104,7 +118,7 @@ void ofApp::keyPressed  (int key){
     userInput.onKeyPress(key);
 }
 // also here was hoping to have a map of pointers to the function , but also seemd more tricky than it needs to be
- void ofApp::runAction(string action, string amount){
+void ofApp::runAction(string action, string amount){
      if(action == "exit"){ exit();}
      else if(action == "somethingElse"){}
      else if(action == "moveUp"){ moveUp();}
@@ -116,23 +130,31 @@ void ofApp::keyPressed  (int key){
      else if(action == "switchInput"){ switchInput();}
  }
 
- void ofApp::exit(){
-    sendListMessage("/sampleList", sampleList);
-    //make ofExit();
+void ofApp::exit(){
+    ofExit();
  }
 
 
 void ofApp::moveUp(){
-    if (selectedRow > 0){ selectedRow--;}
-    sendIntMessage("/selectedRow", selectedRow);
+    if(fxScreenVisible){
+        if (selectedFxRow > 0){ selectedFxRow--;}
+        sendIntMessage("/selectedFxRow", selectedFxRow);
+    }
+    else{
+        if (selectedRow > 0){ selectedRow--;}
+        sendIntMessage("/selectedRow", selectedRow);
+    }
 }
 
 void ofApp::moveDown(){
-    if(selectedRow < currentList.size() - 1){ 
-        selectedRow++; 
-        ofLog() << "incrementing the selected row tp " << selectedRow;
-}
-    sendIntMessage("/selectedRow", selectedRow);
+    if(fxScreenVisible){
+        if (selectedFxRow < fxList.size() - 1){ selectedFxRow++;}
+        sendIntMessage("/selectedFxRow", selectedFxRow);
+    }
+    else{
+        if (selectedRow < currentList.size() - 1){ selectedRow++;}
+        sendIntMessage("/selectedRow", selectedRow);
+    }
 }
 
 void ofApp::moveLeft(){
@@ -156,16 +178,21 @@ void ofApp::fxSwitch(){
 void ofApp::enter(){
     closeUnusedInput();
     if(fxScreenVisible){
-        ofLog() << fxList[selectedRow];
-        fxPlayer.loadShaderFiles("default.vert", fxList[selectedRow]);        
+        fxPlayer.loadShaderFiles("default.vert", fxList[selectedFxRow]);        
+        playingFxRow = selectedFxRow;
+        sendIntMessage("/playingFxRow", playingFxRow);
         fxOn = true;   
     } 
     else if(selectedInputMode == "SAMPLER"){
         playVideo(currentList[selectedRow]);
+        playingSampleRow = selectedRow;
+        sendIntMessage("/playingSampleRow", playingSampleRow);
         playingMode = selectedInputMode;
     } 
     else if(selectedInputMode == "SHADERS"){
         shaderPlayer.loadShaderFiles("default.vert", currentList[selectedRow]);
+        playingShaderRow = selectedRow;
+        sendIntMessage("/playingShaderRow", playingShaderRow);
         playingMode = selectedInputMode;
     }   
     else if(selectedInputMode == "CAMERA"){
@@ -209,11 +236,17 @@ void ofApp::switchInput(){
 void ofApp::closeUnusedInput(){
     if(selectedInputMode != "SAMPLER"){
         recurPlayer.closeAll();
+        playingSampleRow = -1;
+        sendIntMessage("/playingSampleRow", playingSampleRow);
     }
     else if(selectedInputMode != "CAMERA"){
         videoInput.close();
         isCameraOn = false;
         sendIntMessage("/isCameraOn", 0);
+    }
+    else if(selectedInputMode != "SHADERS"){
+        playingShaderRow = -1;
+        sendIntMessage("/playingShaderRow", playingShaderRow);
     }
 }
 
@@ -258,4 +291,32 @@ vector<string> ofApp::getPathsInFolder(string folderPath){
     }
     return thisList;
 }
+
+bool ofApp::detectCamera(){
+    string resp = myExec("vcgencmd get_camera");
+    return resp == "supported=1 detected=1";
+}
+
+bool ofApp::diskspaceFull(){
+    string info = myExec("df -H /");
+    ofLog() << info;
+    int pos = info.find("% ", 40); // look past the % in heading
+    string capStr = info.substr(pos-3, pos-1);
+    int capInt = ofToInt(capStr);
+    return capInt < 98;
+}
+
+string ofApp::myExec(char* cmd){
+    FILE* pipe = popen(cmd, "r");
+    if(!pipe) return "ERROR";
+    char buffer[128];
+    std::string result = "";
+    while (!feof(pipe)){
+        if(fgets(buffer, 128, pipe) != NULL)
+        result += buffer;
+    }
+    pclose(pipe);
+    return result;
+}
+
 
