@@ -4,6 +4,8 @@
 #include "incur.h"
 #include "ofxOsc.h"
 #include "recur.h"
+#include "conjur.h"
+#include "captur.h"
 
 
 class ofApp : public ofBaseApp{
@@ -20,13 +22,20 @@ class ofApp : public ofBaseApp{
 
 	void keyPressed(int key);
     ofFbo fbo;
+    ofFbo fxFbo;
     incur userInput;
     recur recurPlayer;
+    conjur shaderPlayer;
+    conjur fxPlayer;
+    captur videoInput;
 
     void readActions();
 	void runAction(string action, string amount);
 
 	void exit();
+
+    ofImage splashImg;
+
 
     void exit(string input);
     void moveUp();
@@ -34,8 +43,10 @@ class ofApp : public ofBaseApp{
     void moveLeft();
     void moveRight();
     void enter();
+    void fxSwitch();
     void switchInput();
     void playVideo(string path);
+    void closeUnusedInput();
 
     vector<string> getPathsInFolder(string folderPath);
 
@@ -44,9 +55,12 @@ class ofApp : public ofBaseApp{
     vector<string> fxList;
     vector<string> currentList;
     string selectedInputMode;
+    string playingMode;
     int selectedRow;
     vector<string> inputModes;
     int inputIndex; 
     bool fxScreenVisible;
-
+    bool fxOn;
+    bool isCameraOn;
+    bool isCameraRecording;  
 };
