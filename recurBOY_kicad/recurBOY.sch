@@ -472,13 +472,13 @@ F 3 "" H 9300 5700 50  0001 C CNN
 	1    9300 5700
 	1    0    0    -1  
 $EndComp
-Text GLabel 8675 4075 0    39   Input ~ 0
+Text GLabel 10850 4475 2    39   Input ~ 0
 CLK
-Text GLabel 8675 3875 0    39   Input ~ 0
+Text GLabel 10850 4275 2    39   Input ~ 0
 D_OUT
-Text GLabel 8675 3975 0    39   Input ~ 0
+Text GLabel 10850 4375 2    39   Input ~ 0
 D_IN
-Text GLabel 8675 3575 0    39   Input ~ 0
+Text GLabel 10850 4175 2    39   Input ~ 0
 CS
 $Comp
 L +5V #PWR019
@@ -525,8 +525,6 @@ F 3 "" H 5625 6875 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 NoConn ~ 8800 3675
-NoConn ~ 8800 4575
-NoConn ~ 8800 4675
 NoConn ~ 8800 4975
 NoConn ~ 8800 5075
 NoConn ~ 9400 5575
@@ -689,14 +687,6 @@ Wire Wire Line
 Wire Wire Line
 	9300 5575 9300 5700
 Wire Wire Line
-	8675 3575 8800 3575
-Wire Wire Line
-	8675 3875 8800 3875
-Wire Wire Line
-	8675 3975 8800 3975
-Wire Wire Line
-	8675 4075 8800 4075
-Wire Wire Line
 	6325 7075 6325 7275
 Wire Wire Line
 	5825 6875 6350 6875
@@ -846,29 +836,25 @@ Wire Wire Line
 	10425 1450 10300 1450
 Wire Wire Line
 	10425 1350 10300 1350
-Text GLabel 10750 4475 2    39   Input ~ 0
+Text GLabel 8650 4075 0    39   Input ~ 0
 DISPLAY_SCL
-Text GLabel 10750 4375 2    39   Input ~ 0
+Text GLabel 8650 3975 0    39   Input ~ 0
 DISPLAY_SDA
-Text GLabel 8700 4475 0    39   Input ~ 0
+Text GLabel 8675 4575 0    39   Input ~ 0
 DISPLAY_RST
-Text GLabel 8700 4375 0    39   Input ~ 0
+Text GLabel 8675 4675 0    39   Input ~ 0
 DISPLAY_DC
-Text GLabel 10750 4175 2    39   Input ~ 0
+Text GLabel 8675 3575 0    39   Input ~ 0
 DISPLAY_CS
 NoConn ~ 10425 1150
 Wire Wire Line
 	10300 1250 10425 1250
 Wire Wire Line
-	8700 4375 8800 4375
+	10600 4175 10850 4175
 Wire Wire Line
-	8700 4475 8800 4475
+	10600 4375 10850 4375
 Wire Wire Line
-	10750 4175 10600 4175
-Wire Wire Line
-	10750 4375 10600 4375
-Wire Wire Line
-	10750 4475 10600 4475
+	10600 4475 10850 4475
 NoConn ~ 10600 5075
 Text GLabel 8675 3775 0    39   Input ~ 0
 BUTTON_NAV_IN_A
@@ -882,7 +868,7 @@ Text GLabel 10650 3875 2    39   Input ~ 0
 BUTTON_NAV_IN_E
 Text GLabel 10650 4075 2    39   Input Italic 0
 BUTTON_IN_1
-Text GLabel 10650 4275 2    39   Input Italic 0
+Text GLabel 8650 3875 0    39   Input Italic 0
 BUTTON_IN_2
 Text GLabel 10675 4675 2    39   Input Italic 0
 BUTTON_IN_3
@@ -901,7 +887,7 @@ Wire Wire Line
 Wire Wire Line
 	10650 4075 10600 4075
 Wire Wire Line
-	10650 4275 10600 4275
+	10600 4275 10850 4275
 NoConn ~ 9800 2975
 Wire Wire Line
 	8800 4175 8675 4175
@@ -996,4 +982,18 @@ Text GLabel 8675 4275 0    39   Input Italic 0
 BUTTON_IN_5
 Wire Wire Line
 	8800 4275 8675 4275
+Wire Wire Line
+	8675 4575 8800 4575
+Wire Wire Line
+	8675 4675 8800 4675
+Wire Wire Line
+	8650 4075 8800 4075
+Wire Wire Line
+	8650 3975 8800 3975
+Wire Wire Line
+	8650 3875 8800 3875
+Wire Wire Line
+	8675 3575 8800 3575
+NoConn ~ 8800 4375
+NoConn ~ 8800 4475
 $EndSCHEMATC

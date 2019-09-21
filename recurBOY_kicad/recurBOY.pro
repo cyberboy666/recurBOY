@@ -1,6 +1,6 @@
-update=10/08/2019 2:44:57 p.m.
+update=20/09/2019 7:48:31 p.m.
 version=1
-last_client=eeschema
+last_client=kicad
 [general]
 version=1
 RootSch=
@@ -64,3 +64,13 @@ LibName30=atmel
 LibName31=contrib
 LibName32=valves
 LibName33=C:/Program Files/KiCad/share/kicad/modules/RCJ-024/RCJ-024
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=./
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60

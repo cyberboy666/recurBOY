@@ -21,23 +21,23 @@ the status flow might look something like this: `test ordered` -> `test arrived`
 REF | NAME | COST | STATUS
 --- | --- | --- | ---
 na | [raspberry pi zero] | 5 |  `bulk ordered`
-na | custom pcb 100x100mm | 1.8 | `r0.1 ordered`
+na | custom pcb 100x100mm | 1.8 | `r0.2 ordered`
 na | [smaller screen (1.8"?)] | 3.5 | `bulk arrived`
 na | 10-12 [push buttons + caps from china] | 1  | `bulk arrived`
-na | 4 10k pots for analog input | 3 | `mouser order standby`
-na | 4 [thonkicon jack] inputs | 1.5 | `bulk ordered`
+na | 4 10k pots for analog input | 3 | `bulk arrived`
+na | 4 [thonkicon jack] inputs | 1.5 | `bulk arrived`
 na | [a2d (mcp3008) from china] | 2 | `bulk arrived`
-na | few resistors + diodes (8 bat85 + 4 1kohm) | 2 | `bulk diodes arrived awaiting resistors mouser standby`
+na | few resistors + diodes (8 bat85 + 4 1kohm) | 2 | `bulk arrived`
 na | few pin headers | 0.5 | `bulk arrived`
 na | [composite video jack] | 1 | `bulk arrived`
 na | [sd card 8gb] | 2 | `bulk arrived`
-na | [power-adapter] |  4 |  `bulk ordered`
+na | [power-adapter] |  4 |  `bulk arrived`
 na | (optional) [raspi camera clone] | 7 | `bulk arrived` 
 na | 5-way nav switch | 1.5 | `bulk arrived`
 
 ### 5 way push button
 
-it might also be worth considering a [5-way push button] like this - saves on space , may make navigation more intuitave - prob will need a few more pins but that is ok `also bulk ordered`
+~~it might also be worth considering a [5-way push button] like this - saves on space , may make navigation more intuitave - prob will need a few more pins but that is ok `also bulk ordered`~~
 
 ### experiments to try:
 
@@ -51,7 +51,7 @@ some tech things to confirm:
 ~~i still need to order the pi0s~~, ~~it is not possible to bulk order pi0s~~ - ~~people will have to bring their own..~~ ~~waiting on the power supply to test how it works will the pi~~ i ordered some _too cheap to be true_ pi0s on ebay - lets see if they arrive / work ? the backup plan is to buy enough pi0s at the bulk price : around 12euros, and give people at the workshop the choice out of a 12euro pi0 now from me or a 5euro pi0 later they can buy themself ... 
 
 things still left to order :
- - pots and resisitors i will get from mouser i think : waiting till i test some other parts before ordering these incase the cheaper chips (for example) dont work
+ - ~~pots and resisitors i will get from mouser i think : waiting till i test some other parts before ordering these incase the cheaper chips (for example) dont work~~
  - ~~will get other set of thonkiconn jacks~~ : ordered from modular-addict
  - ~~decide and order a cheap - ish power supply that will arrive on time ... (the one from ali i think will be too slow)~~ ordered 10 5euro powersupplys from ebay - should arrive by beginning of next week - i hope they work !!
 
@@ -93,6 +93,12 @@ some things to try:
 - reading from the a2d less
 - not running the ui desktop at all - launch everything from console
 - experimenting with different gpu/cpu splits
+
+## update 20/09
+
+besides the pi0s themself - which havnt arrived - will order some more this weekend - everything else should be here now - only the circuitboards which should arrive soon. there is still lots to do including finsihing the code, testing on a pi0, and making the build booklet
+
+
 
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
 [smaller screen (1.8"?)]: https://www.aliexpress.com/item/32996979276.html
