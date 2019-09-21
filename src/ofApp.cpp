@@ -22,11 +22,11 @@ void ofApp::setup(){
 
     sender.setup("localhost", 9000);
 
-    sampleList = getPathsInFolder("/home/pi/Videos/");
+    sampleList = getPathFromInternalAndExternal("SAMPLER"); //getPathsInFolder("/home/pi/Videos/", "video");
     sendListMessage("/sampleList", sampleList);
-    shaderList = getPathsInFolder("/home/pi/Shaders/");
+    shaderList = getPathFromInternalAndExternal("SHADERS"); // getPathsInFolder("/home/pi/Shaders/", "shader");
     sendListMessage("/shaderList", shaderList);
-    fxList = getPathsInFolder("/home/pi/Fx/");
+    fxList = getPathFromInternalAndExternal("FX"); //getPathsInFolder("/home/pi/Fx/", "shader");
     sendListMessage("/fxList", fxList);
 
     inputModes = {"SAMPLER", "SHADERS"};
@@ -287,10 +287,51 @@ void ofApp::sendListMessage(string address, vector<string> list){
     sender.sendMessage(response, true);
 }
 
-vector<string> ofApp::getPathsInFolder(string folderPath){
-    vector<string> thisList;
+vector<string> ofApp::getPathFromInternalAndExternal(string mode){
+    // get a list of external devices
+    vector<string> deviceList; 
+    ofDirectory dir("/media/pi/");
+    dir.listDir();
+    for(int i = 0; i < dir.size(); i++){
+        ofLog() << "the path " << dir.getPath(i); 
+        deviceList.push_back(dir.getPath(i));  
+    }
+    string sourcePath;
+    if(mode == "SAMPLER"){sourcePath = "/Videos/";}
+    else if(mode == "SHADERS"){sourcePath = "/Shaders/";}
+    else if(mode == "FX"){sourcePath = "/Fx/";}
+    else {sourcePath = "/";}
+    vector<string> sourceList;
+    // for each external device get the source files from it and add the sourceList
+    if(deviceList.size() > 0){
+        for(int i = 0; i < deviceList.size(); i++){
+            vector<string> theseFiles = getPathsInFolder(deviceList[i] + sourcePath, mode);
+            sourceList.insert(sourceList.end(), theseFiles.begin(), theseFiles.end());
+        }
+    }
+    // get the source files from the internal path
+    vector<string> internalFiles = getPathsInFolder("/home/pi" + sourcePath, mode);
+    sourceList.insert(sourceList.end(), internalFiles.begin(), internalFiles.end());
+
+    return sourceList;
+}
+
+vector<string> ofApp::getPathsInFolder(string folderPath, string mode){
+    vector<string> thisList; 
     ofDirectory dir(folderPath);
-    dir.listDir();  
+    
+    if(mode == "SAMPLER"){
+        dir.allowExt("mp4");
+        dir.allowExt("mov");
+        dir.allowExt("avi");
+        dir.allowExt("mkv");      
+    } else if(mode == "SHADERS" || mode == "FX"){
+        dir.allowExt("frag");
+        dir.allowExt("glsl");
+        dir.allowExt("glslf");
+        dir.allowExt("fsh");
+    }
+    dir.listDir();
 
     for(int i = 0; i < dir.size(); i++){
         thisList.push_back(dir.getPath(i));  

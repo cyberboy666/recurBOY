@@ -52,7 +52,8 @@ class ofApp : public ofBaseApp{
     void playVideo(string path);
     void closeUnusedInput();
 
-    vector<string> getPathsInFolder(string folderPath);
+    vector<string> getPathsInFolder(string folderPath, string source);
+    vector<string> getPathFromInternalAndExternal(string source);
 
     vector<string> sampleList;
     vector<string> shaderList;
