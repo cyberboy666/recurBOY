@@ -74,6 +74,7 @@ class Display(object):
         self.shaders_state = False
         self.shader_list = []
         self.fx_list = []
+        self.camera_list = []
         self.current_mode = 'SAMPLER'
         self.fx_screen_visible = False
         self.is_camera_on = False  
@@ -111,10 +112,7 @@ class Display(object):
             self.current_title_colour = (255,255,0)
         elif self.current_mode == 'CAMERA':
             self.title = '__CAMERA___'
-            if self.is_camera_on:
-                self.current_list = ['record']
-            else:
-                self.current_list = ['preview']
+            self.current_list = self.camera_list
             self.current_title_colour = (0,255,255)
                 
 
@@ -131,7 +129,7 @@ class Display(object):
         for i, value in enumerate(self.get_view_list()):
             if i == self.selected_row - self.current_list_offset:
                 draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(0,0,0), background=(255,255,255))        
-            elif (i == self.playing_sample_row and self.current_mode == 'SAMPLER') or (i == self.playing_shader_row and self.current_mode == 'SHADERS'):
+            elif (i == self.playing_sample_row - self.current_list_offset and self.current_mode == 'SAMPLER') or (i == self.playing_shader_row - self.current_list_offset and self.current_mode == 'SHADERS'):
                 draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(255,255,255), background=self.current_title_colour)   
             else:
                 draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(255,255,255), )
@@ -145,7 +143,7 @@ class Display(object):
         for i, value in enumerate(self.get_fx_view_list()):
             if i == self.selected_fx_row - self.fx_list_offset:
                 draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(0,0,0), background=(255,255,255))        
-            elif i == self.playing_fx_row:
+            elif i == self.playing_fx_row - self.fx_list_offset:
                 draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(0,0,0), background=fx_title_colour)
             else:
                 draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(255,255,255), )
@@ -163,6 +161,7 @@ class Display(object):
         this_dispatcher.map("/sampleList", self.set_sample_list)
         this_dispatcher.map("/shaderList", self.set_shader_list)
         this_dispatcher.map("/fxList", self.set_fx_list)
+        this_dispatcher.map("/cameraList", self.set_camera_list)
         this_dispatcher.map("/selectedRow", self.set_selected_row)
         this_dispatcher.map("/selectedFxRow", self.set_selected_fx_row)
         this_dispatcher.map("/inputMode", self.set_input_mode)
@@ -195,6 +194,13 @@ class Display(object):
         self.switch_input_mode()
         self.update_display_count()
 
+    def set_camera_list(self, unused_addr, *args):
+        self.camera_list = [i.split("/")[-1] for i in list(args)]
+        self.switch_input_mode()
+        self.update_display_count()
+
+
+
     def set_is_camera_on(self, unused_addr, is_camera_on):
         self.is_camera_on = bool(is_camera_on)
         self.switch_input_mode()
@@ -209,6 +215,7 @@ class Display(object):
         self.update_display_count()
 
     def set_playing_fx_row(self, unused_addr, playing_fx_row):
+        print("playing_fx_row: ", playing_fx_row)
         self.playing_fx_row = playing_fx_row
         self.update_display_count()
 
@@ -256,6 +263,18 @@ class Display(object):
     def update_display_count(self):
         self.update_count = self.update_count + 1        
 
+def setup_gpio():
+    import RPi.GPIO as GPIO
+    GPIO.setmode(GPIO.BCM)
+
+    pins = [4, 5, 6, 7, 9, 12, 13, 17, 18, 19, 22, 23 ]
+    for pin in pins:
+        print('pin is ', pin)
+        GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+
+setup_gpio()
 display = Display()
 display.loop_over_display_update()
+
 

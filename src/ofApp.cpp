@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofBackground(0, 0, 0);
+    ofSetFrameRate(25);
 	ofSetVerticalSync(false);
     bool isDev = true;
     if(isDev){
@@ -19,6 +20,7 @@ void ofApp::setup(){
     }
     
     userInput.setupThis("actionMap.json");
+    userInput.analogListening();
 
     sender.setup("localhost", 9000);
 
@@ -28,7 +30,7 @@ void ofApp::setup(){
     sendListMessage("/shaderList", shaderList);
     fxList = getPathFromInternalAndExternal("FX"); //getPathsInFolder("/home/pi/Fx/", "shader");
     sendListMessage("/fxList", fxList);
-
+    
     inputModes = {"SAMPLER", "SHADERS"};
     inputIndex = 0;
     currentList = sampleList;
@@ -36,6 +38,8 @@ void ofApp::setup(){
     fxOn = false;
     isCameraDetected = detectCamera();
     if(isCameraDetected){inputModes.push_back("CAMERA");}
+    cameraList = {"preview"};
+    sendListMessage("/cameraList", cameraList);
     isCameraOn = false;
     isCameraRecording = false;
 
@@ -76,7 +80,7 @@ void ofApp::update(){
     else if(playingMode == "CAMERA" && videoInput.isReady() ){
         videoInput.update();
         fbo.begin();
-            videoInput.draw(0,0);
+            videoInput.draw(0,0, ofGetWidth(), ofGetHeight());
         fbo.end();
     }
     else if(playingMode == "SPLASH"){
@@ -87,15 +91,17 @@ void ofApp::update(){
     if(fxOn){
     fxFbo = fxPlayer.apply({fbo.getTexture()});
     }
+
+    if(isCameraRecording){ checkRecording();}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     if(fxOn){
-        fxFbo.draw(0,0);
+        fxFbo.draw(0,0, ofGetWidth(), ofGetHeight());
     }
     else{
-        fbo.draw(0,0);
+        fbo.draw(0,0, ofGetWidth(), ofGetHeight());
     }
 
 }
@@ -134,7 +140,6 @@ void ofApp::exit(){
     ofExit();
  }
 
-
 void ofApp::moveUp(){
     if(fxScreenVisible){
         if (selectedFxRow > 0){ selectedFxRow--;}
@@ -165,6 +170,7 @@ void ofApp::moveLeft(){
 }
 
 void ofApp::moveRight(){
+    ofLog() << "move right! ";
     if(!fxScreenVisible){
         fxScreenVisible = true;
         sendIntMessage("/fxScreenVisible", 1);
@@ -196,21 +202,27 @@ void ofApp::enter(){
         playingMode = selectedInputMode;
     }   
     else if(selectedInputMode == "CAMERA"){
-        ofLog() << "camera input " << currentList[selectedRow];
         if(currentList[selectedRow] == "start"){
-            videoInput.setup("piCamera", ofGetWidth(), ofGetHeight(), 30 );
-            currentList = {"record"};
+            videoInput.setup("vidGrabber", ofGetWidth(), ofGetHeight(), 25 );
             isCameraOn = true;
             sendIntMessage("/isCameraOn", 1);
+            cameraList = {"record"};
+            currentList = cameraList;
+            sendListMessage("/cameraList", cameraList);
             playingMode = selectedInputMode;
         }
         else if(currentList[selectedRow] == "record"){
             videoInput.startRecording();
-            currentList = {"stop"};
+            isCameraRecording = true;
+            cameraList = {"stop"};
+            currentList = cameraList;
+            sendListMessage("/cameraList", cameraList);
         }
         else if(currentList[selectedRow] == "stop"){
             videoInput.stopRecording();
-            currentList = {"record"};
+            cameraList = {"saving..."};
+            currentList = cameraList;
+            sendListMessage("/cameraList", cameraList);
         }
         
     }
@@ -248,6 +260,8 @@ void ofApp::closeUnusedInput(){
     else if(selectedInputMode != "CAMERA"){
         videoInput.close();
         isCameraOn = false;
+        cameraList = {"preview"};
+        sendListMessage("/cameraList", cameraList);
         sendIntMessage("/isCameraOn", 0);
     }
     else if(selectedInputMode != "SHADERS"){
@@ -340,12 +354,16 @@ vector<string> ofApp::getPathsInFolder(string folderPath, string mode){
 }
 
 bool ofApp::detectCamera(){
-    string resp = myExec("vcgencmd get_camera");
-    string substr = resp.substr(20, 21);
-    ofLog() << "resp !!!!!!!!!!!" << resp << "!!!";
-    ofLog() << "substr !!!!!!!!!!!" << substr << "!!!";
-    ofLog() << "the retrun is " << ofToString(resp == "supported=1 detected=1\n");
-    return resp == "supported=1 detected=1\n";
+    // this code is used to detect a camera in csi port (not needed for now)
+    //string resp = myExec("vcgencmd get_camera");
+    //string substr = resp.substr(20, 21);
+    //return resp == "supported=1 detected=1\n";
+
+    //this code is to detect usb capture devices
+    ofVideoGrabber vidGrabber;
+    vector<ofVideoDevice> devices = vidGrabber.listDevices();
+    
+    return devices.size() > 0;
 }
 
 bool ofApp::diskspaceFull(){
@@ -354,7 +372,7 @@ bool ofApp::diskspaceFull(){
     int pos = info.find("% ", 40); // look past the % in heading
     string capStr = info.substr(pos-3, pos-1);
     int capInt = ofToInt(capStr);
-    return capInt < 98;
+    return capInt > 98;
 }
 
 string ofApp::myExec(char* cmd){
@@ -370,4 +388,43 @@ string ofApp::myExec(char* cmd){
     return result;
 }
 
+void ofApp::checkRecording(){
+    if(cameraList[0] == "saving..."){
+        if(videoInput.isRecordingFinished){
+            isCameraRecording = false;
+            ofLog() << "check recording says finished";
+            cameraList = {"record"};
+            currentList = cameraList;
+            sendListMessage("/cameraList", cameraList);
+            renameNewSample();
+            sampleList = getPathFromInternalAndExternal("SAMPLER");
+            sendListMessage("/sampleList", sampleList);
+        }    
+    }
+    else if(diskspaceFull()){
+            videoInput.stopRecording();
+            cameraList = {"saving..."};
+            currentList = cameraList;
+            sendListMessage("/cameraList", cameraList);
+    }
+}
 
+void ofApp::renameNewSample(){
+    string sampleBase = ofGetTimestampString("%F");
+    int count = 0;
+    string rawPath = "/home/pi/Videos/raw.mp4";
+    ofFile raw(rawPath, ofFile::ReadOnly);
+    ofLog() << "does raw.mp4 exist ? *****" << raw.exists();
+    if(raw.exists()){
+        string newPath = "";
+        while(true){
+            newPath = "/home/pi/Videos/rec-" + sampleBase + + "-" + ofToString(count) + ".mp4";
+            ofFile newFile(newPath);
+            ofLog() << "does " + newPath + " exist ??? " << newFile.exists() ;    
+            if(newFile.exists()){count++;}
+            else{break;}
+        }
+    //system("mv " + rawPath + " " + newPath);
+    raw.moveTo(newPath, false);       
+    }    
+}

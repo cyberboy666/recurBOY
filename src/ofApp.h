@@ -54,10 +54,13 @@ class ofApp : public ofBaseApp{
 
     vector<string> getPathsInFolder(string folderPath, string source);
     vector<string> getPathFromInternalAndExternal(string source);
+    void checkRecording();
+    void renameNewSample();
 
     vector<string> sampleList;
     vector<string> shaderList;
     vector<string> fxList;
+    vector<string> cameraList;
     vector<string> currentList;
     string selectedInputMode;
     string playingMode;

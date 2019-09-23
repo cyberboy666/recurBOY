@@ -19,6 +19,15 @@
         ["5", "setShaderParam0"],
         ["6", "setShaderParam1"]
     ],
+    "GPIO" : [
+        ["18", "moveUp"],
+        ["4", "moveDown"],
+        ["6", "moveLeft"],
+        ["22", "moveRight"],
+        ["23", "enter"],
+        ["9", "switchInput"],
+        ["13", "fxSwitch"]
+    ],
     "KEY" : [
         ["q", "exit"],
         ["w", "moveUp" ],
