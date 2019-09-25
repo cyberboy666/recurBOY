@@ -4,7 +4,7 @@ __recurBOY__ is a raspberry pi based diy video-instrument for live performance.
 
 ### motivation
 
-it was designed to be built together with others in group soldering workshop sessions.
+it was designed to be built together with others in group workshop sessions.
 
 for many people there is a barrier to enter the world of hardware video-art making instruments - both due to the general higher cost of video gear compared with audio equipment and in some cases its obsolescence and thus rarity.
 
@@ -13,7 +13,7 @@ this project aims to remove these financial barriers while enabling anyone inter
 ### features
 
 - outputs composite video
-- 3 source modes : _sampler_ , _shaders_ and _camera_
+- 2 source modes : _sampler_ and _shaders_
 - process any source with additional _FX_
 - control shader/fx parameters directly with 4x knobs or externally with 4x cv inputs
 
@@ -55,7 +55,7 @@ you should see the display light up and recurBOY splash on the connected tv. wai
 
 ### source selection
 
-__recurBOY__ has 3 source modes : _sampler_ , _shaders_ and _camera_. pressing the `MODE` button will cycle through these modes. note - you will only see the _camera_ mode if a raspberry pi camera is attached to the pi csi port.
+__recurBOY__ has 2 source modes : _sampler_ , _shaders_. pressing the `MODE` button will cycle through these modes.
 
 you can tell which mode is selected by looking at the title and colour of the display.
 
@@ -63,23 +63,19 @@ you can tell which mode is selected by looking at the title and colour of the di
 
 the nav_button can be pressed `UP` , `DOWN` , `LEFT`, `RIGHT` and `IN`. we will not use the `IN` button for now.
 
-pressing `UP` and `DOWN` lets you scroll through the list of samples. this list comes from the `~/Videos` folder on the pi's SD card and from the top level of an attached usb-drive. any .mp4, .mkv, .avi or .mov file will be shown although it is not guarenteed it will work with the player - we find h264 mp4 to be most reliable.
+pressing `UP` and `DOWN` lets you scroll through the list of samples. this list comes from the `~/Videos` folder on the pi's SD card and the `/Videos` folder on top level of an attached usb-drive. any .mp4, .mkv, .avi or .mov file will be shown although it is not guarenteed it will work with the player - we find h264 mp4 to be most reliable.
 
 pressing `SELECT` on a sample will start playing it. the playing sample will be highlighed on the display
 
 ### shaders
 
-in exactly the same way as in _samples_ from this source mode you can navigate through and select a shader file to run. this list is compiled from the `~/Shaders` folder on the pi and any .frag, .shader, .glsl, .glslf,or .fsh file in the top level of an attached device.
+in exactly the same way as in _samples_ from this source mode you can navigate through and select a shader file to run. this list is compiled from the `~/Shaders` folder on the pi and any .frag, .shader, .glsl, .glslf,or .fsh file in the `/Shaders` folder on top level of an attached device.
 
 while the display is in __SHADER__ mode you can use the 4 knobs or CV inputs to manipulate the shader parameters. each shader has parameters 1-3 mapped to different values. parameter 4 always controls the speed.
 
-### camera
-
-to use live input from a raspberry pi camera first ensure it is attached correctly. if a camera is attached the _camera_ source will be avaliabe by pressing `MODE`. from here pressing `SELECT` will start showing the camera _preview_. when previewing it is possible to press `SELECT` again to start and stop camera _record_. after recording has stopped it will be converted to h264 mp4 and saved in `~/Videos` to be launched in _sampler_ mode.
-
 ### FX
 
-from any source mode you can press the `RIGHT` nav_button to enter _fx_ mode. you can see this on the title of the display. same as elsewhere an _fx_ can be selected with `UP`, `DOWN` and `SELECT`. pressing `LEFT` will return to the selected _source mode_ 
+from any source mode you can press the `RIGHT` nav_button to enter _fx_ mode. you can see this on the title of the display. same as elsewhere an _fx_ can be selected with `UP`, `DOWN` and `SELECT`. pressing `LEFT` will return to the selected _source mode_. these are read from `~/Fx` folder on the pi of `/Fx` folder on top level of attached usb drive.
 
 pressing the `FX` button will toggle the selected _fx_ on and off. this _fx_ will process whichever of the 3 sources is selected.
 
@@ -102,3 +98,11 @@ a python3 script is used to create and interface with the 1.8inch tft display us
 for more infomation on writing shaders check out _the book of shaders by Gonzalez Vivo_ , also interactive sandbox : glsl.erogenous-tones.com , 
 
 the pcb was designed in KiCad.
+
+### bonus feature
+
+~~camera~~ -> usb-capture
+
+i expected to be able to use live input from raspberry pi camera with this instrument however the pi0 could not handle opening the camera in openframeworks. somewhat unexpectedly however the usb-capture i tried seemed to work for previewing - it was glitchy but usable (recording was too much though). feel free to try this bonus feature if you like. if you want to use recurBOY with a pi3 you can enable the camera / recording too !
+
+to use live input from a raspberry pi camera first ensure it is attached correctly. if a camera is attached the _camera_ source will be avaliabe by pressing `MODE`. from here pressing `SELECT` will start showing the camera _preview_. ~~when previewing it is possible to press `SELECT` again to start and stop camera _record_. after recording has stopped it will be converted to h264 mp4 and saved in `~/Videos` to be launched in _sampler_ mode.~~
