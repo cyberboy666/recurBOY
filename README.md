@@ -1,65 +1,54 @@
 # recurBOY
-a pi0 video-instrument designed for diy soldering workshops
 
-![alt text](splash.gif "Splash Screen")
+__recurBOY__ is a raspberry pi zero based diy video-instrument for live performance.
 
-## goal
+![alt text](img/splash.gif "Splash Screen")
 
-to design a 'lite' version of r_e_c_u_r (raspberry pi based video-sampler) that can be built from a kit in a group workshop for around 30euro per unit
+### motivation
 
-## hardware WIP-BOM
+it was designed to be built together with others in group workshop sessions.
+
+for many people there is a barrier to enter the world of hardware video-art making instruments - both due to the general higher cost of video gear compared with audio equipment and in some cases its obsolescence and thus rarity.
+
+this project aims to remove these financial barriers while enabling anyone interested to build their own art-making tools. by creating together we can learn from each other and help foster community in a physical space.
+
+### features
+
+- outputs composite video
+- 2 source modes : _sampler_ and _shaders_
+- process any source with additional _FX_
+- control shader/fx parameters directly with 4x knobs or externally with 4x cv inputs
+
+## BOM
 
 REF | NAME | NUMBER | APROX COST 
 --- | --- | --- | ---
 na | [raspberry pi zero] | 1 | 5
-na | custom pcb 100x100mm | 1 | 1.8
-na | [1.8" screen] | 1 | 3.5
-na | [push buttons + caps from china] | 5 | 1 
-na | 10k linear pots | 4 | 3
-na | [thonkicon jack] inputs | 4 | 1.5
-na | [mcp3008 a2d dip] | 1 | 2
-na | 1kohm resistors | 4 | 0.5
-na | bat85 diodes| 8 | 2
-na | 2x20 pin header | 1 in 1 out | 0.5
-na | [composite video jack] | 1 | 1
+na | custom pcb 100x100mm | 1 | 5
+J5 | [1.8" screen] | 1 | 4
+SW1-5 | [push buttons + caps from china] | 5 | 1 
+RV1-4 | 10k linear pots | 4 | 3
+J1-4 | [thonkicon jack] inputs | 4 | 2
+U1 | [mcp3008 a2d dip] | 1 | 2
+R1-4 | 1k resistors | 4 | 0.5
+D1-8 | bat85 diodes| 8 | 2
+J8 | 2x20 pin header | 1 in 1 out | 1
+J7 | [composite video jack] | 1 | 1
 na | [sd card 8gb] | 1 | 2 |
 na | power-adapter | 1 |  5
-na | (optional) [raspi camera clone] | 1 | 7
-na | [5-way push button] | 1 | 1.5
+J9 | [5-way push button] | 1 | 1.5
 
+aprox total cost : 30euro plus the raspi0 - can get for 5euro from some distributors
 
-__estimate total : ~ 28 + (optional 7 camera)__
-(this includes postage on most things / assumes free for mouser etc ...)
+additional parts:
 
-## features
-
-video-sampler and synthesizer : 
-
-### 3 input modes:
-
-- `sampler` : play videos from sd or usb - seamless ? how much control over player tbc - ie seeking, setting start/end points , seamless or not ? havnt quite decided on this yet
-- `shader` : running frag-shaders from sd or usb - param inputs from 4 knobs and 4 cv in
-- `camera` : live input from piCamera - can preview and record
-
-plus `fx` mode:
-
-- any of the 3 inputs can be piped through an _fx_ shader.
-
-## software
-
-my idea is for the code to run (mostly) completely in openframeworks. video-playing / shader-effects / capture input all are already running in my _ofxVideoArtTools_ repo. writing to the display is much easier in python so will push updates from OF to a python script via OSC , also sample-processing might also be done here ? lets see.
-
-## layout idea
-
-### initial brainstorm
-
-![image](https://user-images.githubusercontent.com/12017938/60989363-1d87fb80-a346-11e9-8037-842e402947fb.png)
-
-### revision0.1
-
-![image](https://user-images.githubusercontent.com/12017938/63300041-8b292f00-c2d7-11e9-9079-4668646ccf98.png)
-
-...
+- 1-pin header and socket for tv-out
+- DIP8 ic socket
+- usb-micro to USB-A socket to attach usb
+- USB drive
+- a rca cable
+- a composite tv, display or mixer
+- some M2 screws, nuts and spacers
 
 [raspberry pi zero]: https://www.berrybase.de/raspberry-pi-zero-v1.3
 [1.8" screen]: https://www.aliexpress.com/item/32996979276.html
@@ -67,7 +56,6 @@ my idea is for the code to run (mostly) completely in openframeworks. video-play
 [push buttons + caps from china]: https://www.aliexpress.com/item/32826994795.html
 [thonkicon jack]: https://modularaddict.com/pj301m12-jacks
 [sd card 8gb]: https://www.aliexpress.com/item/33040093922.html
-[composite video jack]: https://www.mouser.de/ProductDetail/CUI/RCJ-024?qs=%2Fha2pyFadujC6XIlhTY7nF4RUCR%2FYibjfCLz8sPuiKglF9KHFnEXMg%3D%3D
-[raspi camera clone]: https://www.aliexpress.com/item/32825264717.html
+[composite video jack]: https://www.mouser.de/ProductDetail/CUI/RCJ-024
 [5-way push button]: https://www.aliexpress.com/item/32845147449.html
 
