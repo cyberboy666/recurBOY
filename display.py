@@ -70,8 +70,10 @@ class Display(object):
         self.update_count = 0
         self.inputs = ['SAMPLER', 'SHADERS', 'CAMERA']
         self.sample_list = []
-        self.sampler_state = False
-        self.shaders_state = False
+        #self.sampler_state = False
+        #self.shaders_state = False
+        self.play_on = False
+        self.fx_on = False
         self.shader_list = []
         self.fx_list = []
         self.camera_list = []
@@ -97,17 +99,17 @@ class Display(object):
     @staticmethod
     def get_state_symbol(state):
         if state:
-            return '>'  #'▶'
+            return '>'  #'▶ 
         else:
-            return '[]' #'■'        
+            return '■' #'■'        
 
     def switch_input_mode(self):
         if self.current_mode == 'SAMPLER':
-            self.title = '__SAMPLER_{}_'.format(self.get_state_symbol(self.sampler_state))
+            self.title = '__SAMPLER_{}_'
             self.current_title_colour = (255,0,255)
             self.current_list = self.sample_list
         elif self.current_mode == 'SHADERS':
-            self.title = '__SHADERS_{}_'.format(self.get_state_symbol(self.shaders_state))
+            self.title = '__SHADERS_{}_'
             self.current_list = self.shader_list
             self.current_title_colour = (255,255,0)
         elif self.current_mode == 'CAMERA':
@@ -124,7 +126,8 @@ class Display(object):
 
     def create_mode_screen(self):
         # print title
-        draw_rotated_text(disp.buffer, self.title, (110, 10),270, font_title, fill=(0,0,0), background=self.current_title_colour)
+        title = self.title.format(self.get_state_symbol(self.play_on))
+        draw_rotated_text(disp.buffer, title, (110, 10),270, font_title, fill=(0,0,0), background=self.current_title_colour)
         # print content
         for i, value in enumerate(self.get_view_list()):
             if i == self.selected_row - self.current_list_offset:
@@ -135,7 +138,7 @@ class Display(object):
                 draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(255,255,255), )
 
     def create_fx_screen(self):
-        fx_title = '__FX____'
+        fx_title = '__FX__{}_'.format(self.get_state_symbol(self.fx_on))
         fx_title_colour = (0, 255, 255)
         # print title
         draw_rotated_text(disp.buffer, fx_title, (110, 10),270, font_title, fill=(0,0,0), background=fx_title_colour)
@@ -166,6 +169,8 @@ class Display(object):
         this_dispatcher.map("/selectedFxRow", self.set_selected_fx_row)
         this_dispatcher.map("/inputMode", self.set_input_mode)
         this_dispatcher.map("/fxScreenVisible", self.set_fx_screen_visible)
+        this_dispatcher.map("/playOn", self.set_play_on)
+        this_dispatcher.map("/fxOn", self.set_fx_on)
         this_dispatcher.map("/isCameraOn", self.set_is_camera_on)
         this_dispatcher.map("/playingSampleRow", self.set_playing_sample_row)
         this_dispatcher.map("/playingShaderRow", self.set_playing_shader_row)
@@ -191,6 +196,7 @@ class Display(object):
 
     def set_fx_list(self, unused_addr, *args):
         self.fx_list = [i.split("/")[-1] for i in list(args)]
+        print('fx list', self.fx_list)
         self.switch_input_mode()
         self.update_display_count()
 
@@ -198,8 +204,6 @@ class Display(object):
         self.camera_list = [i.split("/")[-1] for i in list(args)]
         self.switch_input_mode()
         self.update_display_count()
-
-
 
     def set_is_camera_on(self, unused_addr, is_camera_on):
         self.is_camera_on = bool(is_camera_on)
@@ -244,6 +248,14 @@ class Display(object):
 
     def set_fx_screen_visible(self, unused_addr, is_visible):
         self.fx_screen_visible = bool(is_visible)
+        self.update_display_count()
+
+    def set_fx_on(self, unused_addr, is_fx_on):
+        self.fx_on = bool(is_fx_on)
+        self.update_display_count()
+
+    def set_play_on(self, unused_addr, is_play_on):
+        self.play_on = bool(is_play_on)
         self.update_display_count()
 
     def loop_over_display_update(self):

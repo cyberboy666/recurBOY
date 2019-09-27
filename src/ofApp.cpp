@@ -36,13 +36,13 @@ void ofApp::setup(){
     currentList = sampleList;
     fxScreenVisible = false;
     fxOn = false;
+    playOn = false;
     isCameraDetected = detectCamera();
     if(isCameraDetected){inputModes.push_back("CAMERA");}
     cameraList = {"preview"};
     sendListMessage("/cameraList", cameraList);
     isCameraOn = false;
     isCameraRecording = false;
-
     
     selectedRow = 0;
     selectedFxRow = 0;
@@ -68,16 +68,16 @@ void ofApp::setup(){
 void ofApp::update(){
     readActions();
 
-    if(playingMode == "SAMPLER"){
+    if(playingMode == "SAMPLER" && playOn){
         recurPlayer.update();
         fbo.begin();
             recurPlayer.playerDraw();
         fbo.end();
     }
-    else if(playingMode == "SHADERS"){
+    else if(playingMode == "SHADERS" && playOn){
         fbo = shaderPlayer.apply({});
     }
-    else if(playingMode == "CAMERA" && videoInput.isReady() ){
+    else if(playingMode == "CAMERA" && videoInput.isReady() && playOn){
         videoInput.update();
         fbo.begin();
             videoInput.draw(0,0, ofGetWidth(), ofGetHeight());
@@ -133,7 +133,12 @@ void ofApp::runAction(string action, string amount){
      else if(action == "moveRight"){ moveRight();}
      else if(action == "enter"){ enter();}
      else if(action == "fxSwitch"){ fxSwitch();}
+     else if(action == "playSwitch"){ playSwitch();}
      else if(action == "switchInput"){ switchInput();}
+     else if(action == "setShaderParam0"){ setShaderParam1(ofToInt(amount));}
+     else if(action == "setShaderParam1"){ setShaderParam1(ofToInt(amount));}
+     else if(action == "setShaderParam2"){ setShaderParam1(ofToInt(amount));}
+     else if(action == "setShaderSpeed"){ setShaderSpeed(ofToInt(amount));}
  }
 
 void ofApp::exit(){
@@ -179,6 +184,32 @@ void ofApp::moveRight(){
 
 void ofApp::fxSwitch(){
     fxOn = !fxOn;
+    int fxOnInt = fxOn;
+    sendIntMessage("/fxOn",fxOnInt);
+}
+
+void ofApp::playSwitch(){
+    playOn = !playOn;
+    int playOnInt = playOn;
+    if(playingMode == "SAMPLER"){ recurPlayer.setPlay(playOn);}
+    else if(playingMode == "SHADERS"){ shaderPlayer.setPlay(playOn); }
+    sendIntMessage("/playOn", playOnInt);
+}
+
+void ofApp::setShaderParam0(float value){
+    shaderPlayer.shaderParams[0] = value;
+}
+
+void ofApp::setShaderParam1(float value){
+    shaderPlayer.shaderParams[1] = value;
+}
+
+void ofApp::setShaderParam2(float value){
+    shaderPlayer.shaderParams[2] = value;
+}
+
+void ofApp::setShaderSpeed(float value){
+    shaderPlayer.setSpeed(value);
 }
 
 void ofApp::enter(){
@@ -188,28 +219,35 @@ void ofApp::enter(){
         playingFxRow = selectedFxRow;
         sendIntMessage("/playingFxRow", playingFxRow);
         fxOn = true;   
+        sendIntMessage("/fxOn",1);
     } 
     else if(selectedInputMode == "SAMPLER"){
         playVideo(currentList[selectedRow]);
         playingSampleRow = selectedRow;
         sendIntMessage("/playingSampleRow", playingSampleRow);
         playingMode = selectedInputMode;
+        playOn = true;
+        sendIntMessage("/playOn",1);
     } 
     else if(selectedInputMode == "SHADERS"){
         shaderPlayer.loadShaderFiles("default.vert", currentList[selectedRow]);
         playingShaderRow = selectedRow;
         sendIntMessage("/playingShaderRow", playingShaderRow);
         playingMode = selectedInputMode;
+        playOn = true;
+        sendIntMessage("/playOn",1);
     }   
     else if(selectedInputMode == "CAMERA"){
         if(currentList[selectedRow] == "start"){
             videoInput.setup("vidGrabber", ofGetWidth(), ofGetHeight(), 25 );
             isCameraOn = true;
             sendIntMessage("/isCameraOn", 1);
-            cameraList = {"record"};
-            currentList = cameraList;
-            sendListMessage("/cameraList", cameraList);
+            // uncomment this to allow sample recording
+            //cameraList = {"record"};
+            //currentList = cameraList;
+            //sendListMessage("/cameraList", cameraList);
             playingMode = selectedInputMode;
+            playOn = true;
         }
         else if(currentList[selectedRow] == "record"){
             videoInput.startRecording();

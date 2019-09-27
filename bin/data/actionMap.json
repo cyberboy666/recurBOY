@@ -23,6 +23,7 @@
         ["18", "moveUp"],
         ["4", "moveDown"],
         ["6", "moveLeft"],
+        ["7", "playSwitch"],
         ["22", "moveRight"],
         ["23", "enter"],
         ["9", "switchInput"],
@@ -36,6 +37,7 @@
         ["d", "moveRight" ],
         ["p", "enter" ],
         ["f", "fxSwitch" ],
+        ["r", "playSwitch"],
         ["c", "switchInput" ]
     ]
 }

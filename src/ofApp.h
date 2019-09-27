@@ -48,9 +48,15 @@ class ofApp : public ofBaseApp{
     void moveRight();
     void enter();
     void fxSwitch();
+    void playSwitch();
     void switchInput();
     void playVideo(string path);
     void closeUnusedInput();
+
+    void setShaderParam0(float value);
+    void setShaderParam1(float value);
+    void setShaderParam2(float value);
+    void setShaderSpeed(float value);
 
     vector<string> getPathsInFolder(string folderPath, string source);
     vector<string> getPathFromInternalAndExternal(string source);
@@ -73,6 +79,7 @@ class ofApp : public ofBaseApp{
     int inputIndex; 
     bool fxScreenVisible;
     bool fxOn;
+    bool playOn;
     bool isCameraOn;
     bool isCameraDetected;
     bool isCameraRecording;  
