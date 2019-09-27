@@ -1,10 +1,10 @@
 # recurBOY
 
-__recurBOY__ is a raspberry pi based diy video-instrument for live performance.
+__recurBOY__ is a raspberry pi zero based diy video-instrument for live performance.
 
 ### motivation
 
-it was designed to be built together with others in group soldering workshop sessions.
+it was designed to be built together with others in group workshop sessions.
 
 for many people there is a barrier to enter the world of hardware video-art making instruments - both due to the general higher cost of video gear compared with audio equipment and in some cases its obsolescence and thus rarity.
 
@@ -13,7 +13,8 @@ this project aims to remove these financial barriers while enabling anyone inter
 ### features
 
 - outputs composite video
-- 3 source modes : _sampler_ , _shaders_ and _camera_
+
+- 2 source modes : _sampler_ and _shaders_
 - process any source with additional _FX_
 - control shader/fx parameters directly with 4x knobs or externally with 4x cv inputs
 
@@ -55,7 +56,7 @@ you should see the display light up and recurBOY splash on the connected tv. wai
 
 ### source selection
 
-__recurBOY__ has 3 source modes : _sampler_ , _shaders_ and _camera_. pressing the `MODE` button will cycle through these modes. note - you will only see the _camera_ mode if a raspberry pi camera is attached to the pi csi port.
+__recurBOY__ has 2 source modes : _sampler_ , _shaders_. pressing the `MODE` button will cycle through these modes.
 
 you can tell which mode is selected by looking at the title and colour of the display.
 
@@ -63,42 +64,88 @@ you can tell which mode is selected by looking at the title and colour of the di
 
 the nav_button can be pressed `UP` , `DOWN` , `LEFT`, `RIGHT` and `IN`. we will not use the `IN` button for now.
 
-pressing `UP` and `DOWN` lets you scroll through the list of samples. this list comes from the `~/Videos` folder on the pi's SD card and from the top level of an attached usb-drive. any .mp4, .mkv, .avi or .mov file will be shown although it is not guarenteed it will work with the player - we find h264 mp4 to be most reliable.
+
+pressing `UP` and `DOWN` lets you scroll through the list of samples. this list comes from the `~/Videos` folder on the pi's SD card and the `/Videos` folder on top level of an attached usb-drive. any .mp4, .mkv, .avi or .mov file will be shown although it is not guarenteed it will work with the player - we find h264 mp4 to be most reliable.
 
 pressing `SELECT` on a sample will start playing it. the playing sample will be highlighed on the display
 
 ### shaders
 
-in exactly the same way as in _samples_ from this source mode you can navigate through and select a shader file to run. this list is compiled from the `~/Shaders` folder on the pi and any .frag, .shader, .glsl, .glslf,or .fsh file in the top level of an attached device.
+in exactly the same way as in _samples_ from this source mode you can navigate through and select a shader file to run. this list is compiled from the `~/Shaders` folder on the pi and any .frag, .shader, .glsl, .glslf,or .fsh file in the `/Shaders` folder on top level of an attached device.
 
 while the display is in __SHADER__ mode you can use the 4 knobs or CV inputs to manipulate the shader parameters. each shader has parameters 1-3 mapped to different values. parameter 4 always controls the speed.
 
-### camera
-
-to use live input from a raspberry pi camera first ensure it is attached correctly. if a camera is attached the _camera_ source will be avaliabe by pressing `MODE`. from here pressing `SELECT` will start showing the camera _preview_. when previewing it is possible to press `SELECT` again to start and stop camera _record_. after recording has stopped it will be converted to h264 mp4 and saved in `~/Videos` to be launched in _sampler_ mode.
-
 ### FX
 
-from any source mode you can press the `RIGHT` nav_button to enter _fx_ mode. you can see this on the title of the display. same as elsewhere an _fx_ can be selected with `UP`, `DOWN` and `SELECT`. pressing `LEFT` will return to the selected _source mode_ 
+from any source mode you can press the `RIGHT` nav_button to enter _fx_ mode. you can see this on the title of the display. same as elsewhere an _fx_ can be selected with `UP`, `DOWN` and `SELECT`. pressing `LEFT` will return to the selected _source mode_. these are read from `~/Fx` folder on the pi and `/Fx` folder on top level of attached usb drive.
 
-pressing the `FX` button will toggle the selected _fx_ on and off. this _fx_ will process whichever of the 3 sources is selected.
+pressing the `FX` button will toggle the selected _fx_ on and off. this _fx_ will process whichever of the sources is selected.
 
-the 4 knobs / cv inputs will control parameters of the _fx_ when _source_ shader is not selected.
+the 4 knobs / cv inputs will control parameters of the _fx_ when _source_ shader mode is not selected.
+
+## how the circuit works
+
+### raspberry pi
+
+a raspberry pi is a small computer - often referred to as a _Single Board Computer_ or SBC. it has 40 pins on it called _GPIOs_ - General Purpose In Out - which can be used to connect it with other components. the GPIO pins on the raspberry pi are _digital_ - this means that at any given time they can only be read as HIGH - 1 or LOW - 0. nothing in between. it also has a pin called `tv out` for outputting composite video.
+
+### reading button presses
+
+we can use some of these GPIO pins on the raspberry pi to know when a button is pressed. one side of the button is connected to the pin and the other is connected to ground. on the raspberry pi we tell these pins to _pull up_. this means they are HIGH by default.
+
+![alt text](img/button_schem.PNG)
+
+when the button is pressed however the circuit connecting the pin to ground is completed and the pin becomes LOW. in the code we ask the state of a GPIO pin and if LOW we know the button is pressed.
+
+### reading continuous inputs
+
+_digital pins_ - HIGH/LOW are good for discrete inputs like button presses which can only be OFF/ON. however we also want to have continuous inputs for example from knobs which can be set to any amount _between_ LOW and HIGH. this kind of input is called _analog_ - the reading is analogous to the voltage on the pin. 
+
+since raspberry pi has no _analog_ GPIO pins we need to introduce a new ic - the __MCP3008__. this type of ic is called an _analog to digital converter_ or a2d for short. it has 8 _analog_ pins which read the voltage applied to them and converts it to digital information. this information can be understood by the raspberry pi's _digital_ pins. in this case using a digital protocol called SPI)
+
+four of the MCP3008 channels are connected to potentiometers which in this circuit act as voltage dividers. one side of the pot is connected to +5V and the other to GND. the output is always some voltage between these.
+after passing through the a2d this voltage value between GND and +5V is converted to a number between 0 and 1024.
+
+![alt text](img/pot_schem.PNG)
+
+the other four MCP3008 channels are connected to 3.5mm jacks. this allows the voltage to be set by external devices - this kind of interaction between instruments is called _Control Voltage_ or CV. each of the CV inputs also use a resistor and two diodes - these are to protect the IC from incoming voltages above +5V or below GND
+
+![alt text](img/cv_schem.PNG)
+
+### the display
+
+the raspberry pi also connects to the display screen with GPIO pins - this time the pins are used as _outputs_ , telling the screen which pixels to colour - again the protocol used here is SPI - but we dont need to worry about how exactly this works - there is a python library that is used to describe what the screen should show.    
 
 ## extra information
 
 ### origin
 
-the _recurBOY_ is a spinoff from an existing project tim has created and maintains - __r_e_c_u_r__ : _an open diy video sampler_ ; r_e_c_u_r is simple to assemble but can be more complex to operate due to its scope and customisablty. recurBOY distills the best parts, aiming to be simplier and more beginner friendly. it uses cheaper parts and runs on a raspberry pi zero which can be around 1/7th the price of the pi3 used in r_e_c_u_r. 
 
-if you like this device you might want to look into also building a r_e_c_u_r one day - checkout the github or video guides online.
+the _recurBOY_ is a spinoff from an existing project tim has created and maintains - __r_e_c_u_r__ : _an open diy video sampler_ ; r_e_c_u_r is simple to assemble but can be more complex to operate due to its scope and customisablity. recurBOY distills the best parts, aiming to be simpler and more beginner friendly. it uses cheaper parts and runs on a raspberry pi zero which can be a fraction the price of the pi3 used in r_e_c_u_r. 
+
+if you like this device and want more features you can try building a r_e_c_u_r also - checkout the github or video guides online.
 
 ### some technical details
 
 the recurBOY application is built in __openframeworks__ - a collection of open-source c++ libraries for creative coding. in particular it uses _ofxVideoArtTools_ - an abstraction of openframeworks libraries and extensions into modules specifically for making video instruments on raspberry pi.
 
-a python3 script is used to create and interface with the 1.8inch tft display used in this project
-
-for more infomation on writing shaders check out _the book of shaders by Gonzalez Vivo_ , also interactive sandbox : glsl.erogenous-tones.com , 
-
 the pcb was designed in KiCad.
+
+### shaders
+
+shaders are small text files of code that tell a graphics card what to draw. they use a language called _glsl_ to communicate what colour a pixel should be and where. you don't have to understand every line to begin playing around with them. 
+
+thanks to Erogenous Tones - a modular synth company who have a mature and very powerful shader-playing video instrument called STRUCTURE , we now also have a web-based environment for browsing, modifying and creating shaders to perform with.
+
+go to glsl.erogenous-tones.com - if you select any example you will see the code used to create the patch. try changing some of the numbers - modifying the input parameters is especially interesting. when you are happy with the results select the `save as .glsl file` . now copy this file onto your USB in the correct folder -` /Shaders` and connect to recurBOY
+
+for more information on understanding and writing shaders yourself check out _the book of shaders by Gonzalez Vivo_.
+
+### bonus feature
+
+~~camera~~ -> usb-capture
+
+i expected to be able to use live input from raspberry pi camera with this instrument however the pi0 could not handle opening the camera in openframeworks. somewhat unexpectedly however the usb-capture i tried seemed to work for previewing - it was glitchy but usable (recording was too much though). feel free to try this bonus feature if you like. if you want to use recurBOY with a pi3 you can enable the camera / recording too !
+
+to use live input from a raspberry pi camera first ensure it is attached correctly. if a camera is attached the _camera_ source will be available by pressing `MODE`. from here pressing `SELECT` will start showing the camera _preview_. ~~when previewing it is possible to press `SELECT` again to start and stop camera _record_. after recording has stopped it will be converted to h264 mp4 and saved in `~/Videos` to be launched in _sampler_ mode.~~
+
