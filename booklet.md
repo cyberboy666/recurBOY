@@ -38,13 +38,18 @@ J5 | 1.8" TFT display
 
 __R1-4, D1-8__ : start by placing the resistors and diodes. it is __important__ that the _diodes_ are placed in the correct direction ! for resistors it does not matter.
 
-__J8, J6__ : there are two parts that need to be placed from the bottom for the raspberry pi to attach. we will do these next. it is __very important__ that these are soldered on straight. start by soldering 1 or 2 pins from the header and then check it is perpendicular to the board - once multiple pins are soldered it is very difficult to correct the angle.
+__J8, J6__ : there are two parts that need to be placed __from the bottom__ . this is so the raspberry pi can be attached underneath. turn the board over and find j8 - the 2x20 pin socket will connect to the pi0 gpio pins. it is __very important__ that these are soldered on straight. start by soldering 1 or 2 pins from the header and then check it is perpendicular to the board - once multiple pins are soldered it is very difficult to correct the angle. next to this is j6 - a single pin socket that will connect to the pi0 tv out.
 
-__U1, SW1-4, J1-4, J7__ : now you can solder the ic and other flatter components. use the ic socket if you like. also try to make sure the 5-way button is straight before soldering all the pins
+__U1, SW1-5, J9__ : flip back to the front. now you can solder the ic ans buttons. use the ic socket if you like. also try to make sure the 5-way button is straight before soldering all the pins
 
-__RV1-4, J5__ : finally you can solder the pots and screen. make sure the header is soldered to the screen  with short pin end through screen holes and then the combined part is soldered to the board.
+__J5__ : for screen make sure the included 8x1 pin header is soldered to the screen first - with short pin end to the screen. then you can solder the screen - with long header pin ends through the recurBOY pcb.
 
-you will need to also solder the gpio-header to the raspberry pi and a single pin for the tv-out - then this should slot into the bottom of the pcb.
+__J1-4, J7__ : next is the top row of jacks
+
+__RV1-4,__  : now you can solder the potentiometers.
+
+
+if not already you will need to also solder the gpio-header to the raspberry pi and a single pin for the tv-out - then this should slot into the bottom of the pcb.
 
 ## operation guide
 
