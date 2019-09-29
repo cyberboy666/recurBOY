@@ -16,8 +16,14 @@
         ["/player/b/position", "setPlayerPosition"]
     ],
     "ANALOG" : [
-        ["5", "setShaderParam0"],
-        ["6", "setShaderParam1"]
+    	["0", "setShaderParam0"],
+        ["1", "setShaderParam1"],
+        ["2", "setShaderParam2"],
+        ["3", "setShaderSpeed"],
+	    ["4", "setShaderParam0"],
+        ["5", "setShaderParam1"],
+        ["6", "setShaderParam2"],
+        ["7", "setShaderSpeed"]
     ],
     "GPIO" : [
         ["18", "moveUp"],
@@ -25,8 +31,8 @@
         ["6", "moveLeft"],
         ["7", "playSwitch"],
         ["22", "moveRight"],
-        ["23", "enter"],
-        ["9", "switchInput"],
+        ["12", "enter"],
+        ["19", "switchInput"],
         ["13", "fxSwitch"]
     ],
     "KEY" : [

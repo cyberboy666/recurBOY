@@ -83,4 +83,8 @@ class ofApp : public ofBaseApp{
     bool isCameraOn;
     bool isCameraDetected;
     bool isCameraRecording;  
+    int safeShutdownCount;
+    float safeShutdownLastTime;
+    void checkSafeShutdown();
+
 };

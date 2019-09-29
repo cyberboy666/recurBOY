@@ -19,10 +19,10 @@ SPEED_HZ = 4000000
 
 
 # Raspberry Pi configuration.
-DC = 24
-RST = 25
-SPI_PORT = 0
-SPI_DEVICE = 0
+DC = 27
+RST = 26
+SPI_PORT = 1
+SPI_DEVICE = 2
 
 # Create TFT LCD display class.
 disp = TFT.ST7735(
@@ -279,7 +279,7 @@ def setup_gpio():
     import RPi.GPIO as GPIO
     GPIO.setmode(GPIO.BCM)
 
-    pins = [4, 5, 6, 7, 9, 12, 13, 17, 18, 19, 22, 23 ]
+    pins = [4, 5, 6, 7, 12, 13, 17, 18, 19, 22, 23 ]
     for pin in pins:
         print('pin is ', pin)
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)

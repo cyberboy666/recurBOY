@@ -5,7 +5,7 @@ void ofApp::setup(){
 	ofBackground(0, 0, 0);
     ofSetFrameRate(25);
 	ofSetVerticalSync(false);
-    bool isDev = true;
+    bool isDev = false;
     if(isDev){
         ofSetFullscreen(0);
         ofSetWindowShape(300,200);
@@ -60,7 +60,8 @@ void ofApp::setup(){
     shaderPlayer.setup();
     fxPlayer.setup();
 
-    
+    safeShutdownCount = 0;
+    safeShutdownLastTime = ofGetElapsedTimef();   
 
 }
 
@@ -135,13 +136,14 @@ void ofApp::runAction(string action, string amount){
      else if(action == "fxSwitch"){ fxSwitch();}
      else if(action == "playSwitch"){ playSwitch();}
      else if(action == "switchInput"){ switchInput();}
-     else if(action == "setShaderParam0"){ setShaderParam1(ofToInt(amount));}
-     else if(action == "setShaderParam1"){ setShaderParam1(ofToInt(amount));}
-     else if(action == "setShaderParam2"){ setShaderParam1(ofToInt(amount));}
-     else if(action == "setShaderSpeed"){ setShaderSpeed(ofToInt(amount));}
+     else if(action == "setShaderParam0"){ setShaderParam0(ofToFloat(amount));}
+     else if(action == "setShaderParam1"){ setShaderParam1(ofToFloat(amount));}
+     else if(action == "setShaderParam2"){ setShaderParam2(ofToFloat(amount));}
+     else if(action == "setShaderSpeed"){ setShaderSpeed(ofToFloat(amount));}
  }
 
 void ofApp::exit(){
+    userInput.exit();
     ofExit();
  }
 
@@ -189,6 +191,7 @@ void ofApp::fxSwitch(){
 }
 
 void ofApp::playSwitch(){
+    checkSafeShutdown();
     playOn = !playOn;
     int playOnInt = playOn;
     if(playingMode == "SAMPLER"){ recurPlayer.setPlay(playOn);}
@@ -197,19 +200,41 @@ void ofApp::playSwitch(){
 }
 
 void ofApp::setShaderParam0(float value){
-    shaderPlayer.shaderParams[0] = value;
+    ofLog() << "setShaderParam0 ";
+    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
+        shaderPlayer.shaderParams[0] = value;
+    }
+    else{
+        fxPlayer.shaderParams[0] = value;
+    }
 }
 
 void ofApp::setShaderParam1(float value){
-    shaderPlayer.shaderParams[1] = value;
+    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
+        shaderPlayer.shaderParams[1] = value;
+    }
+    else{
+        fxPlayer.shaderParams[1] = value;
+    }
+
 }
 
 void ofApp::setShaderParam2(float value){
-    shaderPlayer.shaderParams[2] = value;
+    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
+        shaderPlayer.shaderParams[2] = value;
+    }
+    else{
+        fxPlayer.shaderParams[2] = value;
+    }
 }
 
 void ofApp::setShaderSpeed(float value){
-    shaderPlayer.setSpeed(value);
+    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
+        shaderPlayer.setSpeed(value);
+    }
+    else{
+        fxPlayer.setSpeed(value);
+    }
 }
 
 void ofApp::enter(){
@@ -465,4 +490,16 @@ void ofApp::renameNewSample(){
     //system("mv " + rawPath + " " + newPath);
     raw.moveTo(newPath, false);       
     }    
+}
+
+void ofApp::checkSafeShutdown(){
+    float nowGetTime = ofGetElapsedTimef();
+    float timeDiff = nowGetTime - safeShutdownLastTime;
+    if(timeDiff < 0.5){safeShutdownCount++;}
+    else{safeShutdownCount = 0;}
+    if(safeShutdownCount > 8){
+        ofLog() << "do the shutdown now !!";
+        system("sudo shutdown -h now");
+    }
+    safeShutdownLastTime = nowGetTime;
 }
