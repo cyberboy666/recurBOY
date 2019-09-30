@@ -78,7 +78,7 @@ pressing `SELECT` on a sample will start playing it. the playing sample will be 
 
 in exactly the same way as in _samples_ from this source mode you can navigate through and select a shader file to run. this list is compiled from the `~/Shaders` folder on the pi and any .frag, .shader, .glsl, .glslf,or .fsh file in the `/Shaders` folder on top level of an attached device.
 
-while the display is in __SHADER__ mode you can use the 4 knobs or CV inputs to manipulate the shader parameters. each shader has parameters 1-3 mapped to different values. parameter 4 always controls the speed.
+while the display is in __SHADER__ mode you can use the 4 knobs or CV inputs to manipulate the shader parameters. each shader has 3 parameters mapped to input 0, 1 and 2. input 3 always controls the speed.
 
 ### FX
 
@@ -126,19 +126,16 @@ the raspberry pi also connects to the display screen with GPIO pins - this time 
 ### origin
 
 
-the _recurBOY_ is a spinoff from an existing project tim has created and maintains - __r_e_c_u_r__ : _an open diy video sampler_ ; r_e_c_u_r is simple to assemble but can be more complex to operate due to its scope and customisablity. recurBOY distills the best parts, aiming to be simpler and more beginner friendly. it uses cheaper parts and runs on a raspberry pi zero which can be a fraction the price of the pi3 used in r_e_c_u_r. 
+the _recurBOY_ is a spinoff from an existing project tim has created and maintains - __r_e_c_u_r__ : _an open diy video sampler_ ; r_e_c_u_r is simple to assemble but can be more complex to operate due to its scope and customisablity. recurBOY distills the best parts, aiming to be simpler and more beginner friendly. it uses cheaper parts and runs on a raspberry pi zero which can be a fraction of the price of the pi3 used in r_e_c_u_r. 
 
 if you like this device and want more features you can try building a r_e_c_u_r also - checkout the github or video guides online.
 
-### some technical details
-
-the recurBOY application is built in __openframeworks__ - a collection of open-source c++ libraries for creative coding. in particular it uses _ofxVideoArtTools_ - an abstraction of openframeworks libraries and extensions into modules specifically for making video instruments on raspberry pi.
-
-the pcb was designed in KiCad.
 
 ### shaders
 
-shaders are small text files of code that tell a graphics card what to draw. they use a language called _glsl_ to communicate what colour a pixel should be and where. you don't have to understand every line to begin playing around with them. 
+shaders are small text files of code that tell a graphics card what to draw. they use a language called _glsl_ to communicate what colour a pixel should be and where. you don't have to understand every line to begin playing around with them.
+
+in recurBOY we use shaders in two places - the `SHADERS` mode is used for launching shaders that _generate_ video. these shaders take no video inputs. we also use shaders in the `FX`  mode. here we are selecting shaders that _process_ video. these take one video source as input and pass it through the _fx_ shader. 
 
 thanks to Erogenous Tones - a modular synth company who have a mature and very powerful shader-playing video instrument called STRUCTURE , we now also have a web-based environment for browsing, modifying and creating shaders to perform with.
 
@@ -153,4 +150,13 @@ for more information on understanding and writing shaders yourself check out _th
 i expected to be able to use live input from raspberry pi camera with this instrument however the pi0 could not handle opening the camera in openframeworks. somewhat unexpectedly however the usb-capture i tried seemed to work for previewing - it was glitchy but usable (recording was too much though). feel free to try this bonus feature if you like. if you want to use recurBOY with a pi3 you can enable the camera / recording too !
 
 to use live input from a raspberry pi camera first ensure it is attached correctly. if a camera is attached the _camera_ source will be available by pressing `MODE`. from here pressing `SELECT` will start showing the camera _preview_. ~~when previewing it is possible to press `SELECT` again to start and stop camera _record_. after recording has stopped it will be converted to h264 mp4 and saved in `~/Videos` to be launched in _sampler_ mode.~~
+
+
+### some technical details
+
+the recurBOY application is built in __openframeworks__ - a collection of open-source c++ libraries for creative coding. in particular it uses _ofxVideoArtTools_ - an abstraction of openframeworks libraries and extensions into modules specifically for making video instruments on raspberry pi.
+
+the display output is generated using some python packages. see the image_setup.md for more information. _OSC_ is used to send state changes from the openframeworks app to the python display script. 
+
+the pcb was designed in KiCad.
 

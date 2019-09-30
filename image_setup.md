@@ -65,7 +65,6 @@ then following the instructions on [this blog]
 
 `sudo apt install build-essential python3-dev python3-smbus python3-pil python3-numpy`
 
-```
 then
 ```
 sudo python3 -m pip install RPi.GPIO
@@ -79,6 +78,14 @@ git clone https://github.com/cskau/Python_ST7735
 cd Python_ST7735
 sudo python3 setup.py install
 ```
+
+add to the end of config.txt `sudo nano /boot/config.txt`
+
+`dtoverlay=spi1-3cs`
+
+and install the font :
+
+`sudo apt-get install fonts-liberation`
 
 ## setup for ethernet over usb
 
@@ -96,15 +103,15 @@ add to end of config.txt `sudo nano /boot/config.txt` :
 
 open `sudo nano /lib/systemd/system/systemd-udevd.service` and change MountFlags=slave to MountFlags=shared
 
+## cron job on startup
+
+`crontab -e` and pick 2, at bottom of the file add the start command:
+
+`@reboot sh /home/pi/openframeworks10.1/apps/myApps/recurBOY/startRecurBoy.sh`
+
 ## still to do:
 
-something weird with the adafruit package install for the screen ...
 - splash screen
-- auto mounting usb things ?
-
-
-
-
 
 
 [this blog]: https://jakew.me/2018/01/19/st7735-pi/
