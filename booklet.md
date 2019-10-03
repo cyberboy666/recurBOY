@@ -67,11 +67,13 @@ if not already you will need to also solder the gpio-header to the raspberry pi 
 
 ## operation guide
 
-check that the raspberry pi is attached to the recurBOY pcb and the flashed micro-sd is inserted.
+~~check that the raspberry pi is attached to the recurBOY pcb and the flashed micro-sd is inserted.~~
 
-connect recurBOY to a tv via the rca jack in the top middle. now plug the micro-usb power supply into the raspberry pi power-jack - take care it is the power jack and not the usb.
+~~connect recurBOY to a tv via the rca jack in the top middle. now plug the micro-usb power supply into the raspberry pi power-jack - take care it is the power jack and not the usb.~~
 
-you should see the display light up and recurBOY splash on the connected tv. wait a few moments for the pi to boot - the display should show a menu when ready.
+~~you should see the display light up and recurBOY splash on the connected tv. wait a few moments for the pi to boot - the display should show a menu when ready.~~
+
+to safely turn off recurBOY hold down the play/pause button for 5 seconds. it is not recommended to remove your usb-drive while recurBOY is operating.
 
 ### source selection
 
