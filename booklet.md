@@ -58,7 +58,7 @@ __U1, SW1-5, J9__ : flip back to the front. now you can solder the ic ans button
 
 __J5__ : for screen make sure the included 8x1 pin header is soldered to the screen first - with short pin end to the screen. then you can solder the screen - with long header pin ends through the recurBOY pcb.
 
-__J1-4, J7__ : next is the top row of jacks
+__J1-4, J7__ : next is the top row of jacks and the RCA connector
 
 __RV1-4,__  : now you can solder the potentiometers.
 
