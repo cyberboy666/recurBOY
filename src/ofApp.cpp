@@ -6,6 +6,7 @@ void ofApp::setup(){
     ofSetFrameRate(25);
 	ofSetVerticalSync(false);
     bool isDev = false;
+	//ofSleepMillis(10000);
     if(isDev){
         ofSetFullscreen(0);
         ofSetWindowShape(300,200);
@@ -292,6 +293,8 @@ void ofApp::enter(){
 }
 
 void ofApp::switchInput(){
+	//fxList = getPathFromInternalAndExternal("FX");
+//	//sendListMessage("fxList", fxList);
     inputIndex = (inputIndex + 1) % inputModes.size() ;
     selectedInputMode = inputModes[inputIndex];
 
@@ -366,13 +369,14 @@ void ofApp::sendListMessage(string address, vector<string> list){
 
 vector<string> ofApp::getPathFromInternalAndExternal(string mode){
     // get a list of external devices
-    vector<string> deviceList; 
-    ofDirectory dir("/media/pi/");
-    dir.listDir();
-    for(int i = 0; i < dir.size(); i++){
-        ofLog() << "the path " << dir.getPath(i); 
-        deviceList.push_back(dir.getPath(i));  
-    }
+    vector<string> deviceList = {"/media/usb0"}; 
+//    ofDirectory dir("/media/usb0/");
+//	dir.getSorted();
+//    dir.getSorted(); //listDir();
+//    for(int i = 0; i < 1; i++){ // dir.size(); i++){
+//        ofLog() << "the path " << dir.getPath(i); 
+//        deviceList.push_back(dir.getPath(i));  
+	   // }
     string sourcePath;
     if(mode == "SAMPLER"){sourcePath = "/Videos/";}
     else if(mode == "SHADERS"){sourcePath = "/Shaders/";}
@@ -396,6 +400,7 @@ vector<string> ofApp::getPathFromInternalAndExternal(string mode){
 vector<string> ofApp::getPathsInFolder(string folderPath, string mode){
     vector<string> thisList; 
     ofDirectory dir(folderPath);
+//	dir = dir.getSorted();
     
     if(mode == "SAMPLER"){
         dir.allowExt("mp4");

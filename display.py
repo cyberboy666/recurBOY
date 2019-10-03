@@ -185,12 +185,14 @@ class Display(object):
 
     def set_sample_list(self, unused_addr, *args):
         self.sample_list = [i.split("/")[-1] for i in list(args)]
+        print("sample list ", self.sample_list)
         self.switch_input_mode()         
         self.update_display_count()
 
 
     def set_shader_list(self, unused_addr, *args):
         self.shader_list = [i.split("/")[-1] for i in list(args)]
+        print('shaderlist' , self.shader_list)
         self.switch_input_mode()
         self.update_display_count()
 

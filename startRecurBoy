@@ -2,5 +2,5 @@
 
 cd /home/pi/openframeworks10.1/apps/myApps/recurBOY/
 python3 display.py &
-sleep 10
+sleep 30
 make run
