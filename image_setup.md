@@ -118,4 +118,18 @@ open `sudo nano /lib/systemd/system/systemd-udevd.service` and change MountFlags
 
 ## SSH onto the PI from Windows (Tested on Windows 8.1)
 
-Follow the instructions on [this website](http://www.circuitbasics.com/raspberry-pi-zero-ethernet-gadget/).
+To log into the internal storage of the Raspberry Pi Zero, follow the instructions on [this website](http://www.circuitbasics.com/raspberry-pi-zero-ethernet-gadget/).
+
+Once you are inside to copy files from your Windows computer to the internal Storage do: 
+
+### For Videos:
+```
+"C:\Program Files\PuTTY\pscp.exe" your_video.mp4 pi@raspberrypi.local:/home/pi/Videos
+```
+You should replace `your_video.mp4` with the name of the video file name (including the extension) you want to copy to the internal storage.
+
+### For Shaders:
+```
+"C:\Program Files\PuTTY\pscp.exe" your_shader.frag pi@raspberrypi.local:/home/pi/Shaders
+```
+You should replace `your_shader.frag` with the name of the shader file name (including the extension) you want to copy to the internal storage.
