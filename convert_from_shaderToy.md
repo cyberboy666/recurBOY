@@ -3,7 +3,7 @@ If you want to add your own shaders to recurBOY from shadertoy, you have to conv
 # HelloShaderCircle
 
 We took this simple example from Shadertoy
-(A Simple Circle)[https://www.shadertoy.com/view/XsjGDt]
+[A Simple Circle](https://www.shadertoy.com/view/XsjGDt)
 
 ## ShaderToy Default Variables:
 
@@ -120,3 +120,17 @@ void main( void ) {
 	gl_FragColor = mix(layer1, layer2, layer2.a);
 }
 ```
+
+The best way to do it is to click "create new shader" in [http://glsl.erogenous-tones.com/](http://glsl.erogenous-tones.com/) and paste the shadertoy code and start doing the changes there, that way you can test if your code renders the shader. 
+
+Make sure that you define the functions and variable names before you use them. Otherwise you will get errors.
+
+Main differences:
+
+shadertoy | glslsandbox - recurboy
+--- | ---
+void mainImage( out vec4 fragColor, in vec2 fragCoord ) | void main( void )
+fragColor | gl_FragColor
+fragCoord | gl_FragCoord
+iTime | time
+iResolution | resolution
