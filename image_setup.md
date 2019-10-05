@@ -115,3 +115,7 @@ open `sudo nano /lib/systemd/system/systemd-udevd.service` and change MountFlags
 
 
 [this blog]: https://jakew.me/2018/01/19/st7735-pi/
+
+## SSH onto the PI from Windows (Tested on Windows 8.1)
+
+Follow the instructions on [this website](http://www.circuitbasics.com/raspberry-pi-zero-ethernet-gadget/).
