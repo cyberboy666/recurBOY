@@ -124,12 +124,12 @@ Once you are inside to copy files from your Windows computer to the internal Sto
 
 ### For Videos:
 ```
-"C:\Program Files\PuTTY\pscp.exe" your_video.mp4 pi@raspberrypi.local:/home/pi/Videos
+"C:\Program Files\PuTTY\pscp.exe" your_video.mp4 your_video2.mp4 your_video3.mp4 pi@raspberrypi.local:/home/pi/Videos
 ```
-You should replace `your_video.mp4` with the name of the video file name (including the extension) you want to copy to the internal storage.
+You should replace `your_videoX.mp4` with the name of the video file name (including the extension) you want to copy to the internal storage. If you want to transfer more than one file put all the names separated by a space like in the example above.
 
 ### For Shaders:
 ```
 "C:\Program Files\PuTTY\pscp.exe" your_shader.frag pi@raspberrypi.local:/home/pi/Shaders
 ```
-You should replace `your_shader.frag` with the name of the shader file name (including the extension) you want to copy to the internal storage.
+You should replace `your_shader.frag` with the name of the shader file name (including the extension) you want to copy to the internal storage. If you want to transfer more than one file put all the names separated by a space like in the example above.
