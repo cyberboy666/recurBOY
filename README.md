@@ -1,9 +1,6 @@
 # recurBOY
 
-
 __recurBOY__ is a raspberry pi zero based diy video-instrument for live performance.
-
-![alt text](img/splash.gif "Splash Screen")
 
 ![alt text](img/72866968_381929056028968_3517549739790827520_n.jpg "recurBoy")
 
@@ -63,3 +60,4 @@ additional parts:
 [composite video jack]: https://www.mouser.de/ProductDetail/CUI/RCJ-024
 [5-way push button]: https://www.aliexpress.com/item/32845147449.html
 
+![alt text](img/splash.gif "Splash Screen")
