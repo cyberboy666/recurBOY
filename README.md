@@ -2,7 +2,7 @@
 
 __recurBOY__ is a raspberry pi zero based diy video-instrument for live performance.
 
-![alt text](img/72866968_381929056028968_3517549739790827520_n.jpg "recurBoy")
+![alt text](img/background.png "recurBoy")
 
 ### motivation
 
