@@ -40,6 +40,8 @@ na | [sd card 8gb] | 1 | 2 |
 na | power-adapter | 1 |  5
 J9 | [5-way push button] | 1 | 1.5
 
+[cheaper 5-way push buttons](https://www.aliexpress.com/item/32998891073.html?spm=a2g0o.cart.0.0.7c183c00s7Cy0m&gps-id=shopcart_buyagain&scm=1007.13440.139630.0&scm_id=1007.13440.139630.0&scm-url=1007.13440.139630.0&pvid=50241eba-8280-43af-a44d-d995130093bc)
+
 aprox total cost : 30euro plus the raspi0 - can get for 5euro from some distributors
 
 additional parts:
