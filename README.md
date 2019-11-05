@@ -32,6 +32,7 @@ SW1-5 | [push buttons + caps from china] | 5 | 1
 RV1-4 | 10k linear pots | 4 | 3
 J1-4 | [thonkicon jack] inputs | 4 | 2
 U1 | [mcp3008 a2d dip] | 1 | 2
+U1 | [IC 16pin socket] | 1 | 0.5
 R1-4 | 1k resistors | 4 | 0.5
 D1-8 | bat85 diodes| 8 | 2
 J8 | 2x20 pin header | 1 in 1 out | 1
