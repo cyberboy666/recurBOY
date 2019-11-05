@@ -23,9 +23,9 @@ this project aims to remove these financial barriers while enabling anyone inter
 
 ## BOM
 
-REF | NAME | NUMBER | APROX COST 
+REF | NAME | NUMBER | APROX COST (euro)
 --- | --- | --- | ---
-na | [raspberry pi zero] | 1 | 5
+na | [raspberry pi zero] | 1 | 12 - 18 (5 if you order your own - price limited to one per customer)
 na | custom pcb 100x100mm | 1 | 5
 J5 | [1.8" screen] | 1 | 4
 SW1-5 | [push buttons + caps from china] | 5 | 1 
