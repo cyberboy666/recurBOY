@@ -46,6 +46,7 @@ font = ImageFont.load_default()
 font_name = "LiberationMono-Regular.ttf"
 font = ImageFont.truetype(font_name, 10)
 font_title = ImageFont.truetype(font_name, 16)
+font_fx = ImageFont.truetype(font_name, 14)
 
 # Define a function to create rotated text.  Unfortunately PIL doesn't have good
 # native support for rotated fonts, but this function can be used to make a
@@ -105,15 +106,15 @@ class Display(object):
 
     def switch_input_mode(self):
         if self.current_mode == 'SAMPLER':
-            self.title = '__SAMPLER_{}_'
+            self.title = '__SAMPLER_{}'
             self.current_title_colour = (255,0,255)
             self.current_list = self.sample_list
         elif self.current_mode == 'SHADERS':
-            self.title = '__SHADERS_{}_'
+            self.title = '__SHADERS_{}'
             self.current_list = self.shader_list
             self.current_title_colour = (255,255,0)
         elif self.current_mode == 'CAMERA':
-            self.title = '__CAMERA___'
+            self.title = '__CAMERA_{}'
             self.current_list = self.camera_list
             self.current_title_colour = (0,255,255)
                 
@@ -128,6 +129,9 @@ class Display(object):
         # print title
         title = self.title.format(self.get_state_symbol(self.play_on))
         draw_rotated_text(disp.buffer, title, (110, 10),270, font_title, fill=(0,0,0), background=self.current_title_colour)
+        if self.fx_on:
+            draw_rotated_text(disp.buffer, '[fx]', (110, 128),270, font_fx, fill=(0,0,0), background=(0,255,255))
+        
         # print content
         for i, value in enumerate(self.get_view_list()):
             if i == self.selected_row - self.current_list_offset:
@@ -138,10 +142,13 @@ class Display(object):
                 draw_rotated_text(disp.buffer, value, (110 - 15 - i*15, 10) ,270, font, fill=(255,255,255), )
 
     def create_fx_screen(self):
-        fx_title = '__FX__{}_'.format(self.get_state_symbol(self.fx_on))
+        fx_title = '__FX__'
         fx_title_colour = (0, 255, 255)
         # print title
         draw_rotated_text(disp.buffer, fx_title, (110, 10),270, font_title, fill=(0,0,0), background=fx_title_colour)
+        if self.fx_on:
+            draw_rotated_text(disp.buffer, '[fx]', (110, 128),270, font_fx, fill=(0,0,0), background=(0,255,255))
+
         # print content
         for i, value in enumerate(self.get_fx_view_list()):
             if i == self.selected_fx_row - self.fx_list_offset:

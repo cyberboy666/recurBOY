@@ -21,7 +21,7 @@
         ["2", "setShaderParam2Cv"],
         ["3", "setShaderSpeedCv"],
 	    ["4", "setShaderParam0"],
-        ["5", "setShaderParam1"],
+        ["5", "setShaderParam1Cv"],
         ["6", "setShaderParam2"],
         ["7", "setShaderSpeed"]
     ],
