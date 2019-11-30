@@ -16,10 +16,10 @@
         ["/player/b/position", "setPlayerPosition"]
     ],
     "ANALOG" : [
-    	["0", "setShaderParam0"],
-        ["1", "setShaderParam1"],
-        ["2", "setShaderParam2"],
-        ["3", "setShaderSpeed"],
+    	["0", "setShaderParam0Cv"],
+        ["1", "setShaderParam1Cv"],
+        ["2", "setShaderParam2Cv"],
+        ["3", "setShaderSpeedCv"],
 	    ["4", "setShaderParam0"],
         ["5", "setShaderParam1"],
         ["6", "setShaderParam2"],

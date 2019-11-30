@@ -20,8 +20,11 @@ void ofApp::setup(){
         fxFbo.allocate(ofGetScreenWidth(), ofGetScreenHeight(), GL_RGB);
     }
     
+    readSettings();
+
     userInput.setupThis("actionMap.json");
     userInput.analogListening();
+    userInput.adcDelay = adcDelay;
 
     sender.setup("localhost", 9000);
 
@@ -108,6 +111,12 @@ void ofApp::draw(){
 
 }
 
+void ofApp::readSettings(){
+    bool parsingSuccessful = settings.open("settings.json");
+    clip1v = settings["CLIP_ON_1V"].asBool();
+    adcDelay = settings["ADC_MICROSEC_DELAY"].asFloat();
+    ofLog() << "clip " << clip1v << "adc delay " << adcDelay;
+}
 
 void ofApp::readActions(){
 
@@ -141,6 +150,10 @@ void ofApp::runAction(string action, string amount){
      else if(action == "setShaderParam1"){ setShaderParam1(ofToFloat(amount));}
      else if(action == "setShaderParam2"){ setShaderParam2(ofToFloat(amount));}
      else if(action == "setShaderSpeed"){ setShaderSpeed(ofToFloat(amount));}
+    else if(action == "setShaderParam0Cv"){ setShaderParam0Cv(ofToFloat(amount));}
+     else if(action == "setShaderParam1Cv"){ setShaderParam1Cv(ofToFloat(amount));}
+     else if(action == "setShaderParam2Cv"){ setShaderParam2Cv(ofToFloat(amount));}
+     else if(action == "setShaderSpeedCv"){ setShaderSpeedCv(ofToFloat(amount));}
  }
 
 void ofApp::exit(){
@@ -201,7 +214,6 @@ void ofApp::playSwitch(){
 }
 
 void ofApp::setShaderParam0(float value){
-    ofLog() << "setShaderParam0 ";
     if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
         shaderPlayer.shaderParams[0] = value;
     }
@@ -217,7 +229,6 @@ void ofApp::setShaderParam1(float value){
     else{
         fxPlayer.shaderParams[1] = value;
     }
-
 }
 
 void ofApp::setShaderParam2(float value){
@@ -230,6 +241,46 @@ void ofApp::setShaderParam2(float value){
 }
 
 void ofApp::setShaderSpeed(float value){
+    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
+        shaderPlayer.setSpeed(value);
+    }
+    else{
+        fxPlayer.setSpeed(value);
+    }
+}
+
+void ofApp::setShaderParam0Cv(float value){
+    if(clip1v){value = value * 5.0;}
+    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
+        shaderPlayer.shaderParams[0] = value;
+    }
+    else{
+        fxPlayer.shaderParams[0] = value;
+    }
+}
+
+void ofApp::setShaderParam1Cv(float value){
+    if(clip1v){value = value * 5.0;}
+    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
+        shaderPlayer.shaderParams[1] = value;
+    }
+    else{
+        fxPlayer.shaderParams[1] = value;
+    }
+}
+
+void ofApp::setShaderParam2Cv(float value){
+    if(clip1v){value = value * 5.0;}
+    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
+        shaderPlayer.shaderParams[2] = value;
+    }
+    else{
+        fxPlayer.shaderParams[2] = value;
+    }
+}
+
+void ofApp::setShaderSpeedCv(float value){
+    if(clip1v){value = value * 5.0;}
     if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
         shaderPlayer.setSpeed(value);
     }

@@ -29,6 +29,11 @@ class ofApp : public ofBaseApp{
     conjur fxPlayer;
     captur videoInput;
 
+    ofxJSONElement settings;
+    bool clip1v;
+    float adcDelay; 
+
+    void readSettings();
     void readActions();
 	void runAction(string action, string amount);
 
@@ -57,6 +62,10 @@ class ofApp : public ofBaseApp{
     void setShaderParam1(float value);
     void setShaderParam2(float value);
     void setShaderSpeed(float value);
+    void setShaderParam0Cv(float value);
+    void setShaderParam1Cv(float value);
+    void setShaderParam2Cv(float value);
+    void setShaderSpeedCv(float value);
 
     vector<string> getPathsInFolder(string folderPath, string source);
     vector<string> getPathFromInternalAndExternal(string source);
