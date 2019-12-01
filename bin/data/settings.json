@@ -1,4 +1,5 @@
 {
     "CLIP_ON_1V": true,
-    "ADC_SEC_DELAY": 0.5
+    "ADC_SEC_DELAY": 0.005,
+    "DEV_MODE": false
 }

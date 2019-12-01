@@ -31,6 +31,7 @@ class ofApp : public ofBaseApp{
 
     ofxJSONElement settings;
     bool clip1v;
+    bool isDev;
     float adcDelay; 
 
     void readSettings();

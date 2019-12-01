@@ -4,8 +4,10 @@
 void ofApp::setup(){
 	ofBackground(0, 0, 0);
     ofSetFrameRate(25);
-	ofSetVerticalSync(false);
-    bool isDev = false;
+    ofSetVerticalSync(false);
+    
+    readSettings();
+
 	//ofSleepMillis(10000);
     if(isDev){
         ofSetFullscreen(0);
@@ -20,7 +22,6 @@ void ofApp::setup(){
         fxFbo.allocate(ofGetScreenWidth(), ofGetScreenHeight(), GL_RGB);
     }
     
-    readSettings();
 
     userInput.setupThis("actionMap.json");
     userInput.analogListening();
@@ -114,9 +115,9 @@ void ofApp::draw(){
 void ofApp::readSettings(){
     bool parsingSuccessful = settings.open("settings.json");
     clip1v = settings["CLIP_ON_1V"].asBool();
-    adcDelay = settings["ADC_MICROSEC_DELAY"].asFloat();
-    ofLog() << "clip " << clip1v << "adc delay " << adcDelay;
-}
+    adcDelay = settings["ADC_SEC_DELAY"].asFloat();
+    isDev = settings["DEV_MODE"].asBool();
+    }
 
 void ofApp::readActions(){
 
@@ -260,7 +261,9 @@ void ofApp::setShaderParam0Cv(float value){
 }
 
 void ofApp::setShaderParam1Cv(float value){
+    ofLog() << "input value " << value;
     if(clip1v){value = value * 5.0;}
+    ofLog() << "input value " << value;
     if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
         shaderPlayer.shaderParams[1] = value;
     }
