@@ -73,8 +73,6 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    lastGetTime = nowGetTime;
-
     readActions();
 
     if(playingMode == "SAMPLER" && playOn){
@@ -113,6 +111,7 @@ void ofApp::draw(){
         fbo.draw(0,0, ofGetWidth(), ofGetHeight());
     }
 
+    if(showFramerate){printFramerate();}
 }
 
 void ofApp::readSettings(){
@@ -121,6 +120,7 @@ void ofApp::readSettings(){
     adcDelay = settings["ADC_SEC_DELAY"].asFloat();
     isDev = settings["DEV_MODE"].asBool();
     appFramerate = settings["FRAMERATE"].asInt();
+    showFramerate = settings["SHOW_FRAMERATE"].asBool();
     }
 
 void ofApp::readActions(){
@@ -553,6 +553,14 @@ void ofApp::renameNewSample(){
     //system("mv " + rawPath + " " + newPath);
     raw.moveTo(newPath, false);       
     }    
+}
+
+void ofApp::printFramerate(){
+    stringstream info;
+    float framerate = roundf(ofGetFrameRate());
+    info << "FPS: " << framerate ;
+    ofDrawBitmapStringHighlight(info.str(), 50, 50, ofColor::black, ofColor::yellow);
+
 }
 
 void ofApp::checkSafeShutdown(){

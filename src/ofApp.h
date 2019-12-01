@@ -32,9 +32,11 @@ class ofApp : public ofBaseApp{
     ofxJSONElement settings;
     bool clip1v;
     bool isDev;
+    bool showFramerate;
     float adcDelay; 
     int appFramerate;
 
+    void printFramerate();
     void readSettings();
     void readActions();
 	void runAction(string action, string amount);
