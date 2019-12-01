@@ -33,6 +33,7 @@ class ofApp : public ofBaseApp{
     bool clip1v;
     bool isDev;
     float adcDelay; 
+    int appFramerate;
 
     void readSettings();
     void readActions();

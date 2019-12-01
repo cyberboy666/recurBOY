@@ -3,10 +3,11 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofBackground(0, 0, 0);
-    ofSetFrameRate(25);
+
     ofSetVerticalSync(false);
     
     readSettings();
+    ofSetFrameRate(appFramerate);
 
 	//ofSleepMillis(10000);
     if(isDev){
@@ -72,6 +73,8 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    lastGetTime = nowGetTime;
+
     readActions();
 
     if(playingMode == "SAMPLER" && playOn){
@@ -117,6 +120,7 @@ void ofApp::readSettings(){
     clip1v = settings["CLIP_ON_1V"].asBool();
     adcDelay = settings["ADC_SEC_DELAY"].asFloat();
     isDev = settings["DEV_MODE"].asBool();
+    appFramerate = settings["FRAMERATE"].asInt();
     }
 
 void ofApp::readActions(){
