@@ -107,7 +107,7 @@ open `sudo nano /lib/systemd/system/systemd-udevd.service` and change MountFlags
 
 `crontab -e` and pick 2, at bottom of the file add the start command:
 
-`@reboot sh /home/pi/openframeworks10.1/apps/myApps/recurBOY/startRecurBoy.sh`
+`@reboot sh /home/pi/openframeworks10.1/apps/myApps/recurBOY/startRecurBoy`
 
 ## still to do:
 
