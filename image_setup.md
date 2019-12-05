@@ -120,6 +120,8 @@ open `sudo nano /lib/systemd/system/systemd-udevd.service` and change MountFlags
 
 To log into the internal storage of the Raspberry Pi Zero, follow the instructions on [this website](http://www.circuitbasics.com/raspberry-pi-zero-ethernet-gadget/).
 
+Once you manage to SSH into the Raspberry Pi Zero, type in the default username: ```pi``` and the password: ```raspberry```. 
+
 Once you are inside to copy files from your Windows computer to the internal Storage do: 
 
 ### For Videos:
