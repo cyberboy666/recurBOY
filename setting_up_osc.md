@@ -1,5 +1,7 @@
 # Step 1. Set up your raspberry pi as a Wireless Access Point
 
+*Important! Make sure to do all this once you have downloaded all the packages (npm install, updates, etc) you need from internet, you won't be able to access the internet once you set up your Pi as a Wireless Access Point.* 
+
 To set up your raspberry pi zero W as a wireless access point, [follow these instructions](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md).
 
 # Step 2. Install Node on the raspberry pi
