@@ -1,8 +1,8 @@
-# Step 1
+# Step 1. Set up your raspberry pi as a Wireless Access Point
 
 To set up your raspberry pi zero W as a wireless access point, [follow these instructions](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md).
 
-# Step 2
+# Step 2. Install Node on the raspberry pi
 
 So first of all type this in your terminal on raspberry pi to detect the version that you need:
 
@@ -26,4 +26,7 @@ or doing ssh into the pi and copying the files to the pi from the terminal of yo
 
 ```"C:\Program Files\PuTTY\pscp.exe" node-v10.17.0-linux-armv6l.tar.gz pi@192.168.4.1:/home/pi```
 
+Then extract the file:
+
+```tar -xzf node-v10.17.0-linux-armv6l.tar.gz```
 
