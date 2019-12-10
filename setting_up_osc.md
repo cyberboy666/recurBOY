@@ -40,7 +40,7 @@ sudo cp -R * /usr/local/
 
 Now run: ```node -v``` to verify that node was installed correctly.
 
-# Install socket.io
+# Step 3. Install socket.io
 
 If you haven't set up the wireless port yet, the connectivity of your Raspberry Pi W should work, in that case, type: 
 ```npm install socket.io --save``` and npm should install the package for you. 
