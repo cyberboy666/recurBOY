@@ -50,6 +50,7 @@ or
 If you didn't follow the steps in order, and you set up the Wireless Access Point before, you won't have access to internet, so you'll need to download the package on your computer, pass it through SSH to the Raspberry Pi and then install it from there.
 
 The steps for that unfortunate case are:
+
 1. Download [the zip file of socket.io from github.com](https://github.com/socketio/socket.io/)
 2. Extract the zip file and go inside the folder in your terminal: ```cd socket.io-master```
 3. Run ```npm install``` inside socket.io-master so you download all dependencies and generate the node_modules folder. 
@@ -61,6 +62,7 @@ In my case it ended up like this:
   ],
  ```
  This will put all the dependencies also inside of the tarball, because you won't have internet to download them in the offline pi. 
+ 
  5. Run  ```npm pack ``` in your terminal. This will generate a tarball (.tgz or tar.gz) file. 
  6. Transfer the tarball file to the pi via SSH from the terminal from the folder where the file is stored, I did ```C:\Program Files\PuTTY\pscp.exe" socket.io-2.3.0.tgz pi@192.168.4.1:/home/pi```
  7. SSH into the PI with Putty and do ```ls```. Your tarball file should be listed there.
