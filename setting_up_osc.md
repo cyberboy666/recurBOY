@@ -35,3 +35,6 @@ Finally copy node to its final location and expose it as a global command:
 cd node-v6.11.1-linux-armv6l/
 sudo cp -R * /usr/local/
 ```
+
+Now run: ```node -v``` to verify that node was installed correctly.
+
