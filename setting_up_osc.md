@@ -64,6 +64,22 @@ In my case it ended up like this:
  This will put all the dependencies also inside of the tarball, because you won't have internet to download them in the offline pi. 
  
  5. Run  ```npm pack ``` in your terminal. This will generate a tarball (.tgz or tar.gz) file. 
- 6. Transfer the tarball file to the pi via SSH from the terminal from the folder where the file is stored, I did ```C:\Program Files\PuTTY\pscp.exe" socket.io-2.3.0.tgz pi@192.168.4.1:/home/pi```
+ 6. Transfer the tarball file to the pi via SSH from the terminal from the folder where the file is stored, I did ```"C:\Program Files\PuTTY\pscp.exe" socket.io-2.3.0.tgz pi@192.168.4.1:/home/pi```
  7. SSH into the PI with Putty and do ```ls```. Your tarball file should be listed there.
  8. Run ```npm install ./socket.io-2.3.0.tgz --save``` to install the library in offline mode. 
+
+# Step 4. Install node-osc
+
+Now we need to install a node osc package (there are plenty online) to be able to send OSC messages between the different parts of the app. We have chosen node-osc. 
+
+If your Pi has connection to Internet do simply ```npm install node-osc --save``` in the root of the project. 
+
+If your Raspberry Pi is offline we need, again, to take the long road:
+
+1. [Download the node-osc zip](https://github.com/MylesBorins/node-osc).
+2. Extract the file and go into the folder ```cd node-osc-current```
+3. Run ```npm install```
+4. Open the packages.json file and copy the names of the dependencies into an array in bundledDependencies like this: ```"bundledDependencies":["jspack", "osc-min"],``` (this may change for future versions, this is valid for version 4.1.4.
+5. Run ```npm pack``` to get your tarball file. 
+6. Copy the file over SSH from the computer terminal to the Pi with the command ```"C:\Program Files\PuTTY\pscp.exe" node-osc-4.1.4.tgz pi@192.168.4.1:/home/pi```
+7. Inside the Raspberry Pi do:  ```npm install ./node-osc-4.1.4.tgz --save```. Phew!!
