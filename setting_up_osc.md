@@ -83,3 +83,22 @@ If your Raspberry Pi is offline we need, again, to take the long road:
 5. Run ```npm pack``` to get your tarball file. 
 6. Copy the file over SSH from the computer terminal to the Pi with the command ```"C:\Program Files\PuTTY\pscp.exe" node-osc-4.1.4.tgz pi@192.168.4.1:/home/pi```
 7. Inside the Raspberry Pi do:  ```npm install ./node-osc-4.1.4.tgz --save```. Phew!!
+
+# Step 5. Install python-osc
+
+Now we need to install the python library that will communicate with the Python project (in this case, r_e_c_u_r). 
+
+This has to be done also on the Pi, if the Raspberry Pi is connected to the internet, do ```pip3 install python-osc``` in the folder project. Also copy the ```py-osc-server.py``` file to the folder project. 
+
+If your rasppi is offline, you need to:
+
+1. Download the [python-osc's zip file](https://pypi.org/project/python-osc/#files) on your computer
+2. Transfer the file to the Raspberry pi with our accustomed ```"C:\Program Files\PuTTY\pscp.exe" etc...```. 
+3. Type ```tar -xvf python-osc-1.7.3.tar.gz``` to uncompress the tar to a folder. 
+4. Type ```pip3 install python-osc-1.7.3``` and you should be good to go. 
+
+Now run ```python3 py-osc-server.py``` to have the OSC server listening for messages and do ```npm start``` (will run ```webserver.js```) to start up the node server.
+
+# And Finally!!! 
+
+When you connect to the address ```http://192.168.4.1:8000``` (or whatever port you have configured in webserver), you will be able to send messages to the node app, and from the node app to any application with OSC activated on port 5233 (defined in ```py-osc-server.py``` and in ```webserver.js```)
