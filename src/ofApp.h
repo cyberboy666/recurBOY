@@ -18,7 +18,7 @@ class ofApp : public ofBaseApp{
     void sendListMessage(string address, vector<string> list);
     void sendIntMessage(string address, int value);
     void sendStringMessage(string address, string value);
-
+//    bool alphabetical(string a, string b);
 
 	void keyPressed(int key);
     ofFbo fbo;

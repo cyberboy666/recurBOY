@@ -265,9 +265,7 @@ void ofApp::setShaderParam0Cv(float value){
 }
 
 void ofApp::setShaderParam1Cv(float value){
-    ofLog() << "input value " << value;
     if(clip1v){value = value * 5.0;}
-    ofLog() << "input value " << value;
     if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
         shaderPlayer.shaderParams[1] = value;
     }
@@ -367,7 +365,7 @@ void ofApp::switchInput(){
     }
     else if(selectedInputMode == "CAMERA"){
         if(!isCameraOn){currentList = {"start"};}
-        else{currentList = {"record"};}
+        //else{currentList = {"record"};}
         
     } 
 
@@ -425,6 +423,8 @@ void ofApp::sendListMessage(string address, vector<string> list){
     sender.sendMessage(response, true);
 }
 
+bool alphabetical(string a, string b){return a<b;}
+
 vector<string> ofApp::getPathFromInternalAndExternal(string mode){
     // get a list of external devices
     vector<string> deviceList = {"/media/usb0"}; 
@@ -451,9 +451,16 @@ vector<string> ofApp::getPathFromInternalAndExternal(string mode){
     // get the source files from the internal path
     vector<string> internalFiles = getPathsInFolder("/home/pi" + sourcePath, mode);
     sourceList.insert(sourceList.end(), internalFiles.begin(), internalFiles.end());
+    
+    ofSort(sourceList, alphabetical);
+
+    for(int i = 0; i < sourceList.size(); i++){
+        ofLog() << "sortlist " << sourceList[i];
+    }
 
     return sourceList;
 }
+
 
 vector<string> ofApp::getPathsInFolder(string folderPath, string mode){
     vector<string> thisList; 
@@ -568,7 +575,7 @@ void ofApp::checkSafeShutdown(){
     float timeDiff = nowGetTime - safeShutdownLastTime;
     if(timeDiff < 0.5){safeShutdownCount++;}
     else{safeShutdownCount = 0;}
-    if(safeShutdownCount > 8){
+    if(safeShutdownCount > 5){
         ofLog() << "do the shutdown now !!";
         system("sudo shutdown -h now");
     }
