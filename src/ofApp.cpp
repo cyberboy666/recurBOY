@@ -96,7 +96,7 @@ void ofApp::update(){
         fbo.end();
     }
     if(fxOn){
-    fxFbo = fxPlayer.apply({fbo.getTexture()});
+    fxFbo = fxPlayer.apply({fbo.getTexture(), fxFbo.getTexture()});
     }
 
     if(isCameraRecording){ checkRecording();}
@@ -151,6 +151,7 @@ void ofApp::runAction(string action, string amount){
      else if(action == "fxSwitch"){ fxSwitch();}
      else if(action == "playSwitch"){ playSwitch();}
      else if(action == "switchInput"){ switchInput();}
+     else if(action == "stepShaderParam0"){ stepShaderParam0();}
      else if(action == "setShaderParam0"){ setShaderParam0(ofToFloat(amount));}
      else if(action == "setShaderParam1"){ setShaderParam1(ofToFloat(amount));}
      else if(action == "setShaderParam2"){ setShaderParam2(ofToFloat(amount));}
@@ -218,8 +219,19 @@ void ofApp::playSwitch(){
     sendIntMessage("/playOn", playOnInt);
 }
 
+void ofApp::stepShaderParam0(){
+    stepParam0Value = (stepParam0Value + 1) % 10;
+    float amountToSet = (float)stepParam0Value/10.0;
+    ofLog() << "amount is " << ofToString(amountToSet);
+    setShaderParam0(amountToSet);
+} 
+
 void ofApp::setShaderParam0(float value){
-    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
+    if(selectedInputMode == "SHADER
+
+
+
+S" && !fxScreenVisible ){
         shaderPlayer.shaderParams[0] = value;
     }
     else{

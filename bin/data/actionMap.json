@@ -44,6 +44,7 @@
         ["p", "enter" ],
         ["f", "fxSwitch" ],
         ["r", "playSwitch"],
-        ["c", "switchInput" ]
+        ["c", "switchInput" ],
+        ["1", "stepShaderParam0"]
     ]
 }

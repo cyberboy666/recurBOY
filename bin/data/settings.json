@@ -1,5 +1,5 @@
 {
-    "CLIP_ON_1V": true,
+    "CLIP_ON_1V": false,
     "ADC_SEC_DELAY": 0.03,
     "DEV_MODE": false,
     "SHOW_FRAMERATE": false,
