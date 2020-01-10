@@ -1,7 +1,7 @@
 {
     "CLIP_ON_1V": false,
     "ADC_SEC_DELAY": 0.03,
-    "DEV_MODE": false,
+    "DEV_MODE": true,
     "SHOW_FRAMERATE": false,
     "FRAMERATE": 30
 }

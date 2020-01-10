@@ -152,6 +152,8 @@ void ofApp::runAction(string action, string amount){
      else if(action == "playSwitch"){ playSwitch();}
      else if(action == "switchInput"){ switchInput();}
      else if(action == "stepShaderParam0"){ stepShaderParam0();}
+     else if(action == "stepShaderParam1"){ stepShaderParam1();}
+     else if(action == "stepShaderParam2"){ stepShaderParam2();}
      else if(action == "setShaderParam0"){ setShaderParam0(ofToFloat(amount));}
      else if(action == "setShaderParam1"){ setShaderParam1(ofToFloat(amount));}
      else if(action == "setShaderParam2"){ setShaderParam2(ofToFloat(amount));}
@@ -224,14 +226,24 @@ void ofApp::stepShaderParam0(){
     float amountToSet = (float)stepParam0Value/10.0;
     ofLog() << "amount is " << ofToString(amountToSet);
     setShaderParam0(amountToSet);
+}
+
+void ofApp::stepShaderParam1(){
+    stepParam1Value = (stepParam1Value + 1) % 10;
+    float amountToSet = (float)stepParam1Value/10.0;
+    ofLog() << "amount is " << ofToString(amountToSet);
+    setShaderParam1(amountToSet);
+}
+
+void ofApp::stepShaderParam2(){
+    stepParam2Value = (stepParam2Value + 1) % 10;
+    float amountToSet = (float)stepParam2Value/10.0;
+    ofLog() << "amount is " << ofToString(amountToSet);
+    setShaderParam2(amountToSet);
 } 
 
 void ofApp::setShaderParam0(float value){
-    if(selectedInputMode == "SHADER
-
-
-
-S" && !fxScreenVisible ){
+    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
         shaderPlayer.shaderParams[0] = value;
     }
     else{

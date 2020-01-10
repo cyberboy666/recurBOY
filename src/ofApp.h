@@ -72,7 +72,11 @@ class ofApp : public ofBaseApp{
     void setShaderSpeedCv(float value);
 
     void stepShaderParam0();
+    void stepShaderParam1();
+    void stepShaderParam2();
     int stepParam0Value;
+    int stepParam1Value;
+    int stepParam2Value;
 
     vector<string> getPathsInFolder(string folderPath, string source);
     vector<string> getPathFromInternalAndExternal(string source);
