@@ -23,23 +23,23 @@ this project aims to remove these financial barriers while enabling anyone inter
 
 ## BOM
 
-REF | NAME | NUMBER | APROX COST (euro)
---- | --- | --- | ---
-na | [raspberry pi zero] | 1 | 12 - 18 (5 if you order your own - price limited to one per customer)
-na | custom pcb 100x100mm | 1 | 5
-J5 | [1.8" screen] | 1 | 4
-SW1-5 | [push buttons + caps from china] | 5 | 1 
-RV1-4 | 10k linear pots | 4 | 3
-J1-4 | [thonkicon jack] inputs | 4 | 2
-U1 | [mcp3008 a2d dip] | 1 | 2
-U1 | IC 16pin socket | 1 | 0.5
-R1-4 | 1k resistors | 4 | 0.5
-D1-8 | bat85 diodes| 8 | 2
-J8 | 2x20 pin header | 1 in 1 out | 1
-J7 | [composite video jack] | 1 | 1
-na | [sd card 8gb] | 1 | 2 |
-na | power-adapter | 1 |  5
-J9 | [5-way push button] | 1 | 1.5
+REF | NAME | NUMBER | REF | APROX COST (euro)
+--- | --- | --- | --- | ---
+na | [raspberry pi zero] | 1 | NA | 5, 12 - 18
+na | custom pcb 100x100mm | 1 | NA | 5
+J5 | [1.8" screen] | 1 | NA | 4
+SW1-5 | [push buttons + caps] | 5 | NA | 1 
+RV1-4 | 10k linear pots | 4 | PTV09A-4020U-B103 (mouser) | 3
+J1-4 | [thonkicon jack] inputs | 4 | A-2563  | 2
+U1 | [mcp3008 a2d dip] | 1 | A-2470 | 2
+U1 | IC 16pin socket | 1 | A-003 | 0.5
+R1-4 | 1k resistors | 4 | A-3772 | 0.5
+D1-8 | bat46 diodes| 8 | A-1095 | 2
+J8 | 2x20 pin header | 1 in 1 out | A-195 , 1/2 of A-196 | 1
+J7 | [composite video jack] | 1 | 490-RCJ-024 (mouser) | 1
+na | [sd card 8gb] | 1 | NA | 2 |
+na | power-adapter | 1 | A-3167 (US) , A-3166 (EU) |  5
+J9 | [5-way push button] | 1 | NA | 1.5
 
 [cheaper 5-way push buttons](https://www.aliexpress.com/item/32998891073.html?spm=a2g0o.cart.0.0.7c183c00s7Cy0m&gps-id=shopcart_buyagain&scm=1007.13440.139630.0&scm_id=1007.13440.139630.0&scm-url=1007.13440.139630.0&pvid=50241eba-8280-43af-a44d-d995130093bc)
 
