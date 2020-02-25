@@ -29,7 +29,7 @@ na | [raspberry pi zero] | 1 | NA | 5, 12 - 18
 na | custom pcb 100x100mm | 1 | NA | 5
 J5 | [1.8" screen] | 1 | NA | 4
 SW1-5 | [push buttons + caps] | 5 | NA | 1 
-RV1-4 | 10k linear pots | 4 | PTV09A-4020U-B103 (mouser) | 3
+RV1-4 | 10k linear pots | 4 | PTV09A-4025UB103 (mouser) | 3
 J1-4 | [thonkicon jack] inputs | 4 | A-2563  | 2
 U1 | [mcp3008 a2d dip] | 1 | A-2470 | 2
 U1 | IC 16pin socket | 1 | A-003 | 0.5
