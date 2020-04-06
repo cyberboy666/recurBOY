@@ -73,8 +73,8 @@ additional parts:
 
 2. This is where the usb cable goes if you are looking at the recurBoy from the front. It has to be on the right side of the raspberrypi zero. You will need the usb adapter that's part of your kit. The usb stick needs to be inserted BEFORE you turn on your recurBoy. 
 
-It's all explained in the booklet, please take care of it. 
+![alt text](img/usb-where.png "where to put usb" | width=300)
 
-![alt text](img/usb-where.png "where to put usb")
+It's all explained in the booklet, please take care of it. 
 
 ![alt text](img/splash.gif "Splash Screen")
