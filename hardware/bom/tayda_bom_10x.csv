@@ -1,0 +1,7 @@
+sku,qty,ref,val,vendor
+A-1095,80,D1 D2 D3 D4 D5 D6 D7 D8 ,bat46,tayda
+A-2563,40,J1 J2 J3 J4 ,mono_jack_3.5mm,tayda
+A-2956,10,J10 ,europower,tayda
+A-2200,40,R1 R2 R3 R4 ,1K,tayda
+A-5531,40,RV1 RV2 RV3 RV4 ,10k_pot,tayda
+A-2470,10,U1 ,mcp3008,tayda
