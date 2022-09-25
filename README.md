@@ -170,6 +170,17 @@ the 4 knobs / cv inputs will control parameters of the effect when source SHADER
 
 ### more info
 
+<details><summary><b>switching between pal and ntsc</b></summary>
+
+- to switch the video format that your recurBOY uses, power down the device and put the sd card into a computer.
+- now inside the `boot` partition look for a file called `config.txt`
+- open it with any text editor and search for `sdtv_mode`
+- here you can switch between `0` for _normal ntsc_ and `2` for _normal pal_
+- save the file, safely eject the sd and put it back into the pi
+- see [docs](https://www.raspberrypi.com/documentation/computers/config_txt.html#sdtv_mode) here for more settings
+
+</details>
+
 <details><summary><b>what are shaders anyway?</b></summary>
   
 shaders are small text files of code that tell a graphics card what to draw. they use a language called glsl to communicate what colour a pixel should be and where. you don't have to understand every line to begin playing around with them.
