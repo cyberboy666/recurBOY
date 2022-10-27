@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "footprintsRecurBOY")(type "KiCad")(uri "${KIPRJMOD}/footprintsRecurBOY.pretty")(options "")(descr ""))
+  (lib (name "lib_fp")(type "KiCad")(uri "${KIPRJMOD}/lib_fp.pretty")(options "")(descr ""))
+)
