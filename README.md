@@ -4,7 +4,7 @@
 
 [3d rendered circuit image goes here]
 
-- this circuit is distributed by __UNDERSCORES__ - _an open video hardware label_ : it is available to purchase - as a pcb, kit or assembled unit - at [underscores.shop](https://underscores.shop/_recurboy_/)
+- this circuit is distributed by __UNDERSCORES__ - _an open video hardware label_ : it is available to purchase - as a pcb, kit or assembled unit - at [underscores.shop](https://underscores.shop/product/recurboy/)
 - the schematic for the circuit can be found [here](/hardware/schematic.pdf)
 - the pcb gerber files for the lastest version can be found [here](/hardware/gerber_latest.zip)
 - interactive BOM is [here](https://htmlpreview.github.io/?https://github.com/cyberboy666/recurBOY/blob/main/hardware/bom/ibom.html)
