@@ -2,12 +2,12 @@ sku,qty,ref,val,vendor
 A-1095,8,D1 D2 D3 D4 D5 D6 D7 D8 ,bat46,tayda
 A-2563,4,J1 J2 J3 J4 ,mono_jack_3.5mm,tayda
 A-2956,1,J10 ,europower,tayda
--,1,J5 ,display_1.8
--,1,J6 ,tv_out
--,1,J7 ,rca
--,1,J8 ,Raspberry_Pi_header
--,1,J9 ,push_5way
+-,1,J5 ,display_1.8, -
+-,1,J6 ,tv_out, -
+-,1,J7 ,rca, -
+-,1,J8 ,Raspberry_Pi_header, -
+-,1,J9 ,push_5way, -
 A-2200,4,R1 R2 R3 R4 ,1K,tayda
 A-5531,4,RV1 RV2 RV3 RV4 ,10k_pot,tayda
--,5,SW1 SW2 SW3 SW4 SW5 ,push_12mm
+-,5,SW1 SW2 SW3 SW4 SW5 ,push_12mm, -
 A-2470,1,U1 ,mcp3008,tayda
