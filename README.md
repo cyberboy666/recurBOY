@@ -8,6 +8,7 @@
 - the schematic for the circuit can be found [here](/hardware/schematic.pdf)
 - the pcb gerber files for the lastest version can be found [here](/hardware/gerber_latest.zip)
 - interactive BOM is [here](https://htmlpreview.github.io/?https://github.com/cyberboy666/recurBOY/blob/main/hardware/bom/ibom.html)
+- link to latest rpi image is [here](https://s3.eu-central-1.wasabisys.com/underscores-storage/recurBoyFeb2020.img.gz)
 - consider [donating](https://opencollective.com/underscores) to the underscores project to help us continue creating for the commons
 
 ## description
