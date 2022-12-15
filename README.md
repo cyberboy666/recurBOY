@@ -69,6 +69,42 @@ take a look at the [full_bom](/hardware/bom/full_bom.csv) for this project to se
 - ensure that __Mouser Part Number__ is selected in the dropdown above the first row, then _next_, _process_
 - if everything looks correct can now put _add to basket_
 
+## sourcing __other__ specific parts
+
+the recurBOY has a few less common parts that can not be found at either tayda or mouser.
+
+### 1.8 inch tft display (ST7735S)
+
+i use the [cuiisw](https://www.aliexpress.com/item/32996979276.html?spm=a2g0o.order_list.order_list_main.54.7f261802dUZENo) on _aliexpress_ - however there are many different brands with compatable products, both on ali, amazon and ebay etc...
+
+to tell if a display you are looking at is compatable, check for the following things:
+- 1.8inch in size (128x160px), rgb and tft - _not_ oled etc
+- uses ST7735S driver over SPI
+- pins order match the cuiisw one: __GND | VDD | SCL | SDA | RST | DC | CS | BLK__
+
+![image](https://user-images.githubusercontent.com/12017938/207747804-26faaa6e-4a90-4c68-87eb-1ffc2de48d17.png)
+
+![image](https://user-images.githubusercontent.com/12017938/207747759-d8ddd5a7-f43c-4782-8fd7-5ee011fd5943.png)
+
+for example, i can tell that the [waveshare](https://www.waveshare.com/1.8inch-lcd-module.htm) version is __NOT__ compatable, since although the size and type and driver all match, the _pin order is different_ (they break the pins out to: _BL | RST | DC | CS | CL | DIN | GND | VCC_ )
+
+(this is a shame since i usually recommend waveshare as a reliable supply for these kinds of things if people are less happy to source through ali)
+
+### 5 way tact switch
+
+to save space on the interface we used this 5 way tact switch (10x10mm through hole) - also sourced from [aliexpress](https://www.aliexpress.com/item/4000590085207.html) - you can find these on other places such as amazon and ebay aswell.
+
+![image](https://user-images.githubusercontent.com/12017938/207749550-0d12a8e7-d50b-4868-9567-5842c159ec25.png)
+
+main thing to look for here is that they are the right size, and the switch is through hole (tht) - as there are other surface mount versions around too.
+
+### other parts to source
+
+- 2x20 pin header [from tayda](https://www.taydaelectronics.com/2x20-pin-2-54mm-double-row-female-pin-header.html) if your rpi_zero doesnt come with this, + strip of [header pins](https://www.taydaelectronics.com/40-pin-2-54-mm-single-row-pin-header-strip.html) you can cut two from to solder onto the tv_out pins, 
+- caps for the 12x12mm switches can be found on [tayda](https://www.taydaelectronics.com/electromechanical/switches-key-pad/tact-switch/round-tactile-push-button-cap-blue-color.html) in a few differnt colours. also can be got on ali/elsewhere
+- caps for the 5way tact switch can also be found on [aliexpress](https://www.aliexpress.com/item/32810107963.html) or elsewhere Diameter: __8.5 MM * 10.5 MM high Inner hole: 3.1 * 3.1 MM__
+- the __raspberry pi zero__ itself - see here
+
 # ordering pcbs
 
 you can support this project by buying individual pcbs from the [shop](https://underscores.shop). if you would rather have pcbs fabricated from gerbers directly the file you need is [here](/hardware/gerber_latest.zip) 
