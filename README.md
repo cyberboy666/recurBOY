@@ -7,7 +7,9 @@
 - this circuit is distributed by __UNDERSCORES__ - _an open video hardware label_ : it is available to purchase - as a pcb, kit or assembled unit - at [underscores.shop](https://underscores.shop/_recurboy_/)
 - the schematic for the circuit can be found [here](/hardware/schematic.pdf)
 - the pcb gerber files for the lastest version can be found [here](/hardware/gerber_latest.zip)
-- consider [donating](https://liberapay.com/underscores/) to the underscores project to help us continue creating for the commons
+- interactive BOM is [here](https://htmlpreview.github.io/?https://github.com/cyberboy666/recurBOY/blob/main/hardware/bom/ibom.html)
+- link to latest rpi image is [here](https://s3.eu-central-1.wasabisys.com/underscores-storage/recurBoyFeb2020.img.gz)
+- consider [donating](https://opencollective.com/underscores) to the underscores project to help us continue creating for the commons
 
 ## description
 
@@ -35,7 +37,7 @@ recurBOY was originally designed in 2019 by tim & guergana to be built together 
 
 # documentation
 
-this project is fully _open-source hardware_ - all the files required to build it are included in this repo for free. if you have the time and/or skill you can contribute back by collaborating on / testing new designs, improving these docs, making demo videos/other creative content etc. you can also support the project financially by [donating directing](https://liberapay.com/underscores/), or purchasing through the [web shop](https://underscores.shop).
+this project is fully _open-source hardware_ - all the files required to build it are included in this repo for free. if you have the time and/or skill you can contribute back by collaborating on / testing new designs, improving these docs, making demo videos/other creative content etc. you can also support the project financially by [donating directing](https://opencollective.com/underscores), or purchasing through the [web shop](https://underscores.shop).
 
 depending on whether you are going fully diy or buying an assembled and tested unit, some of the following guides will be relavent to you. the flow would be:
 
@@ -54,7 +56,7 @@ take a look at the [full_bom](/hardware/bom/full_bom.csv) for this project to se
 ## import into tayda
 
 - go to the [tayda quick order](https://www.taydaelectronics.com/quick-order/) and in bottom corner choose _add from file_
-- select the file [tayda_bom.csv](../hardware/bom/tayda_bom.csv) in the BOM folder (you will have to download it first or clone this repo)
+- select the file [tayda_bom.csv](./hardware/bom/tayda_bom.csv) in the BOM folder (you will have to download it first or clone this repo)
 - after importing select _add to cart_
 - __NOTE:__ the minimum value for resistors is 10, so you may need to modify these values to add to cart (or if they are already modified here you will need to see the  full_bom for actual part QTY) 
 
@@ -63,9 +65,45 @@ take a look at the [full_bom](/hardware/bom/full_bom.csv) for this project to se
 ## import into mouser
 
 - go to [mouser bom tool](https://nz.mouser.com/Bom/) and click _upload spreadsheet_
-- select the file [mouser_bom.csv](../hardware/bom/mouser_bom.csv) in this folder (you will have to download it first or clone this repo), then _upload my spreadsheet_ and _next_
+- select the file [mouser_bom.csv](./hardware/bom/mouser_bom.csv) in this folder (you will have to download it first or clone this repo), then _upload my spreadsheet_ and _next_
 - ensure that __Mouser Part Number__ is selected in the dropdown above the first row, then _next_, _process_
 - if everything looks correct can now put _add to basket_
+
+## sourcing __other__ specific parts
+
+the recurBOY has a few less common parts that can not be found at either tayda or mouser.
+
+### 1.8 inch tft display (ST7735S)
+
+i use the [cuiisw](https://www.aliexpress.com/item/32996979276.html?spm=a2g0o.order_list.order_list_main.54.7f261802dUZENo) on _aliexpress_ - however there are many different brands with compatable products, both on ali, amazon and ebay etc...
+
+to tell if a display you are looking at is compatable, check for the following things:
+- 1.8inch in size (128x160px), rgb and tft - _not_ oled etc
+- uses ST7735S driver over SPI
+- pins order match the cuiisw one: __GND | VDD | SCL | SDA | RST | DC | CS | BLK__
+
+![image](https://user-images.githubusercontent.com/12017938/207747804-26faaa6e-4a90-4c68-87eb-1ffc2de48d17.png)
+
+![image](https://user-images.githubusercontent.com/12017938/207747759-d8ddd5a7-f43c-4782-8fd7-5ee011fd5943.png)
+
+for example, i can tell that the [waveshare](https://www.waveshare.com/1.8inch-lcd-module.htm) version is __NOT__ compatable, since although the size and type and driver all match, the _pin order is different_ (they break the pins out to: _BL | RST | DC | CS | CL | DIN | GND | VCC_ )
+
+(this is a shame since i usually recommend waveshare as a reliable supply for these kinds of things if people are less happy to source through ali)
+
+### 5 way tact switch
+
+to save space on the interface we used this 5 way tact switch (10x10mm through hole) - also sourced from [aliexpress](https://www.aliexpress.com/item/4000590085207.html) - you can find these on other places such as amazon and ebay aswell.
+
+![image](https://user-images.githubusercontent.com/12017938/207749550-0d12a8e7-d50b-4868-9567-5842c159ec25.png)
+
+main thing to look for here is that they are the right size, and the switch is through hole (tht) - as there are other surface mount versions around too.
+
+### other parts to source
+
+- 2x20 pin header [from tayda](https://www.taydaelectronics.com/2x20-pin-2-54mm-double-row-female-pin-header.html) if your rpi_zero doesnt come with this, + strip of [header pins](https://www.taydaelectronics.com/40-pin-2-54-mm-single-row-pin-header-strip.html) you can cut two from to solder onto the tv_out pins, 
+- caps for the 12x12mm switches can be found on [tayda](https://www.taydaelectronics.com/electromechanical/switches-key-pad/tact-switch/round-tactile-push-button-cap-blue-color.html) in a few differnt colours. also can be got on ali/elsewhere
+- caps for the 5way tact switch can also be found on [aliexpress](https://www.aliexpress.com/item/32810107963.html) or elsewhere Diameter: __8.5 MM * 10.5 MM high Inner hole: 3.1 * 3.1 MM__
+- the __raspberry pi zero__ itself - see [here](/README.md#sourcing-and-preparing-the-raspberry-pi-zero)
 
 # ordering pcbs
 
@@ -126,7 +164,39 @@ you can flash the recurBOY image to a sd card if you didnt get one from me, or t
 
 
 </details>
+
+## sourcing and preparing the raspberry pi zero
+
+<details><summary><b>sourcing and preparing the raspberry pi zero</b></summary>
+
   
+Even if you purchase a fully assembled and tested _recurBOY_ unit through the __underscores__ shop, you will still need to source and prepare the raspberry pi zero yourself.
+  
+recurBOY was designed to work with the first generation of reaspberry pi zeros:
+ 
+- __Raspberry Pi Zero__ (2015) - no csi port, not needed for recurBOY
+- __Raspberry Pi Zero v1.3__ (2016) - same as above but with csi port
+- __Raspberry Pi Zero W__ (2017) - added wifi and bluetooth - wifi can be useful for transfering files wirelessly but not needed
+- __Raspberry Pi Zero WH__ (2018) - same as above but with the 2x20 header pre-soldered
+  
+with all of these versions you will need to solder a 2x1_pin_header to the tv_out pins on the rpi (in line with the gpio header) - this then connects to the recurboy pcb with 2x1_pin_socket soldered on underside of the board:
+  
+![image](https://user-images.githubusercontent.com/12017938/207754805-2adee7a7-f1d2-4663-a62f-74863cc9e2eb.png)
+  
+in 2021 rpi launched [__Raspberry Pi Zero 2 W__](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/) - this is an upgrade to the original series of pi zeros. I have not tested these myself yet with recurBOY (please write me if you do, or have one you want to donate!) but i assume it will just work without any firmware changes needed w recurBOY.
+  
+one difference with this new version however is that they no longer break out the tv_out to pins. for this version you will need to solder jumper wires onto the tv_out pads, which are on the bottom of the board, next to the hdmi port. i would still use a 2x1_pin_header and solder the other end of these wires to it, then plug the header/wires into the recurBOY 2x1_pin_socket (so the pi can more easily be removed)
+  
+![image](https://user-images.githubusercontent.com/12017938/207755632-011a6ce0-013f-44bc-9aff-fe823ee5fb39.png)
+
+in this picture yellow wire = TV, black wire = GND. on the PCB looking at it from the TOP - left pin is GND and right pin is TV
+  
+![image](https://user-images.githubusercontent.com/12017938/207755990-3e3e82aa-9f83-4f30-a2c1-66deb98156ed.png)
+
+
+  
+</details>
+
 ## operating guide
   
 <details><summary><b>operating guide</b> - start here if you have purchased an assembled unit</summary>
