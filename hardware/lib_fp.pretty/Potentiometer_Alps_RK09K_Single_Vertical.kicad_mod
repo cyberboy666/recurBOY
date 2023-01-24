@@ -44,4 +44,9 @@
     (scale (xyz 1 1 1))
     (rotate (xyz 0 0 0))
   )
+  (model "/home/timcaldwell/projects/kicad-3dmodels/9mm-potentiometer-tall-trimmer-1.snapshot.4/R-0904N-L-25KCv2.step"
+    (offset (xyz 7.5 -2 0))
+    (scale (xyz 1 1 1))
+    (rotate (xyz 0 0 -90))
+  )
 )

@@ -1,4 +1,4 @@
-(footprint "1.8_inch_tft_display" (version 20211014) (generator pcbnew)
+(footprint "tht_1.8_inch_tft_display" (version 20211014) (generator pcbnew)
   (layer "F.Cu")
   (tedit 59FED5CC)
   (descr "Through hole straight pin header, 1x08, 2.54mm pitch, single row")
@@ -42,9 +42,14 @@
   (pad "6" thru_hole oval (at 0 12.7) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask) (tstamp 067442a4-5bba-4fba-8538-cd60101b84d4))
   (pad "7" thru_hole oval (at 0 15.24) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask) (tstamp a4a20636-440b-4fb9-9c0d-1773d354adf3))
   (pad "8" thru_hole oval (at 0 17.78) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask) (tstamp a3732d2c-ad8c-4009-b7a6-1acbce6b3a60))
-  (model "${KICAD6_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x08_P2.54mm_Vertical.wrl"
+  (model "${KICAD6_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x08_P2.54mm_Vertical.wrl" hide
     (offset (xyz 0 0 0))
-    (scale (xyz 1 1 1))
+    (scale (xyz 0.9 1 1))
     (rotate (xyz 0 0 0))
+  )
+  (model "/home/timcaldwell/projects/kicad-3dmodels/1-8in-tft-1.snapshot.30/1.8in TFT (Without Glass)- Tucked Cable.stp"
+    (offset (xyz 25.5 -9.5 0))
+    (scale (xyz 0.8 1.05 1))
+    (rotate (xyz 0 0 90))
   )
 )

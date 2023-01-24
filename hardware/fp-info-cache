@@ -1,4 +1,4 @@
-14807254405457
+19873647818685
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -86023,20 +86023,6 @@ varistor SIOV
 2
 2
 lib_fp
-1.8_inch_tft_display
-Through hole straight pin header, 1x08, 2.54mm pitch, single row
-Through hole pin header THT 1x08 2.54mm single row
-0
-8
-8
-lib_fp
-BUT_5_WAY
-6-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils), LongPads
-THT DIP DIL PDIP 2.54mm 7.62mm 300mil LongPads
-0
-6
-6
-lib_fp
 CUI_RCJ-024
 <b>DC POWER JACK</b><p>Source: DCJ0202.pdf
 
@@ -86050,6 +86036,13 @@ Diode DO-35_SOD27 series Axial Vertical pin pitch 5.08mm  length 4mm diameter 2m
 0
 2
 2
+lib_fp
+Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles
+TRS 3.5mm, vertical, Thonkiconn, PCB mount, (http://www.qingpu-electronics.com/en/products/WQP-PJ398SM-362.html)
+WQP-PJ398SM WQP-PJ301M-12 TRS 3.5mm mono vertical jack thonkiconn qingpu
+0
+3
+3
 lib_fp
 Potentiometer_Alps_RK09K_Single_Vertical
 113004U 1130A6S 11300DR 1130A8G 1130081 1130A5R 1130AP5 1130AST  D1130C3W D1130C1B D1130C3C D1130C2P Potentiometer, vertical, Alps RK09K Single, https://tech.alpsalpine.com/prod/e/pdf/potentiometer/rotarypotentiometers/rk09k/rk09k.pdf
@@ -86072,6 +86065,13 @@ Raspberry Pi board model B+, full outline with position of big connectors &amp; 
 40
 40
 lib_fp
+SW_PUSH-12mm
+SW PUSH 12mm https://www.e-switch.com/system/asset/product_line/data_sheet/143/TL1100.pdf
+tact sw push 12mm
+0
+4
+2
+lib_fp
 SW_TAC_12mm
 MEC 5G single pole normally-open tactile switch
 switch normally-open pushbutton push-button
@@ -86085,3 +86085,24 @@ logo
 0
 0
 0
+lib_fp
+tht_1.8_inch_tft_display
+Through hole straight pin header, 1x08, 2.54mm pitch, single row
+Through hole pin header THT 1x08 2.54mm single row
+0
+8
+8
+lib_fp
+tht_sw_5way
+6-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils), LongPads
+THT DIP DIL PDIP 2.54mm 7.62mm 300mil LongPads
+0
+6
+6
+lib_fp
+tht_vertical_rca
+<b>DC POWER JACK</b><p>Source: DCJ0202.pdf
+
+0
+3
+2
