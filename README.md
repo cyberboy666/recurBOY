@@ -2,7 +2,8 @@
 
 ### a raspberrry pi zero video instrument
 
-[3d rendered circuit image goes here]
+![image](https://user-images.githubusercontent.com/12017938/207971116-0152edc6-6a2f-4f87-9789-778365fedfdc.png)
+
 
 - this circuit is distributed by __UNDERSCORES__ - _an open video hardware label_ : it is available to purchase - as a pcb, kit or assembled unit - at [underscores.shop](https://underscores.shop/_recurboy_/)
 - the schematic for the circuit can be found [here](/hardware/schematic.pdf)
