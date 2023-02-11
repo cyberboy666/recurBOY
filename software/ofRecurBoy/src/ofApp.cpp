@@ -60,7 +60,7 @@ void ofApp::setup(){
     selectedInputMode = inputModes[0];
     playingMode = "SAMPLER";
     isSampleImage = true;
-    img.load("/home/pi/openframeworks10.1/apps/myApps/recurBOY/splash.gif");
+    img.load("/home/pi/openframeworks10.1/apps/myApps/ofRecurBoy/splash.gif");
     
     recurPlayer.setup("ofxomxplayer");
 
