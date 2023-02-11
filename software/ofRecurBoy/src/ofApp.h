@@ -43,7 +43,8 @@ class ofApp : public ofBaseApp{
 
 	void exit();
 
-    ofImage splashImg;
+    bool isSampleImage;
+    ofImage img;
 
     bool diskspaceFull();
     bool detectCamera();
@@ -62,22 +63,34 @@ class ofApp : public ofBaseApp{
     void playVideo(string path);
     void closeUnusedInput();
 
+    void setParam0(float value);
+    void setParam1(float value);
+    void setParam2(float value);
+    void setSpeed(float value);
+
     void setShaderParam0(float value);
     void setShaderParam1(float value);
     void setShaderParam2(float value);
     void setShaderSpeed(float value);
-    void setShaderParam0Cv(float value);
-    void setShaderParam1Cv(float value);
-    void setShaderParam2Cv(float value);
-    void setShaderSpeedCv(float value);
 
-    void stepShaderParam0();
-    void stepShaderParam1();
-    void stepShaderParam2();
+    void setEffectParam0(float value);
+    void setEffectParam1(float value);
+    void setEffectParam2(float value);
+    void setEffectSpeed(float value);
+
+    void setParam0Cv(float value);
+    void setParam1Cv(float value);
+    void setParam2Cv(float value);
+    void setSpeedCv(float value);
+
+    void stepParam0();
+    void stepParam1();
+    void stepParam2();
     int stepParam0Value;
     int stepParam1Value;
     int stepParam2Value;
 
+    bool fileIsImageExtension(string path);
     vector<string> getPathsInFolder(string folderPath, string source);
     vector<string> getPathFromInternalAndExternal(string source);
     void checkRecording();

@@ -2,14 +2,13 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	ofBackground(0, 0, 0);
 
+    ofBackground(0, 0, 0);
     ofSetVerticalSync(false);
-    
+    ofHideCursor();
     readSettings();
     ofSetFrameRate(appFramerate);
 
-	//ofSleepMillis(10000);
     if(isDev){
         ofSetFullscreen(0);
         ofSetWindowShape(300,200);
@@ -26,6 +25,7 @@ void ofApp::setup(){
 
     userInput.setupThis("actionMap.json");
     userInput.analogListening();
+    userInput.midiListening(true);
     userInput.adcDelay = adcDelay;
 
     sender.setup("localhost", 9000);
@@ -58,10 +58,11 @@ void ofApp::setup(){
     playingFxRow = -1;
 
     selectedInputMode = inputModes[0];
-    playingMode = "SPLASH";
-    splashImg.load("/home/pi/openframeworks10.1/apps/myApps/recurBOY/splash.gif");
+    playingMode = "SAMPLER";
+    isSampleImage = true;
+    img.load("/home/pi/openframeworks10.1/apps/myApps/recurBOY/splash.gif");
     
-    recurPlayer.setup();
+    recurPlayer.setup("ofxomxplayer");
 
     shaderPlayer.setup();
     fxPlayer.setup();
@@ -75,10 +76,15 @@ void ofApp::setup(){
 void ofApp::update(){
     readActions();
 
-    if(playingMode == "SAMPLER" && playOn){
+    if(playingMode == "SAMPLER" && playOn && !isSampleImage){
         recurPlayer.update();
         fbo.begin();
             recurPlayer.playerDraw();
+        fbo.end();
+    }
+    if(playingMode == "SAMPLER" && isSampleImage){
+        fbo.begin();
+            img.draw(0,0, ofGetWidth(), ofGetHeight());
         fbo.end();
     }
     else if(playingMode == "SHADERS" && playOn){
@@ -88,11 +94,6 @@ void ofApp::update(){
         videoInput.update();
         fbo.begin();
             videoInput.draw(0,0, ofGetWidth(), ofGetHeight());
-        fbo.end();
-    }
-    else if(playingMode == "SPLASH"){
-        fbo.begin();
-            splashImg.draw(0,0, ofGetWidth(), ofGetHeight());
         fbo.end();
     }
     if(fxOn){
@@ -151,17 +152,25 @@ void ofApp::runAction(string action, string amount){
      else if(action == "fxSwitch"){ fxSwitch();}
      else if(action == "playSwitch"){ playSwitch();}
      else if(action == "switchInput"){ switchInput();}
-     else if(action == "stepShaderParam0"){ stepShaderParam0();}
-     else if(action == "stepShaderParam1"){ stepShaderParam1();}
-     else if(action == "stepShaderParam2"){ stepShaderParam2();}
+     else if(action == "stepParam0"){ stepParam0();}
+     else if(action == "stepParam1"){ stepParam1();}
+     else if(action == "stepParam2"){ stepParam2();}
+     else if(action == "setParam0"){ setParam0(ofToFloat(amount));}
+     else if(action == "setParam1"){ setParam1(ofToFloat(amount));}
+     else if(action == "setParam2"){ setParam2(ofToFloat(amount));}
+     else if(action == "setSpeed"){ setSpeed(ofToFloat(amount));}
      else if(action == "setShaderParam0"){ setShaderParam0(ofToFloat(amount));}
      else if(action == "setShaderParam1"){ setShaderParam1(ofToFloat(amount));}
      else if(action == "setShaderParam2"){ setShaderParam2(ofToFloat(amount));}
      else if(action == "setShaderSpeed"){ setShaderSpeed(ofToFloat(amount));}
-    else if(action == "setShaderParam0Cv"){ setShaderParam0Cv(ofToFloat(amount));}
-     else if(action == "setShaderParam1Cv"){ setShaderParam1Cv(ofToFloat(amount));}
-     else if(action == "setShaderParam2Cv"){ setShaderParam2Cv(ofToFloat(amount));}
-     else if(action == "setShaderSpeedCv"){ setShaderSpeedCv(ofToFloat(amount));}
+     else if(action == "setEffectParam0"){ setEffectParam0(ofToFloat(amount));}
+     else if(action == "setEffectParam1"){ setEffectParam1(ofToFloat(amount));}
+     else if(action == "setEffectParam2"){ setEffectParam2(ofToFloat(amount));}
+     else if(action == "setEffectSpeed"){ setEffectSpeed(ofToFloat(amount));}
+     else if(action == "setParam0Cv"){ setParam0Cv(ofToFloat(amount));}
+     else if(action == "setParam1Cv"){ setParam1Cv(ofToFloat(amount));}
+     else if(action == "setParam2Cv"){ setParam2Cv(ofToFloat(amount));}
+     else if(action == "setSpeedCv"){ setSpeedCv(ofToFloat(amount));}
  }
 
 void ofApp::exit(){
@@ -221,101 +230,94 @@ void ofApp::playSwitch(){
     sendIntMessage("/playOn", playOnInt);
 }
 
-void ofApp::stepShaderParam0(){
+void ofApp::stepParam0(){
     stepParam0Value = (stepParam0Value + 1) % 10;
     float amountToSet = (float)stepParam0Value/10.0;
     ofLog() << "amount is " << ofToString(amountToSet);
-    setShaderParam0(amountToSet);
+    setParam0(amountToSet);
 }
 
-void ofApp::stepShaderParam1(){
+void ofApp::stepParam1(){
     stepParam1Value = (stepParam1Value + 1) % 10;
     float amountToSet = (float)stepParam1Value/10.0;
     ofLog() << "amount is " << ofToString(amountToSet);
-    setShaderParam1(amountToSet);
+    setParam1(amountToSet);
 }
 
-void ofApp::stepShaderParam2(){
+void ofApp::stepParam2(){
     stepParam2Value = (stepParam2Value + 1) % 10;
     float amountToSet = (float)stepParam2Value/10.0;
     ofLog() << "amount is " << ofToString(amountToSet);
-    setShaderParam2(amountToSet);
+    setParam2(amountToSet);
 } 
 
-void ofApp::setShaderParam0(float value){
+void ofApp::setParam0(float value){
     if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
-        shaderPlayer.shaderParams[0] = value;
+        setShaderParam0(value);
     }
     else{
-        fxPlayer.shaderParams[0] = value;
+        setEffectParam0(value); 
     }
 }
 
-void ofApp::setShaderParam1(float value){
+void ofApp::setParam1(float value){
     if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
-        shaderPlayer.shaderParams[1] = value;
+        setShaderParam1(value);
     }
     else{
-        fxPlayer.shaderParams[1] = value;
+        setEffectParam1(value); 
+    }
+
+}
+
+void ofApp::setParam2(float value){
+    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
+        setShaderParam2(value);
+    }
+    else{
+        setEffectParam2(value); 
+    }
+
+}
+
+void ofApp::setSpeed(float value){
+    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
+        setShaderSpeed(value); 
+    }
+    else{
+        setEffectSpeed(value);
     }
 }
 
-void ofApp::setShaderParam2(float value){
-    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
-        shaderPlayer.shaderParams[2] = value;
-    }
-    else{
-        fxPlayer.shaderParams[2] = value;
-    }
-}
+void ofApp::setShaderParam0(float value){shaderPlayer.shaderParams[0] = value;}
+void ofApp::setShaderParam1(float value){shaderPlayer.shaderParams[1] = value;}
+void ofApp::setShaderParam2(float value){shaderPlayer.shaderParams[2] = value;}
+void ofApp::setShaderSpeed(float value){shaderPlayer.setSpeed(value);}
 
-void ofApp::setShaderSpeed(float value){
-    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
-        shaderPlayer.setSpeed(value);
-    }
-    else{
-        fxPlayer.setSpeed(value);
-    }
-}
+void ofApp::setEffectParam0(float value){fxPlayer.shaderParams[0] = value;}
+void ofApp::setEffectParam1(float value){fxPlayer.shaderParams[1] = value;}
+void ofApp::setEffectParam2(float value){fxPlayer.shaderParams[2] = value;}
+void ofApp::setEffectSpeed(float value){fxPlayer.setSpeed(value);}
 
-void ofApp::setShaderParam0Cv(float value){
+
+void ofApp::setParam0Cv(float value){
     if(clip1v){value = value * 5.0;}
-    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
-        shaderPlayer.shaderParams[0] = value;
-    }
-    else{
-        fxPlayer.shaderParams[0] = value;
-    }
+    setParam0(value);
 }
 
-void ofApp::setShaderParam1Cv(float value){
+void ofApp::setParam1Cv(float value){ 
     if(clip1v){value = value * 5.0;}
-    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
-        shaderPlayer.shaderParams[1] = value;
-    }
-    else{
-        fxPlayer.shaderParams[1] = value;
-    }
+    setParam1(value);
 }
 
-void ofApp::setShaderParam2Cv(float value){
+void ofApp::setParam2Cv(float value){ 
     if(clip1v){value = value * 5.0;}
-    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
-        shaderPlayer.shaderParams[2] = value;
-    }
-    else{
-        fxPlayer.shaderParams[2] = value;
-    }
+    setParam2(value);
 }
 
-void ofApp::setShaderSpeedCv(float value){
+void ofApp::setSpeedCv(float value){ 
     if(clip1v){value = value * 5.0;}
-    if(selectedInputMode == "SHADERS" && !fxScreenVisible ){
-        shaderPlayer.setSpeed(value);
-    }
-    else{
-        fxPlayer.setSpeed(value);
-    }
+    setSpeed(value);
 }
 
 void ofApp::enter(){
@@ -328,7 +330,14 @@ void ofApp::enter(){
         sendIntMessage("/fxOn",1);
     } 
     else if(selectedInputMode == "SAMPLER"){
-        playVideo(currentList[selectedRow]);
+        if(fileIsImageExtension(currentList[selectedRow])){
+            isSampleImage = True;
+            img.load(currentList[selectedRow]);
+        }
+        else{
+            isSampleImage = False;
+            playVideo(currentList[selectedRow]);
+        }
         playingSampleRow = selectedRow;
         sendIntMessage("/playingSampleRow", playingSampleRow);
         playingMode = selectedInputMode;
@@ -345,7 +354,7 @@ void ofApp::enter(){
     }   
     else if(selectedInputMode == "CAMERA"){
         if(currentList[selectedRow] == "start"){
-            videoInput.setup("vidGrabber", ofGetWidth(), ofGetHeight(), 25 );
+            videoInput.setup("vidGrabber", ofGetWidth(), ofGetHeight(), 25, 2);
             isCameraOn = true;
             sendIntMessage("/isCameraOn", 1);
             // uncomment this to allow sample recording
@@ -368,13 +377,18 @@ void ofApp::enter(){
             currentList = cameraList;
             sendListMessage("/cameraList", cameraList);
         }
-        
     }
 }
 
 void ofApp::switchInput(){
-	//fxList = getPathFromInternalAndExternal("FX");
-//	//sendListMessage("fxList", fxList);
+    // regenerate file lists again - incase something has changed
+    sampleList = getPathFromInternalAndExternal("SAMPLER"); //getPathsInFolder("/home/$
+    sendListMessage("/sampleList", sampleList);
+    shaderList = getPathFromInternalAndExternal("SHADERS"); // getPathsInFolder("/home$
+    sendListMessage("/shaderList", shaderList);
+    fxList = getPathFromInternalAndExternal("FX"); //getPathsInFolder("/home/pi/Fx/", $
+    sendListMessage("/fxList", fxList);
+
     inputIndex = (inputIndex + 1) % inputModes.size() ;
     selectedInputMode = inputModes[inputIndex];
 
@@ -492,10 +506,16 @@ vector<string> ofApp::getPathsInFolder(string folderPath, string mode){
 //	dir = dir.getSorted();
     
     if(mode == "SAMPLER"){
+// video file types:
         dir.allowExt("mp4");
         dir.allowExt("mov");
         dir.allowExt("avi");
-        dir.allowExt("mkv");      
+        dir.allowExt("mkv");
+// image file types:
+        dir.allowExt("png");
+        dir.allowExt("jpg");
+        dir.allowExt("jpeg");
+        dir.allowExt("gif");
     } else if(mode == "SHADERS" || mode == "FX"){
         dir.allowExt("frag");
         dir.allowExt("glsl");
@@ -510,6 +530,17 @@ vector<string> ofApp::getPathsInFolder(string folderPath, string mode){
     return thisList;
 }
 
+bool ofApp::fileIsImageExtension(string path){
+    ofFile file(ofToDataPath(path));
+    string ext = file.getExtension();
+    if(ext == "png" || ext == "jpg" || ext == "jpeg" || ext == "gif"){
+        return True;
+    }
+    else{
+        return False;
+    }
+}
+
 bool ofApp::detectCamera(){
     // this code is used to detect a camera in csi port (not needed for now)
     //string resp = myExec("vcgencmd get_camera");
@@ -520,7 +551,7 @@ bool ofApp::detectCamera(){
     ofVideoGrabber vidGrabber;
     vector<ofVideoDevice> devices = vidGrabber.listDevices();
     
-    return devices.size() > 0;
+    return devices.size() > 2;
 }
 
 bool ofApp::diskspaceFull(){
