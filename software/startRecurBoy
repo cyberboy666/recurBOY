@@ -1,6 +1,5 @@
 #! /bin/sh
 
-cd /home/pi/openframeworks10.1/apps/myApps/recurBOY/
-python3 display.py &
-sleep 30
-make run
+python3 ~/recurBOY/software/display.py &
+sleep 10
+make run -C ~/openframeworks10.1/apps/myApps/ofRecurBoy/

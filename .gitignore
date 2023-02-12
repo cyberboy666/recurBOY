@@ -1,4 +1,37 @@
-*/bin/*
-!*/bin/data/
-bin/data/settings.json
-[Oo]bj/
+# For PCBs designed using KiCad: http://www.kicad-pcb.org/
+# Format documentation: http://kicad-pcb.org/help/file-formats/
+
+# openframeworks
+
+
+software/ofRecurBoy/bin/ofRecurBoy
+software/ofRecurBoy/obj/*
+software/ofRecurBoy/addons.make
+
+software/files/*
+
+*.so
+*.compiler_flags
+*.o
+#python
+*.pyc
+
+# Temporary files
+*.000
+*.bak
+*.bck
+*.kicad_pcb-bak
+*.sch-bak
+*~
+_autosave-*
+*.tmp
+*-save.pro
+*-save.kicad_pcb
+fp-info-cache
+
+# Netlist files (exported from Eeschema)
+*.net
+
+# Autorouter files (exported from Pcbnew)
+*.dsn
+*.ses

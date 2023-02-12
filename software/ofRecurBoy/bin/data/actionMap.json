@@ -5,8 +5,25 @@
             ["22", "doAnotherThing"]
         ],
         "CC" : [
-            ["1", "setThisThing"],
-            ["4", "updateToThisValue"]
+        ["43", "moveUp"],
+        ["44", "moveDown"],
+        ["58", "moveLeft"],
+        ["41", "playSwitch"],
+        ["59", "moveRight"],
+        ["42", "enter"],
+        ["45", "switchInput"],
+        ["46", "fxSwitch"],
+        ["0", "setShaderParam0"],
+        ["1", "setShaderParam1"],
+        ["2", "setShaderParam2"],
+        ["3", "setShaderSpeed"],
+        ["16", "setEffectParam0"],
+        ["17", "setEffectParam1"],
+        ["18", "setEffectParam2"],
+        ["19", "setEffectSpeed"]
+
+
+
         ]
     },
     "OSC" : [
@@ -16,14 +33,14 @@
         ["/player/b/position", "setPlayerPosition"]
     ],
     "ANALOG" : [
-    	["0", "setShaderParam0Cv"],
-        ["1", "setShaderParam1Cv"],
-        ["2", "setShaderParam2Cv"],
-        ["3", "setShaderSpeedCv"],
-	    ["4", "setShaderParam0"],
-        ["5", "setShaderParam1Cv"],
-        ["6", "setShaderParam2"],
-        ["7", "setShaderSpeed"]
+    	["0", "setParam0Cv"],
+        ["1", "setParam1Cv"],
+        ["2", "setParam2Cv"],
+        ["3", "setSpeedCv"],
+	    ["4", "setParam0"],
+        ["5", "setParam1"],
+        ["6", "setParam2"],
+        ["7", "setSpeed"]
     ],
     "GPIO" : [
         ["18", "moveUp"],
