@@ -1,6 +1,6 @@
 # recurBOY
 
-### a raspberrry pi zero video instrument
+### a rpi0 video-instrument – created in collaboration with Guergana Tzatchkova
 
 ![image](https://user-images.githubusercontent.com/12017938/207971116-0152edc6-6a2f-4f87-9789-778365fedfdc.png)
 
