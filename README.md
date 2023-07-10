@@ -160,7 +160,7 @@ you may need to also solder the 2x20 gpio-header to the raspberry pi and a 1x2 p
 
 ### flashing image to sd card
 
-you can flash the recurBOY image to a sd card if you didnt get one from me, or to update its firmware.  download [the image here](https://s3.eu-central-1.wasabisys.com/underscores-storage/recurBoyFeb2020.img.gz) and install an image-flashing program like [etcher](https://www.balena.io/etcher/) - select the downloaded zip file and sdcard in the program and let it flash
+you can flash the recurBOY image to a sd card if you didnt get one from me, or to update its firmware.  download [the lastest image here](https://github.com/cyberboy666/recurBOY/releases) and install an image-flashing program like [etcher](https://www.balena.io/etcher/) - select the downloaded zip file and sdcard in the program and let it flash
   
 
 
