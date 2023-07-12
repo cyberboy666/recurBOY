@@ -70,7 +70,7 @@
       (mirror false)
       (drillshape 0)
       (scaleselection 1)
-      (outputdirectory "recurBOY_default_panel_v0_7_1_mk_ii")
+      (outputdirectory "recurBOY_default_panel_v0_7_1_mk_iii")
     )
   )
 
@@ -1126,7 +1126,7 @@
   (gr_line (start 94.75 126.25) (end 94.75 128.95) (layer "F.SilkS") (width 0.6) (tstamp 6614eb49-b2a3-4336-9bc8-2a5f86da4b9e))
   (gr_line (start 92.95 126.25) (end 92.95 128.95) (layer "F.SilkS") (width 0.6) (tstamp c1bd6c87-8d53-42d8-bc83-93efc76ad363))
   (gr_circle (center 105 132.9) (end 111.8 132.9) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp 07aac819-7eba-41e2-a59a-7787d95fa142))
-  (gr_circle (center 131.596765 50.838475) (end 136.596765 50.838475) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp 0c58b2de-9c2c-4da4-b3f7-47509d04cb78))
+  (gr_circle (center 131.596765 50.838475) (end 137.596765 50.838475) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp 0c58b2de-9c2c-4da4-b3f7-47509d04cb78))
   (gr_circle (center 91.3 118.3) (end 98.1 118.3) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp 26b551fb-7c5f-4246-b22d-a5fa0b25ee11))
   (gr_circle (center 118.6 118.4) (end 125.4 118.4) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp 31f61d2f-db2c-4f4e-b2e7-8f73f8fe1e2b))
   (gr_line (start 181.65 144.75) (end 81.65 144.75) (layer "Edge.Cuts") (width 0.15) (tstamp 4741c70c-a80d-492c-8ef1-ae8f707df09b))
@@ -1160,7 +1160,7 @@
   (gr_text "_^ 10" (at 94.25 101.75) (layer "B.SilkS") (tstamp 7798aa31-5eb6-4614-9a34-d2c6a506833d)
     (effects (font (size 5 5) (thickness 0.5)) (justify mirror))
   )
-  (gr_text "cyberboy666 & ichi raramuri\nrecurBOY panel for v0_7_1 mk_ii" (at 179 131.7 270) (layer "B.SilkS") (tstamp d71e6340-e2b7-4c2a-88f6-12444d021f5c)
+  (gr_text "default_panel mk_iii\nfor recurBOY v0_7_1\ncyberboy666 & ichi raramuri" (at 179 131.7 270) (layer "B.SilkS") (tstamp d71e6340-e2b7-4c2a-88f6-12444d021f5c)
     (effects (font (size 1.2 1.2) (thickness 0.3)) (justify left mirror))
   )
   (gr_text ">" (at 162.9 116.35) (layer "F.SilkS") (tstamp 0a2c0145-eeaa-400e-b2ab-2d082771dc08)
@@ -1187,8 +1187,5 @@
   (gr_text ">" (at 144.7 116.95 180) (layer "F.SilkS") (tstamp d1350a90-50b8-47ea-bf74-363e4b551a7c)
     (effects (font (size 4 4) (thickness 0.8)))
   )
-
-  (segment (start 169.85 141.25) (end 175.7 141.25) (width 0.25) (layer "F.Cu") (net 0) (tstamp 42fd572e-c3dc-4d5c-841e-ca348c7ff50c))
-  (segment (start 175.7 142) (end 169.9 142) (width 0.25) (layer "B.Cu") (net 0) (tstamp d628bdc6-d76e-4307-a620-3ed601f9d8a4))
 
 )

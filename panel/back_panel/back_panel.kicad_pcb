@@ -77,18 +77,15 @@
   (net 0 "")
 
   (gr_line (start 181.65 144.75) (end 81.65 144.75) (layer "Edge.Cuts") (width 0.15) (tstamp 4741c70c-a80d-492c-8ef1-ae8f707df09b))
-  (gr_circle (center 178.138276 48.238276) (end 179.838276 48.038276) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp 5ba42875-9d00-47b4-afd8-fcd05636c058))
-  (gr_circle (center 85.15 141.261724) (end 86.85 141.061724) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp 87c5a91a-6d6d-4436-941f-f902f73712a3))
+  (gr_circle (center 178.15 48.25) (end 179.85 48.05) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp 5ba42875-9d00-47b4-afd8-fcd05636c058))
+  (gr_circle (center 85.15 141.25) (end 86.85 141.05) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp 87c5a91a-6d6d-4436-941f-f902f73712a3))
   (gr_line (start 81.65 44.75) (end 181.65 44.75) (layer "Edge.Cuts") (width 0.15) (tstamp a0d946db-70cd-4f06-bac9-a39d386c4979))
   (gr_circle (center 85.15 48.25) (end 86.85 48.05) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp da4aaf10-19ff-4553-871a-f9efd75f1742))
   (gr_line (start 181.65 44.75) (end 181.65 144.75) (layer "Edge.Cuts") (width 0.15) (tstamp df1bfd07-f345-4276-a29f-75b983bb810b))
-  (gr_circle (center 178.138276 141.25) (end 179.838276 141.05) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp f4799c6a-5da3-45f3-ac87-85b7c0183f2d))
+  (gr_circle (center 178.15 141.2) (end 179.85 141) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp f4799c6a-5da3-45f3-ac87-85b7c0183f2d))
   (gr_line (start 81.65 144.75) (end 81.65 44.75) (layer "Edge.Cuts") (width 0.15) (tstamp fe5c8ed3-6d2c-4b27-8757-fad194a56eb8))
   (gr_text "JLCJLCJLCJLC" (at 171.95 143.55) (layer "B.SilkS") (tstamp 08ed9e49-b01b-4150-a48e-076f20ce2c5f)
     (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
   )
-
-  (segment (start 175.4 142) (end 167.8 142) (width 0.25) (layer "B.Cu") (net 0) (tstamp 9d4b0a0c-223d-4029-a009-dfd8c5ba0990))
-  (segment (start 167.8 142) (end 167.75 142.05) (width 0.25) (layer "B.Cu") (net 0) (tstamp ae7b14ba-e5fd-448f-8c6c-be4906fd499f))
 
 )
