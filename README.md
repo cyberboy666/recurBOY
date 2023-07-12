@@ -1,11 +1,11 @@
 # recurBOY
 
-### a raspberrry pi zero video instrument
+### a rpi0 video-instrument – created in collaboration with Guergana Tzatchkova
 
 ![image](https://user-images.githubusercontent.com/12017938/207971116-0152edc6-6a2f-4f87-9789-778365fedfdc.png)
 
 
-- this circuit is distributed by __UNDERSCORES__ - _an open video hardware label_ : it is available to purchase - as a pcb, kit or assembled unit - at [underscores.shop](https://underscores.shop/_recurboy_/)
+- this circuit is distributed by __UNDERSCORES__ - _an open video hardware label_ : it is available to purchase - as a pcb, kit or assembled unit - at [underscores.shop](https://underscores.shop/recurboy/)
 - the schematic for the circuit can be found [here](/hardware/schematic.pdf)
 - the pcb gerber files for the lastest version can be found [here](/hardware/gerber_latest.zip)
 - interactive BOM is [here](https://htmlpreview.github.io/?https://github.com/cyberboy666/recurBOY/blob/main/hardware/bom/ibom.html)
@@ -160,7 +160,7 @@ you may need to also solder the 2x20 gpio-header to the raspberry pi and a 1x2 p
 
 ### flashing image to sd card
 
-you can flash the recurBOY image to a sd card if you didnt get one from me, or to update its firmware.  download [the image here](https://s3.eu-central-1.wasabisys.com/underscores-storage/recurBoyFeb2020.img.gz) and install an image-flashing program like [etcher](https://www.balena.io/etcher/) - select the downloaded zip file and sdcard in the program and let it flash
+you can flash the recurBOY image to a sd card if you didnt get one from me, or to update its firmware.  download [the lastest image here](https://github.com/cyberboy666/recurBOY/releases) and install an image-flashing program like [etcher](https://www.balena.io/etcher/) - select the downloaded zip file and sdcard in the program and let it flash
   
 
 
