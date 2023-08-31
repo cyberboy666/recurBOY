@@ -1,4 +1,4 @@
-19873647818685
+23498276447581
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -86029,6 +86029,20 @@ CUI_RCJ-024
 0
 3
 2
+lib_fp
+DIP+SOIC-16
+16-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils), Socket, LongPads
+THT DIP DIL PDIP 2.54mm 7.62mm 300mil Socket LongPads
+0
+16
+16
+lib_fp
+DIP+SOIC_14
+14-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils), LongPads
+THT DIP DIL PDIP 2.54mm 7.62mm 300mil LongPads
+0
+28
+14
 lib_fp
 D_DO-35_SOD27_P5.08mm_Vertical_KathodeUp
 Diode, DO-35_SOD27 series, Axial, Vertical, pin pitch=5.08mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf
