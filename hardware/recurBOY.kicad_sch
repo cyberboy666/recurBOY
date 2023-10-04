@@ -2598,7 +2598,7 @@
     (property "Value" "mcp3008" (id 1) (at 240.665 34.925 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Footprint" "Package_DIP:DIP-16_W7.62mm_LongPads" (id 2) (at 248.285 43.815 0)
+    (property "Footprint" "lib_fp:DIP+SOIC-16" (id 2) (at 248.285 43.815 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (id 3) (at 248.285 43.815 0)
@@ -3942,7 +3942,7 @@
       (reference "SW5") (unit 1) (value "push") (footprint "Button_Switch_THT:SW_PUSH-12mm")
     )
     (path "/00000000-0000-0000-0000-00005bc569f6"
-      (reference "U1") (unit 1) (value "mcp3008") (footprint "Package_DIP:DIP-16_W7.62mm_LongPads")
+      (reference "U1") (unit 1) (value "mcp3008") (footprint "lib_fp:DIP+SOIC-16")
     )
   )
 )
