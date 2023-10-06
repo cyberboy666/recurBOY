@@ -25,7 +25,8 @@ _recurBOY_ is a stand-alone digital video synthesizer and sampler. it can trigge
 
 ## demo video
 
-[coming soon]
+[![image](https://github.com/cyberboy666/recurBOY/assets/12017938/df34ddad-48bd-4a7d-adc8-c07fd9fc4830)](https://videos.scanlines.xyz/w/5WkEcwTpqrN5Nh6LpczcTi)
+
 
 ## background
 
