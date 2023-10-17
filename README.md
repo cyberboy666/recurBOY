@@ -16,11 +16,12 @@
 
 _recurBOY_ is a stand-alone digital video synthesizer and sampler. it can trigger clips and run shaders to create and manipulate sd video. 
 
-- outputs sd composite video
+- outputs sd video over composite or hdmi
 - 2 source modes to generate video : sampler and shaders
 - process any source with additional FX
 - control shader/fx parameters directly with 4x knobs or externally with 4x cv inputs
-- process (glitchy) external video through easycap capture card
+- all inputs also controllable via usb-midi
+- process external video through compatible usb capture cards / web-cams
 
 
 ## demo video
