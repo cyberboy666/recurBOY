@@ -239,6 +239,10 @@ these shaders need to be stored at `~/Fx` folder on the pi and `/Fx` folder on t
 
 the 4 knobs / cv inputs will control parameters of the effect when source SHADERS mode is not selected.
 
+### Capture
+
+if recurBOY is powered up with a compatible usb-capture card/web-cam plugged into the OTG data_usb input then a third SOURCE MODE will appear when MODE BUTTON is cycled through. within this mode you can start the _capture_ which will take video from this external device and send it through the FX MODES for processing
+
 </details>
 
 ### more info
