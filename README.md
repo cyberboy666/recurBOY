@@ -173,7 +173,7 @@ you can flash the recurBOY image to a sd card if you didnt get one from me, or t
 <details><summary><b>sourcing and preparing the raspberry pi zero</b></summary>
 
   
-Even if you purchase a fully assembled and tested _recurBOY_ unit through the __underscores__ shop, you will still need to source and prepare the raspberry pi zero yourself.
+unless you purchase a [raspberry pi zero from __underscores__](https://underscores.shop/product/raspberry-pi-zero-1w/) along-side your assembled and tested _recurBOY_ unit you will need to source and prepare the raspberry pi zero yourself:
   
 recurBOY was designed to work with the first generation of reaspberry pi zeros:
  
@@ -186,15 +186,18 @@ with all of these versions you will need to solder a 2x1_pin_header to the tv_ou
   
 ![image](https://user-images.githubusercontent.com/12017938/207754805-2adee7a7-f1d2-4663-a62f-74863cc9e2eb.png)
   
-in 2021 rpi launched [__Raspberry Pi Zero 2 W__](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/) - this is an upgrade to the original series of pi zeros. I have not tested these myself yet with recurBOY (please write me if you do, or have one you want to donate!) but i assume it will just work without any firmware changes needed w recurBOY.
+in 2021 rpi launched [__Raspberry Pi Zero 2 W__](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/) - this is an upgrade to the original series of pi zeros. I have tested these with recurBOY and they work very well - runs faster / smoother than with the original.
   
-one difference with this new version however is that they no longer break out the tv_out to pins. for this version you will need to solder jumper wires onto the tv_out pads, which are on the bottom of the board, next to the hdmi port. i would still use a 2x1_pin_header and solder the other end of these wires to it, then plug the header/wires into the recurBOY 2x1_pin_socket (so the pi can more easily be removed)
-  
-![image](https://user-images.githubusercontent.com/12017938/207755632-011a6ce0-013f-44bc-9aff-fe823ee5fb39.png)
+one difference with this new version however is that they no longer break out the tv_out to pins. for this version you will need to solder jumper wires onto the tv_out pads, which are on the bottom of the board, next to the hdmi port.
 
-in this picture yellow wire = TV, black wire = GND. on the PCB looking at it from the TOP - left pin is GND and right pin is TV
-  
-![image](https://user-images.githubusercontent.com/12017938/207755990-3e3e82aa-9f83-4f30-a2c1-66deb98156ed.png)
+i recommend using an [angled 2x1_pin_header](https://www.taydaelectronics.com/40-pin-2-54-mm-angle-single-row-pin-header.html) and placing it first into the socket on the recurBOY - then take care to solder the correct wires (__tv_out__ + __gnd__ ) to the angled pins and pads under pi_zero2 - __in this picture BLACK is GND and RED is TV_OUT__
+
+  ![image](https://github.com/cyberboy666/recurBOY/assets/12017938/a1f9687b-c3d1-4227-932b-c689f1e00418)
+
+
+once soldered you can twist the pi_zero, attach the main gpio headers and tuck the wires under the protruding rca jack to keep them hidden:
+
+![image](https://github.com/cyberboy666/recurBOY/assets/12017938/9b53a4fa-8de9-458d-b1ca-6d12ce3a4d9c)
 
 
   
