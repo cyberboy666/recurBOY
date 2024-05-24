@@ -274,7 +274,7 @@ the type of shader recurBOY can play is called GLES. this is the shader language
 thanks to [Erogenous Tones](http://erogenous-tones.com/) - a modular synth company who have a
 mature and very powerful shader-playing video instrument called STRUCTURE - we now also have a web-based environment for browsing, modifying and creating shaders to perform with.
 
-go to [glsl.erogenous-tones.com](https://glsl.erogenous-tones.com) - if you select any example you will see the code used to create the patch. try changing some of the numbers - modifying the input parameters is especially interesting.
+go to [glsl.erogenous-tones.com](http://glsl.erogenous-tones.com) - if you select any example you will see the code used to create the patch. try changing some of the numbers - modifying the input parameters is especially interesting.
 
 when you are happy with the results select the save as .glsl file. Now copy this file onto your USB in the correct folder - /Shaders and connect to recurBOY
 
