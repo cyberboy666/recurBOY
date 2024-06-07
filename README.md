@@ -10,6 +10,7 @@
 - the pcb gerber files for the lastest version can be found [here](/hardware/gerber_latest.zip)
 - interactive BOM is [here](https://htmlpreview.github.io/?https://github.com/cyberboy666/recurBOY/blob/main/hardware/bom/ibom.html)
 - link to latest rpi image is [here](https://github.com/cyberboy666/recurBOY/releases/tag/v2.1.1)
+- link to FAQ/TROUBLESHOOTING page can be found [here](https://github.com/cyberboy666/recurBOY/wiki/recurBOY-FAQ---TROUBLESHOOTING-guide)
 - consider [donating](https://opencollective.com/underscores) to the underscores project to help us continue creating for the commons
 
 ## description
