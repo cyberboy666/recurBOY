@@ -1,16 +1,16 @@
 {
    "ADC_GRAIN" : 10,
    "ADC_SEC_DELAY" : 0,
-   "CVBS_TYPE" : "PAL",
+   "CVBS_TYPE" : "NTSC",
    "CV_BUTTON" : false,
-   "CV_UPPER" : "1V",
+   "CV_UPPER" : "5V",
    "DEV_MODE" : false,
    "FRAMERATE" : 30,
    "HDMI_TYPE" : "480P",
    "IMAGE_RATIO" : "ORIGINAL",
    "PIXEL_OFFSET" : false,
    "SHOW_FPS" : false,
-   "TEXT_ENABLE" : true,
+   "TEXT_ENABLE" : false,
    "VIDEO_MODE" : "CVBS"
 }
 
