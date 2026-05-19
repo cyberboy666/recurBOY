@@ -79,7 +79,7 @@ the recurBOY has a few less common parts that can not be found at either tayda o
 
 ### 1.8 inch tft display (ST7735S)
 
-i use the [cuiisw](https://www.aliexpress.com/item/32996979276.html?spm=a2g0o.order_list.order_list_main.54.7f261802dUZENo) on _aliexpress_ - however there are many different brands with compatable products, both on ali, amazon and ebay etc...
+i use have used [this seller](https://www.aliexpress.com/item/1005009712175802.html) and also [this one](https://www.aliexpress.com/item/1005006139989470.html) on _aliexpress_ - however there are many different brands with compatable products, both on ali, amazon and ebay etc...
 
 to tell if a display you are looking at is compatable, check for the following things:
 - 1.8inch in size (128x160px), rgb and tft - _not_ oled etc
@@ -96,7 +96,7 @@ for example, i can tell that the [waveshare](https://www.waveshare.com/1.8inch-l
 
 ### 5 way tact switch
 
-to save space on the interface we used this 5 way tact switch (10x10mm through hole) - also sourced from [aliexpress](https://www.aliexpress.com/item/4000590085207.html) - you can find these on other places such as amazon and ebay aswell.
+to save space on the interface we used this 5 way tact switch (10x10mm through hole) - also sourced from [aliexpress](https://www.aliexpress.com/item/1005004357075585.html) - you can find these on other places such as amazon and ebay aswell.
 
 ![image](https://user-images.githubusercontent.com/12017938/207749550-0d12a8e7-d50b-4868-9567-5842c159ec25.png)
 
