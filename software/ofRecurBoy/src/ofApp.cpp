@@ -1052,6 +1052,34 @@ void ofApp::updateSettings(string settingLine){
             removeMessage();
             }
     }
+    else if(result[0] == "ASSET_SERVER"){
+        showMessage("SSID: recurBOY\nPW: cyberboy666");
+        if(result[1] == "true"){
+            setting.assetServer = false;
+            system("sudo systemctl stop asset_server.service"); 
+        }
+        else{
+            setting.assetServer = true;
+            system("sudo systemctl start asset_server.service");
+        }       
+        ofSleepMillis(3000);
+        removeMessage();
+    }
+    else if(result[0] == "ACCESS_POINT"){
+        showMessage("CONNECT WITH PI & OPEN\nHTTP:\/\/RECURBOY.LOCAL");
+        if(result[1] == "true"){ 
+            setting.accessPoint = false;  
+            system("sudo sh ~/recurBoy/software/ofRecurBoy/ap_stop.sh"); 
+        }
+        else{
+            setting.accessPoint = true; 
+            system("sudo sh ~/recurBoy/software/ofRecurBoy/ap_start.sh");
+            system("sudo systemctl start asset_server.service");
+        }       
+        ofSleepMillis(3000);
+        removeMessage();
+    }
+
     else if(result[0] == "COPY_CONTENT"){
         showMessage("copying please wait...");
         int status = std::system("bash /home/pi/openframeworks10.1/apps/myApps/ofRecurBoy/copy_usb_to_internal.sh");

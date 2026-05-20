@@ -92,6 +92,8 @@ static string moveFolderUpOneLevel(const string& path) {
         string imageRatio;
         bool showFps;
         bool pixelOffset;
+        bool assetServer = false;
+        bool accessPoint = false;
         bool firstBoot;
 
         void loadJson(){
@@ -146,8 +148,10 @@ static string moveFolderUpOneLevel(const string& path) {
             menuList.push_back("PIXEL_OFFSET: " + boolToString(pixelOffset));
             menuList.push_back("EJECT_USB:");
             menuList.push_back("COPY_CONTENT:");
+            menuList.push_back("ASSET_SERVER: " + boolToString(assetServer));
+            menuList.push_back("ACCESS_POINT: " + boolToString(accessPoint));
             menuList.push_back("SHUTDOWN:");
-            menuList.push_back("FIRMWARE: v3.0.0s");
+            menuList.push_back("FIRMWARE: v3.1.0s");
 
             return menuList;
         }
