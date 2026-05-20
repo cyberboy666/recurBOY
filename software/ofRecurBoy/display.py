@@ -359,6 +359,8 @@ def setup_gpio():
         print('pin is ', pin)
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+    # Set GPIO25 as output, initially HIGH
+    GPIO.setup(25, GPIO.OUT, initial=GPIO.HIGH)
 
 setup_gpio()
 display = Display()
