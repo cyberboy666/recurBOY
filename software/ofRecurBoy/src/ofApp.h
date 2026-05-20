@@ -1,5 +1,7 @@
 #pragma once
-
+#define LONG LONG_FI
+#include <FreeImage.h>
+#undef LONG
 #include "ofMain.h"
 #include "incur.h"
 #include "ofxOsc.h"
@@ -90,6 +92,7 @@ static string moveFolderUpOneLevel(const string& path) {
         string imageRatio;
         bool showFps;
         bool pixelOffset;
+        bool firstBoot;
 
         void loadJson(){
             bool parsingSuccessful = jsonObject.open("settings.json");
@@ -107,6 +110,8 @@ static string moveFolderUpOneLevel(const string& path) {
             imageRatio = jsonObject["IMAGE_RATIO"].asString();
             showFps = jsonObject["SHOW_FPS"].asBool();
             pixelOffset = jsonObject["PIXEL_OFFSET"].asBool();
+            firstBoot = jsonObject["FIRST_BOOT"].asBool();
+
         }
         void saveJson(){
 
@@ -123,6 +128,7 @@ static string moveFolderUpOneLevel(const string& path) {
             jsonObject["IMAGE_RATIO"] = imageRatio;
             jsonObject["SHOW_FPS"] = showFps;
             jsonObject["PIXEL_OFFSET"] = pixelOffset;
+            jsonObject["FIRST_BOOT"] = firstBoot;
 
             jsonObject.save("settings.json", true);
         }
@@ -319,5 +325,6 @@ static string moveFolderUpOneLevel(const string& path) {
     int safeShutdownCount;
     float safeShutdownLastTime;
     void checkSafeShutdown();
+    bool getImageSize(const std::string& path, int &w, int &h);
 
 };

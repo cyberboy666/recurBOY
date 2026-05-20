@@ -5,6 +5,7 @@
    "CV_BUTTON" : false,
    "CV_UPPER" : "5V",
    "DEV_MODE" : false,
+   "FIRST_BOOT" : false,
    "FRAMERATE" : 30,
    "HDMI_TYPE" : "480P",
    "IMAGE_RATIO" : "ORIGINAL",

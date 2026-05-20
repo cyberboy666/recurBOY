@@ -1,5 +1,4 @@
 #include "ofApp.h"
-
 //--------------------------------------------------------------
 void ofApp::setup(){
 
@@ -87,6 +86,13 @@ void ofApp::setup(){
     safeShutdownCount = 0;
     safeShutdownLastTime = ofGetElapsedTimef();   
 
+    if(setting.firstBoot){
+        setting.firstBoot = false;
+        setting.saveJson();
+        showMessage("RESIZING PARTITION\n ON FIRST BOOT\nREBOOTING SHORTLY\nPLEASE WAIT");
+        ofSleepMillis(10000);
+        removeMessage();
+    }
 }
 
 //--------------------------------------------------------------
@@ -495,10 +501,34 @@ void ofApp::enter(){
     } 
     else if(currentPage == "VIDEO"){
         runningSource = "VIDEO";
-        if(fileIsImageExtension(menu_item)){
-            isSampleImage = True;
+if(fileIsImageExtension(menu_item)){
+
+    int w, h;
+
+    if(getImageSize(menu_item, w, h)){
+        ofLogNotice() << "Image size: " << w << "x" << h;
+
+        if(w < 2000 && h < 2000){
             img.load(menu_item);
+            isSampleImage = true;
         }
+        else{
+        showMessage("IMAGE TOO LARGE TO LOAD");
+        ofSleepMillis(3000);
+        removeMessage();
+            ofLogWarning() << "Skipping large image: " << w << "x" << h;
+        }
+    }
+    else{
+        ofLogError() << "Could not read image metadata: " << menu_item;
+    }
+}
+//        if(fileIsImageExtension(menu_item)){
+            //img.load(menu_item);
+
+            //isSampleImage = True;
+            //img.load(menu_item);
+//        }
         else{
             isSampleImage = False;
             playVideo(menu_item);
@@ -1162,4 +1192,32 @@ void ofApp::checkSafeShutdown(){
         system("sudo shutdown -h now");
     }
     safeShutdownLastTime = nowGetTime;
+}
+
+bool ofApp::getImageSize(const std::string& path, int &w, int &h)
+{
+    FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(path.c_str(), 0);
+
+    if (fif == FIF_UNKNOWN) {
+        fif = FreeImage_GetFIFFromFilename(path.c_str());
+    }
+
+    if (fif == FIF_UNKNOWN) {
+        ofLogError() << "Unknown image format: " << path;
+        return false;
+    }
+
+    // IMPORTANT: FIF_LOAD_NOPIXELS avoids full decode
+    FIBITMAP* dib = FreeImage_Load(fif, path.c_str(), FIF_LOAD_NOPIXELS);
+
+    if (!dib) {
+        ofLogError() << "FreeImage failed to open: " << path;
+        return false;
+    }
+
+    w = FreeImage_GetWidth(dib);
+    h = FreeImage_GetHeight(dib);
+
+    FreeImage_Unload(dib);
+    return true;
 }
