@@ -1,0 +1,234 @@
+from flask import Flask, request, redirect, send_from_directory
+import os
+
+app = Flask(__name__)
+
+BASE_DIR = "/home/pi"
+
+FOLDERS = ["VIDEO", "PATTERN", "EFFECT", "TEXT", "FONT"]
+
+def list_dir(path):
+    try:
+        items = os.listdir(path)
+    except:
+        items = []
+
+    folders = []
+    files = []
+
+    for i in items:
+        full = os.path.join(path, i)
+        if os.path.isdir(full):
+            folders.append(i)
+        else:
+            files.append(i)
+
+    return folders, files
+
+
+def safe_id(path):
+    return path.replace("/", "_")
+
+def render_folder(path, rel_path):
+    folders, files = list_dir(path)
+
+    uid = safe_id(rel_path)
+
+    html = """
+    <div class="folder-contents">
+    """
+
+    # --------------------
+    # FILES
+    # --------------------
+    for f in files:
+        file_rel = os.path.join(rel_path, f)
+
+        html += """
+        <div>
+            {name}
+            [<a href="/file/{file}" target="_blank">open</a>]
+            [<a href="/delete/{file}">delete</a>]
+        </div>
+        """.format(name=f, file=file_rel)
+
+    # --------------------
+    # SUBFOLDERS
+    # --------------------
+    for d in folders:
+        sub_path = os.path.join(path, d)
+        sub_rel = os.path.join(rel_path, d)
+        sub_id = safe_id(sub_rel)
+
+        html += """
+        <details>
+            <summary>
+                <b>{name}</b>
+                <a href="#" onclick="document.getElementById('file_{id}').click()">[upload]</a>
+                <a href="#" onclick="newFolder_{id}()">[new_folder]</a>
+                <a href="#" onclick="deleteFolder_{id}()">[delete_folder]</a>
+            </summary>
+
+            <form id="form_{id}" action="/upload/{path}" method="post" enctype="multipart/form-data" style="display:none;">
+                <input type="file" name="file" id="file_{id}"
+                onchange="document.getElementById('form_{id}').submit()">
+            </form>
+
+            <form id="newfolder_{id}" action="/new_folder/{path}" method="post" style="display:none;">
+                <input type="hidden" name="name" id="newfolder_input_{id}">
+            </form>
+
+            <form id="delfolder_{id}" action="/delete_folder/{path}" method="post" style="display:none;"></form>
+
+            <script>
+            function newFolder_{id}() {{
+                var name = prompt("New folder name:");
+                if (!name) return;
+
+                document.getElementById("newfolder_input_{id}").value = name;
+                document.getElementById("newfolder_{id}").submit();
+            }}
+
+            function deleteFolder_{id}() {{
+                if (!confirm("Delete this folder and all contents?")) return;
+                document.getElementById("delfolder_{id}").submit();
+            }}
+            </script>
+
+            {children}
+        </details>
+        """.format(
+            name=d,
+            id=sub_id,
+            path=sub_rel,
+            children=render_folder(sub_path, sub_rel)
+        )
+
+    html += "</div>"
+
+    return html
+
+@app.route("/")
+def index():
+    html = """
+    <html>
+    <head>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        details { margin-left: 12px; margin-top: 6px; padding: 6px; border: 1px solid #ddd; }
+        summary { cursor: pointer; }
+        a { margin-left: 6px; }
+    </style>
+    </head>
+    <body>
+
+    <h1>RecurBOY Asset Server</h1>
+    <hr>
+    """
+
+    for folder in FOLDERS:
+        path = os.path.join(BASE_DIR, folder)
+        os.makedirs(path, exist_ok=True)
+
+        uid = safe_id(folder)
+
+        html += """
+        <details>
+            <summary>
+                <b>{folder}</b>
+                <a href="#" onclick="document.getElementById('file_{uid}').click()">[upload]</a>
+                <a href="#" onclick="newFolder_{uid}()">[new_folder]</a>
+            </summary>
+
+            <form id="form_{uid}" action="/upload/{folder}" method="post" enctype="multipart/form-data" style="display:none;">
+                <input type="file" name="file" id="file_{uid}"
+                onchange="document.getElementById('form_{uid}').submit()">
+            </form>
+
+            <form id="newfolder_{uid}" action="/new_folder/{folder}" method="post" style="display:none;">
+                <input type="hidden" name="name" id="newfolder_input_{uid}">
+            </form>
+
+            <script>
+            function newFolder_{uid}() {{
+                var name = prompt("New folder name:");
+                if (!name) return;
+
+                document.getElementById("newfolder_input_{uid}").value = name;
+                document.getElementById("newfolder_{uid}").submit();
+            }}
+            </script>
+        """.format(folder=folder, uid=uid)
+
+        html += render_folder(path, folder)
+
+        html += "</details>"
+
+    html += """
+    </body>
+    </html>
+    """
+
+    return html
+
+
+@app.route("/upload/<path:folder>", methods=["POST"])
+def upload(folder):
+    file = request.files["file"]
+
+    target = os.path.join(BASE_DIR, folder)
+    os.makedirs(target, exist_ok=True)
+
+    file.save(os.path.join(target, file.filename))
+
+    return redirect("/")
+
+@app.route("/file/<path:file_path>")
+def file(file_path):
+    full = os.path.join(BASE_DIR, file_path)
+    folder = os.path.dirname(full)
+    filename = os.path.basename(full)
+
+    return send_from_directory(folder, filename)
+
+@app.route("/delete/<path:file_path>")
+def delete(file_path):
+    full = os.path.join(BASE_DIR, file_path)
+
+    if os.path.exists(full):
+        os.remove(full)
+
+    return redirect("/")
+
+@app.route("/new_folder/<path:folder>", methods=["POST"])
+def new_folder(folder):
+    name = request.form.get("name", "").strip()
+
+    if not name:
+        return redirect("/")
+
+    # basic safety: prevent weird paths
+    name = name.replace("/", "_")
+
+    target = os.path.join(BASE_DIR, folder, name)
+    os.makedirs(target, exist_ok=True)
+
+    return redirect("/")
+
+@app.route("/delete_folder/<path:folder>", methods=["POST"])
+def delete_folder(folder):
+    full = os.path.join(BASE_DIR, folder)
+
+    # safety: never allow deleting root folders directly
+    if folder in FOLDERS:
+        return redirect("/")
+
+    if os.path.exists(full) and os.path.isdir(full):
+        # recursive delete
+        import shutil
+        shutil.rmtree(full)
+
+    return redirect("/")
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
