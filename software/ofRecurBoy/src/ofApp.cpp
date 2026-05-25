@@ -393,6 +393,7 @@ void ofApp::setSpeed(float value){
     if(currentPage == "TEXT"){setTextDisplaceHeight(value);}
     else if(currentPage == "FONT"){setTextColorAlpha(value);}
     else if(currentPage == "PATTERN" ){setShaderSpeed(value);}
+    else if(currentPage == "VIDEO"){recurPlayer.setSpeed(value);}
     else{setEffectSpeed(value);}
 }
 
