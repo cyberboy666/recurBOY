@@ -1053,12 +1053,13 @@ void ofApp::updateSettings(string settingLine){
             }
     }
     else if(result[0] == "ASSET_SERVER"){
-        showMessage("SSID: recurBOY\nPW: cyberboy666");
         if(result[1] == "true"){
+            showMessage("ASSET_SERVER DISABLED");
             setting.assetServer = false;
             system("sudo systemctl stop asset_server.service"); 
         }
         else{
+            showMessage("ASSET_SERVER ENABLED\nCONNECT WITH PI & OPEN\nHTTP:\/\/RECURBOY.LOCAL");
             setting.assetServer = true;
             system("sudo systemctl start asset_server.service");
         }       
@@ -1066,14 +1067,15 @@ void ofApp::updateSettings(string settingLine){
         removeMessage();
     }
     else if(result[0] == "ACCESS_POINT"){
-        showMessage("CONNECT WITH PI & OPEN\nHTTP:\/\/RECURBOY.LOCAL");
         if(result[1] == "true"){ 
+            showMessage("ACCESS_POINT DISABLED");
             setting.accessPoint = false;  
-            system("sudo sh ~/recurBoy/software/ofRecurBoy/ap_stop.sh"); 
+            system("sudo sh ~/recurBOY/software/ofRecurBoy/ap_stop.sh"); 
         }
         else{
+            showMessage("ACCESS_POINT ENABLED\nconnect to\nSSID: recurBOY\nPW: cyberboy666");
             setting.accessPoint = true; 
-            system("sudo sh ~/recurBoy/software/ofRecurBoy/ap_start.sh");
+            system("sudo sh ~/recurBOY/software/ofRecurBoy/ap_start.sh");
             system("sudo systemctl start asset_server.service");
         }       
         ofSleepMillis(3000);
