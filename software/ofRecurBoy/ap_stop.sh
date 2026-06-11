@@ -4,11 +4,26 @@ set -e
 
 echo "[RecurBOY] Stopping Access Point..."
 
-# stop services first
-systemctl stop hostapd
-systemctl stop dnsmasq
+# stop AP services
+systemctl stop hostapd || true
+systemctl stop dnsmasq || true
 
-# clean up interface state
-ip addr flush dev wlan0
+# bring interface down
+ip link set wlan0 down || true
 
-echo "[RecurBOY] Access Point stopped."
+# restore managed mode
+iw dev wlan0 set type managed || true
+
+# clear AP static IPs
+ip addr flush dev wlan0 || true
+
+# bring interface up
+ip link set wlan0 up
+
+# restart Wi-Fi stack
+systemctl restart wpa_supplicant || true
+
+# restart DHCP client
+systemctl restart dhcpcd || true
+
+echo "[RecurBOY] Access Point stopped"

@@ -35,26 +35,22 @@ def render_folder(path, rel_path):
     uid = safe_id(rel_path)
 
     html = """
-    <div class="folder-contents">
+    <div class="folder-contents"><ul>
     """
 
-    # --------------------
     # FILES
-    # --------------------
     for f in files:
         file_rel = os.path.join(rel_path, f)
 
         html += """
-        <div>
+        <div><li>
             {name}
             [<a href="/file/{file}" target="_blank">open</a>]
             [<a href="/delete/{file}">delete</a>]
-        </div>
+        </li></div>
         """.format(name=f, file=file_rel)
-
-    # --------------------
+    html += "</ul>"
     # SUBFOLDERS
-    # --------------------
     for d in folders:
         sub_path = os.path.join(path, d)
         sub_rel = os.path.join(rel_path, d)
@@ -114,11 +110,47 @@ def index():
     <html>
     <head>
     <style>
-        body { font-family: sans-serif; margin: 20px; }
-        details { margin-left: 12px; margin-top: 6px; padding: 6px; border: 1px solid #ddd; }
-        summary { cursor: pointer; }
-        a { margin-left: 6px; }
-    </style>
+<style>
+    body {
+        font-family: sans-serif;
+        margin: 20px;
+        background: #ffffff;
+        color: #111111;
+    }
+
+    details {
+        margin-left: 12px;
+        margin-top: 6px;
+        padding: 6px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+    }
+
+    summary {
+        cursor: pointer;
+    }
+
+    a {
+        margin-left: 6px;
+        color: #0645ad;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        body {
+            background: #121212;
+            color: #e6e6e6;
+        }
+
+        details {
+            border: 1px solid #333;
+            background: #1e1e1e;
+        }
+
+        a {
+            color: #8ab4f8;
+        }
+    }
+</style>    </style>
     </head>
     <body>
 
@@ -207,7 +239,6 @@ def new_folder(folder):
     if not name:
         return redirect("/")
 
-    # basic safety: prevent weird paths
     name = name.replace("/", "_")
 
     target = os.path.join(BASE_DIR, folder, name)
@@ -219,12 +250,10 @@ def new_folder(folder):
 def delete_folder(folder):
     full = os.path.join(BASE_DIR, folder)
 
-    # safety: never allow deleting root folders directly
     if folder in FOLDERS:
         return redirect("/")
 
     if os.path.exists(full) and os.path.isdir(full):
-        # recursive delete
         import shutil
         shutil.rmtree(full)
 
