@@ -66,7 +66,7 @@ def render_folder(path, rel_path):
             </summary>
 
             <form id="form_{id}" action="/upload/{path}" method="post" enctype="multipart/form-data" style="display:none;">
-                <input type="file" name="file" id="file_{id}"
+                <input type="file" name="file" id="file_{id}" multiple
                 onchange="document.getElementById('form_{id}').submit()">
             </form>
 
@@ -203,15 +203,16 @@ def index():
 
     return html
 
-
 @app.route("/upload/<path:folder>", methods=["POST"])
 def upload(folder):
-    file = request.files["file"]
+    files = request.files.getlist("file")
 
     target = os.path.join(BASE_DIR, folder)
     os.makedirs(target, exist_ok=True)
 
-    file.save(os.path.join(target, file.filename))
+    for file in files:
+        if file and file.filename:
+            file.save(os.path.join(target, file.filename))
 
     return redirect("/")
 
