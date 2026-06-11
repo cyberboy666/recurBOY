@@ -12,6 +12,7 @@
    "PIXEL_OFFSET" : false,
    "SHOW_FPS" : false,
    "TEXT_ENABLE" : false,
-   "VIDEO_MODE" : "CVBS"
+   "VIDEO_MODE" : "CVBS",
+   "VIDEO_SPEED_ENABLE" : true
 }
 

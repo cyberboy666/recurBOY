@@ -235,6 +235,7 @@ void ofApp::runAction(string action, string amount){
      else if(action == "setParam1"){ setParam1(ofToFloat(amount));}
      else if(action == "setParam2"){ setParam2(ofToFloat(amount));}
      else if(action == "setSpeed"){ setSpeed(ofToFloat(amount));}
+     else if(action == "setVideoSpeed"){ setVideoSpeed(ofToFloat(amount));}
      else if(action == "setParam0Invert"){ setParam0Invert(ofToFloat(amount));}
      else if(action == "setParam1Invert"){ setParam1Invert(ofToFloat(amount));}
      else if(action == "setParam2Invert"){ setParam2Invert(ofToFloat(amount));}
@@ -393,9 +394,11 @@ void ofApp::setSpeed(float value){
     if(currentPage == "TEXT"){setTextDisplaceHeight(value);}
     else if(currentPage == "FONT"){setTextColorAlpha(value);}
     else if(currentPage == "PATTERN" ){setShaderSpeed(value);}
-    else if(currentPage == "VIDEO"){recurPlayer.setSpeed(value);}
+    else if(currentPage == "VIDEO" && setting.videoSpeedEnable){setVideoSpeed(value);}
     else{setEffectSpeed(value);}
 }
+
+void ofApp::setVideoSpeed(float value){recurPlayer.setSpeed(value);}
 
 void ofApp::setParam0Invert(float value){setParam0(1.0 - value);}
 void ofApp::setParam1Invert(float value){setParam1(1.0 - value);}
@@ -581,19 +584,6 @@ if(fileIsImageExtension(menu_item)){
 }
 
 void ofApp::switchSource(){
-    // regenerate file lists again - incase something has changed
-
-    //videoPage.menuList = getPathsForMenu(videoPage); //getPathsInFolder("/home/pi/Videos/", "video");
-    //sendMenuList("/LIST/VIDEO", videoPage.menuList);
-    //patternPage.menuList = getPathsForMenu(patternPage); // getPathsInFolder("/home/pi/Shaders/", "shader");
-    //sendMenuList("/LIST/PATTERN", patternPage.menuList);
-    //effectPage.menuList = getPathsForMenu(effectPage);
-    //sendMenuList("/LIST/EFFECT", effectPage.menuList);
-    //textPage.menuList = getPathsForMenu(textPage);
-    //sendMenuList("/LIST/TEXT", textPage.menuList);
-    //fontPage.menuList = getPathsForMenu(fontPage);
-    //sendMenuList("/LIST/FONT", fontPage.menuList);
-
     regenerateAndSendList(videoPage);
     regenerateAndSendList(patternPage);
     regenerateAndSendList(effectPage);
@@ -1011,6 +1001,13 @@ void ofApp::updateSettings(string settingLine){
     else if(result[0] == "TEXT_ENABLE"){
         if(result[1] == "true"){ setting.textEnable = false; }
         else{ setting.textEnable = true; }
+    }
+    else if(result[0] == "VIDEO_SPEED_ENABLE"){
+        if(result[1] == "true"){ 
+            setting.videoSpeedEnable = false;
+            setVideoSpeed(0.5);
+         }
+        else{ setting.videoSpeedEnable = true; }
     }
     else if(result[0] == "CV_BUTTON"){
         if(result[1] == "true"){ setting.cvButton = false; }

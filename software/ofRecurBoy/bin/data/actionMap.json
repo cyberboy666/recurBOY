@@ -28,11 +28,8 @@
         ["20", "setTextColorHue"],
         ["21", "setTextColorSat"],
         ["22", "setTextColorBrightness"],
-        ["23", "setTextColorAlpha"]
-
-
-
-
+        ["23", "setTextColorAlpha"],
+        ["24", "setVideoSpeed"]
         ]
     },
     "OSC" : [
@@ -46,7 +43,7 @@
         ["1", "setParam1Cv"],
         ["2", "setParam2Cv"],
         ["3", "setSpeedCv"],
-	    ["4", "setParam0Invert"],
+	["4", "setParam0Invert"],
         ["5", "setParam1Invert"],
         ["6", "setParam2Invert"],
         ["7", "setSpeedInvert"]

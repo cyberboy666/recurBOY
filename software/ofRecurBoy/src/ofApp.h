@@ -88,6 +88,7 @@ static string moveFolderUpOneLevel(const string& path) {
         string hdmiType;
         string cvUpper;
         bool textEnable;
+        bool videoSpeedEnable;
         bool cvButton;
         string imageRatio;
         bool showFps;
@@ -108,6 +109,7 @@ static string moveFolderUpOneLevel(const string& path) {
             hdmiType = jsonObject["HDMI_TYPE"].asString();
             cvUpper = jsonObject["CV_UPPER"].asString();
             textEnable = jsonObject["TEXT_ENABLE"].asBool();
+            videoSpeedEnable = jsonObject["VIDEO_SPEED_ENABLE"].asBool();
             cvButton = jsonObject["CV_BUTTON"].asBool();
             imageRatio = jsonObject["IMAGE_RATIO"].asString();
             showFps = jsonObject["SHOW_FPS"].asBool();
@@ -126,6 +128,7 @@ static string moveFolderUpOneLevel(const string& path) {
             jsonObject["HDMI_TYPE"] = hdmiType;
             jsonObject["CV_UPPER"] = cvUpper;
             jsonObject["TEXT_ENABLE"] = textEnable;
+            jsonObject["VIDEO_SPEED_ENABLE"] = videoSpeedEnable;
             jsonObject["CV_BUTTON"] = cvButton;
             jsonObject["IMAGE_RATIO"] = imageRatio;
             jsonObject["SHOW_FPS"] = showFps;
@@ -141,6 +144,7 @@ static string moveFolderUpOneLevel(const string& path) {
             menuList.push_back("HDMI_TYPE: " + hdmiType);
             menuList.push_back("CV_UPPER: " + cvUpper);
             menuList.push_back("TEXT_ENABLE: " + boolToString(textEnable));
+            menuList.push_back("VIDEO_SPEED_ENABLE: " + boolToString(videoSpeedEnable));
             menuList.push_back("CV_BUTTON: " + boolToString(cvButton));
             menuList.push_back("IMAGE_RATIO: " + imageRatio);
             menuList.push_back("SHOW_FPS: " + boolToString(showFps));
@@ -205,6 +209,8 @@ static string moveFolderUpOneLevel(const string& path) {
     void setParam1(float value);
     void setParam2(float value);
     void setSpeed(float value);
+
+    void setVideoSpeed(float value);
 
     void setParam0Invert(float value);
     void setParam1Invert(float value);
