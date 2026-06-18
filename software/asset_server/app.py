@@ -1,6 +1,8 @@
 from flask import Flask, request, redirect, send_from_directory
 import os
 
+from werkzeug.security import safe_join
+
 app = Flask(__name__)
 
 BASE_DIR = "/home/pi"
@@ -23,11 +25,19 @@ def list_dir(path):
         else:
             files.append(i)
 
-    return folders, files
+    return sorted(folders), sorted(files)
 
 
 def safe_id(path):
     return path.replace("/", "_")
+
+def safe_dir(base_dir, *child_path):
+    safe_dest = safe_join(base_dir, os.path.join(*child_path))
+    if safe_dest is None:
+        app.logger.warning("Invalid Path: %r", child_path)
+        return None
+    else:
+        return safe_dest
 
 def render_folder(path, rel_path):
     folders, files = list_dir(path)
@@ -60,7 +70,8 @@ def render_folder(path, rel_path):
         <details>
             <summary>
                 <b>{name}</b>
-                <a href="#" onclick="document.getElementById('file_{id}').click()">[upload]</a>
+                <a href="#" onclick="document.getElementById('file_{id}').click()">[upload_files]</a>
+                <a href="#" onclick="document.getElementById('dir_{id}').click()">[upload_folder]</a>
                 <a href="#" onclick="newFolder_{id}()">[new_folder]</a>
                 <a href="#" onclick="deleteFolder_{id}()">[delete_folder]</a>
             </summary>
@@ -68,6 +79,11 @@ def render_folder(path, rel_path):
             <form id="form_{id}" action="/upload/{path}" method="post" enctype="multipart/form-data" style="display:none;">
                 <input type="file" name="file" id="file_{id}" multiple
                 onchange="document.getElementById('form_{id}').submit()">
+            </form>
+
+            <form id="formdir_{id}" action="/upload/{path}" method="post" enctype="multipart/form-data" style="display:none;">
+                <input type="file" name="file" id="dir_{id}" multiple webkitdirectory
+                onchange="document.getElementById('formdir_{id}').submit()">
             </form>
 
             <form id="newfolder_{id}" action="/new_folder/{path}" method="post" style="display:none;">
@@ -107,8 +123,10 @@ def render_folder(path, rel_path):
 @app.route("/")
 def index():
     html = """
+    <!DOCTYPE html>
     <html>
     <head>
+      <meta charset=utf-8">
     <style>
 <style>
     body {
@@ -168,13 +186,19 @@ def index():
         <details>
             <summary>
                 <b>{folder}</b>
-                <a href="#" onclick="document.getElementById('file_{uid}').click()">[upload]</a>
+                <a href="#" onclick="document.getElementById('file_{uid}').click()">[upload_files]</a>
+                <a href="#" onclick="document.getElementById('dir_{uid}').click()">[upload_folder]</a>
                 <a href="#" onclick="newFolder_{uid}()">[new_folder]</a>
             </summary>
 
             <form id="form_{uid}" action="/upload/{folder}" method="post" enctype="multipart/form-data" style="display:none;">
-                <input type="file" name="file" id="file_{uid}"
+                <input type="file" name="file" id="file_{uid}" multiple
                 onchange="document.getElementById('form_{uid}').submit()">
+            </form>
+
+            <form id="formdir_{uid}" action="/upload/{folder}" method="post" enctype="multipart/form-data" style="display:none;">
+                <input type="file" name="file" id="dir_{uid}" webkitdirectory
+                onchange="document.getElementById('formdir_{uid}').submit()">
             </form>
 
             <form id="newfolder_{uid}" action="/new_folder/{folder}" method="post" style="display:none;">
@@ -207,12 +231,14 @@ def index():
 def upload(folder):
     files = request.files.getlist("file")
 
-    target = os.path.join(BASE_DIR, folder)
-    os.makedirs(target, exist_ok=True)
-
     for file in files:
         if file and file.filename:
-            file.save(os.path.join(target, file.filename))
+            safe_target = safe_dir(BASE_DIR, folder, file.filename)
+            if safe_target is not None:
+                os.makedirs(os.path.dirname(safe_target), exist_ok=True)
+                file.save(safe_target)
+            else:
+                return redirect("/")
 
     return redirect("/")
 
@@ -226,10 +252,12 @@ def file(file_path):
 
 @app.route("/delete/<path:file_path>")
 def delete(file_path):
-    full = os.path.join(BASE_DIR, file_path)
+    safe_target = safe_dir(BASE_DIR, file_path)
 
-    if os.path.exists(full):
-        os.remove(full)
+    if safe_target is None:
+        return redirect("/")
+    if os.path.exists(safe_target):
+        os.remove(safe_target)
 
     return redirect("/")
 
@@ -242,21 +270,26 @@ def new_folder(folder):
 
     name = name.replace("/", "_")
 
-    target = os.path.join(BASE_DIR, folder, name)
-    os.makedirs(target, exist_ok=True)
+    safe_target = safe_dir(BASE_DIR, folder, name)
+    if safe_target is None:
+        return redirect("/")
+    os.makedirs(safe_target, exist_ok=True)
 
     return redirect("/")
 
 @app.route("/delete_folder/<path:folder>", methods=["POST"])
 def delete_folder(folder):
-    full = os.path.join(BASE_DIR, folder)
+    safe_target = safe_join(BASE_DIR, folder)
 
-    if folder in FOLDERS:
+    if safe_target is None:
         return redirect("/")
 
-    if os.path.exists(full) and os.path.isdir(full):
+    if safe_target in {os.path.join(BASE_DIR, f) for f in FOLDERS}:
+        return redirect("/")
+
+    if os.path.exists(safe_target) and os.path.isdir(safe_target):
         import shutil
-        shutil.rmtree(full)
+        shutil.rmtree(safe_target)
 
     return redirect("/")
 
