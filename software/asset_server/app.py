@@ -1,6 +1,6 @@
-from flask import Flask, request, redirect, send_from_directory
+from flask import Flask, request, redirect, send_from_directory, render_template_string
 import os
-
+import subprocess
 from werkzeug.security import safe_join
 
 app = Flask(__name__)
@@ -120,61 +120,70 @@ def render_folder(path, rel_path):
 
     return html
 
-@app.route("/")
-def index():
-    html = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset=utf-8">
-    <style>
-<style>
-    body {
+BASE_HTML = """
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/static/favicon.ico">
+
+  <style>
+    body {{
         font-family: sans-serif;
         margin: 20px;
         background: #ffffff;
         color: #111111;
-    }
+    }}
 
-    details {
+    details {{
         margin-left: 12px;
         margin-top: 6px;
         padding: 6px;
         border: 1px solid #ddd;
         border-radius: 6px;
-    }
+    }}
 
-    summary {
+    summary {{
         cursor: pointer;
-    }
+    }}
 
-    a {
+    a {{
         margin-left: 6px;
         color: #0645ad;
-    }
+    }}
 
-    @media (prefers-color-scheme: dark) {
-        body {
+    @media (prefers-color-scheme: dark) {{
+        body {{
             background: #121212;
             color: #e6e6e6;
-        }
+        }}
 
-        details {
+        details {{
             border: 1px solid #333;
             background: #1e1e1e;
-        }
+        }}
 
-        a {
+        a {{
             color: #8ab4f8;
-        }
-    }
-</style>    </style>
-    </head>
-    <body>
+        }}
+    }}
+  </style>
+</head>
 
+<body>
+{content}
+</body>
+</html>
+"""
+
+@app.route("/")
+def index():
+    content = """
     <h1>RecurBOY Asset Server</h1>
     <hr>
     """
+
+    html = BASE_HTML.format(content=content)
 
     for folder in FOLDERS:
         path = os.path.join(BASE_DIR, folder)
@@ -221,6 +230,8 @@ def index():
         html += "</details>"
 
     html += """
+    <hr>
+    <a href="/wifi">Configure WiFi Connection →</a>
     </body>
     </html>
     """
@@ -293,5 +304,133 @@ def delete_folder(folder):
 
     return redirect("/")
 
+WIFI_CONTENT = """
+<h2>WiFi Settings</h2>
+<p>Connection type: <b>{mode}</b></p>
+
+{warning}
+
+<form method="POST">
+
+  <label>SSID</label><br>
+  <input type="text" name="ssid" value="{ssid}" {disabled}><br><br>
+
+  <label>Password</label><br>
+  <input id="pw" type="password" name="password" value="{password}" {disabled}><br><br>
+
+  <button type="button" onclick="togglePassword()">Show/Hide Password</button><br><br>
+
+  <button type="submit" {disabled}>
+    Save & Apply
+  </button>
+</form>
+<hr>
+<a href="/">← Back to asset server</a>
+
+<script>
+function togglePassword() {{
+    var pw = document.getElementById("pw");
+    pw.type = (pw.type === "password") ? "text" : "password";
+}}
+</script>
+"""
+
+def get_connection_type():
+    try:
+        route = subprocess.getoutput("ip route get 1.1.1.1")
+
+        if "dev eth0" in route or "dev usb0" in route:
+            return "ethernet"
+
+        if "dev wlan0" in route:
+            return "wifi"
+
+        iw = subprocess.getoutput("iw dev wlan0 info")
+        if "type AP" in iw:
+            return "ap"
+
+        return "offline"
+
+    except:
+        return "offline"
+
+
+def get_ssid():
+    return subprocess.getoutput("iwgetid -r").strip()
+
+def apply_wifi(ssid, password):
+    config = """country=00
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={{
+    ssid="{ssid}"
+    psk="{password}"
+}}
+""".format(ssid=ssid, password=password)
+
+    with open("/etc/wpa_supplicant/wpa_supplicant.conf", "w") as f:
+        f.write(config)
+
+    subprocess.call(["wpa_cli", "-i", "wlan0", "reconfigure"])
+
+def load_wifi_config():
+    ssid = ""
+    password = ""
+
+    try:
+        with open("/etc/wpa_supplicant/wpa_supplicant.conf", "r") as f:
+            lines = f.readlines()
+
+        in_network = False
+
+        for line in lines:
+            line = line.strip()
+
+            if line.startswith("network={"):
+                in_network = True
+
+            elif in_network and line.startswith("ssid="):
+                ssid = line.split("=", 1)[1].replace('"', '')
+
+            elif in_network and line.startswith("psk="):
+                password = line.split("=", 1)[1].replace('"', '')
+
+            elif line == "}":
+                in_network = False
+
+    except:
+        pass
+
+    return ssid, password
+
+@app.route("/wifi", methods=["GET", "POST"])
+def wifi():
+
+    mode = get_connection_type()
+    ssid, password = load_wifi_config()
+
+    if mode == "wifi":
+        warning = "<p style='color:red;'>⚠ Cannot change WiFi while connected via WiFi</p>"
+        disabled = "disabled"
+    else:
+        warning = ""
+        disabled = ""
+
+    if request.method == "POST" and mode != "wifi":
+        new_ssid = request.form["ssid"]
+        new_pass = request.form["password"]
+        apply_wifi(new_ssid, new_pass)
+        return redirect("/wifi")
+
+    content = WIFI_CONTENT.format(
+        mode=mode,
+        ssid=ssid,
+        password=password,
+        disabled=disabled,
+        warning=warning
+    )
+
+    return BASE_HTML.format(content=content)
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80)
