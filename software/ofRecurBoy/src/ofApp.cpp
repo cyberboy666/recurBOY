@@ -1038,14 +1038,14 @@ void ofApp::updateSettings(string settingLine){
 	std::vector<char> cmd(command.begin(), command.end());
 	cmd.push_back('\0'); // Ensure null termination
 	myExec(cmd.data());  // Pass mutable char* to myExec
-        
-        int unmountStatus = system("mountpoint -q /media/usb0 || echo 0");
-        if (unmountStatus == 0) {
+        bool unmounted = (system("mountpoint -q /media/usb0") != 0);
+
+        if (unmounted) {
             showMessage("eject successful");
             ofSleepMillis(3000);
             removeMessage();
         } else {
-            showMessage("eject failed");
+            showMessage("eject failed\n content from usb\nmay be playing");
             ofSleepMillis(3000);
             removeMessage();
             }
