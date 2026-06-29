@@ -337,22 +337,27 @@ function togglePassword() {{
 
 def get_connection_type():
     try:
-        route = subprocess.getoutput("ip route get 1.1.1.1")
+        client_ip = request.remote_addr
 
-        if "dev eth0" in route or "dev usb0" in route:
+        route = subprocess.getoutput("ip route get " + client_ip)
+
+        if "dev usb0" in route:
+            return "usb"
+
+        if "dev eth0" in route:
             return "ethernet"
 
         if "dev wlan0" in route:
+            iw = subprocess.getoutput("iw dev wlan0 info")
+            if "type AP" in iw:
+                return "ap"
             return "wifi"
-
-        iw = subprocess.getoutput("iw dev wlan0 info")
-        if "type AP" in iw:
-            return "ap"
 
         return "offline"
 
     except:
         return "offline"
+
 
 
 def get_ssid():
