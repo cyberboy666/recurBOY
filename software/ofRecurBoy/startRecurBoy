@@ -1,5 +1,7 @@
 #! /bin/sh
 sudo killall ofRecurBoy; sudo killall python3
+sudo systemctl stop asset_server.service
+sudo ./ap_stop.sh
 cd ~/openframeworks10.1/apps/myApps/ofRecurBoy/
 python3 display.py &
 sleep 10
