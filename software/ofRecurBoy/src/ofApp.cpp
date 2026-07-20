@@ -1,5 +1,4 @@
 #include "ofApp.h"
-
 //--------------------------------------------------------------
 void ofApp::setup(){
 
@@ -42,16 +41,22 @@ void ofApp::setup(){
     settingPage.name = "SETTING";
     messagePage.name = "MESSAGE";
 
-    videoPage.menuList = getPathsForMenu(videoPage); //getPathsInFolder("/home/pi/Videos/", "video");
-    sendMenuList("/LIST/VIDEO", videoPage.menuList);
-    patternPage.menuList = getPathsForMenu(patternPage); // getPathsInFolder("/home/pi/Shaders/", "shader");
-    sendMenuList("/LIST/PATTERN", patternPage.menuList);
-    effectPage.menuList = getPathsForMenu(effectPage);
-    sendMenuList("/LIST/EFFECT", effectPage.menuList);
-    textPage.menuList = getPathsForMenu(textPage);
-    sendMenuList("/LIST/TEXT", textPage.menuList);
-    fontPage.menuList = getPathsForMenu(fontPage);
-    sendMenuList("/LIST/FONT", fontPage.menuList);
+    //videoPage.menuList = getPathsForMenu(videoPage); //getPathsInFolder("/home/pi/Videos/", "video");
+    //sendMenuList("/LIST/VIDEO", videoPage.menuList);
+    //patternPage.menuList = getPathsForMenu(patternPage); // getPathsInFolder("/home/pi/Shaders/", "shader");
+    //sendMenuList("/LIST/PATTERN", patternPage.menuList);
+    //effectPage.menuList = getPathsForMenu(effectPage);
+    //sendMenuList("/LIST/EFFECT", effectPage.menuList);
+    //textPage.menuList = getPathsForMenu(textPage);
+    //sendMenuList("/LIST/TEXT", textPage.menuList);
+    //fontPage.menuList = getPathsForMenu(fontPage);
+    //sendMenuList("/LIST/FONT", fontPage.menuList);
+
+    regenerateAndSendList(videoPage);
+    regenerateAndSendList(patternPage);
+    regenerateAndSendList(effectPage);
+    regenerateAndSendList(textPage);
+    regenerateAndSendList(fontPage);
     settingPage.menuList = setting.generateMenuList();
     sendMenuList("/LIST/SETTING", settingPage.menuList);
     
@@ -81,6 +86,13 @@ void ofApp::setup(){
     safeShutdownCount = 0;
     safeShutdownLastTime = ofGetElapsedTimef();   
 
+    if(setting.firstBoot){
+        setting.firstBoot = false;
+        setting.saveJson();
+        showMessage("RESIZING PARTITION\n ON FIRST BOOT\nREBOOTING SHORTLY\nPLEASE WAIT");
+        ofSleepMillis(10000);
+        removeMessage();
+    }
 }
 
 //--------------------------------------------------------------
@@ -223,6 +235,7 @@ void ofApp::runAction(string action, string amount){
      else if(action == "setParam1"){ setParam1(ofToFloat(amount));}
      else if(action == "setParam2"){ setParam2(ofToFloat(amount));}
      else if(action == "setSpeed"){ setSpeed(ofToFloat(amount));}
+     else if(action == "setVideoSpeed"){ setVideoSpeed(ofToFloat(amount));}
      else if(action == "setParam0Invert"){ setParam0Invert(ofToFloat(amount));}
      else if(action == "setParam1Invert"){ setParam1Invert(ofToFloat(amount));}
      else if(action == "setParam2Invert"){ setParam2Invert(ofToFloat(amount));}
@@ -381,8 +394,11 @@ void ofApp::setSpeed(float value){
     if(currentPage == "TEXT"){setTextDisplaceHeight(value);}
     else if(currentPage == "FONT"){setTextColorAlpha(value);}
     else if(currentPage == "PATTERN" ){setShaderSpeed(value);}
+    else if(currentPage == "VIDEO" && setting.videoSpeedEnable){setVideoSpeed(value);}
     else{setEffectSpeed(value);}
 }
+
+void ofApp::setVideoSpeed(float value){recurPlayer.setSpeed(value);}
 
 void ofApp::setParam0Invert(float value){setParam0(1.0 - value);}
 void ofApp::setParam1Invert(float value){setParam1(1.0 - value);}
@@ -489,10 +505,34 @@ void ofApp::enter(){
     } 
     else if(currentPage == "VIDEO"){
         runningSource = "VIDEO";
-        if(fileIsImageExtension(menu_item)){
-            isSampleImage = True;
+if(fileIsImageExtension(menu_item)){
+
+    int w, h;
+
+    if(getImageSize(menu_item, w, h)){
+        ofLogNotice() << "Image size: " << w << "x" << h;
+
+        if(w < 2000 && h < 2000){
             img.load(menu_item);
+            isSampleImage = true;
         }
+        else{
+        showMessage("IMAGE TOO LARGE TO LOAD");
+        ofSleepMillis(3000);
+        removeMessage();
+            ofLogWarning() << "Skipping large image: " << w << "x" << h;
+        }
+    }
+    else{
+        ofLogError() << "Could not read image metadata: " << menu_item;
+    }
+}
+//        if(fileIsImageExtension(menu_item)){
+            //img.load(menu_item);
+
+            //isSampleImage = True;
+            //img.load(menu_item);
+//        }
         else{
             isSampleImage = False;
             playVideo(menu_item);
@@ -544,18 +584,11 @@ void ofApp::enter(){
 }
 
 void ofApp::switchSource(){
-    // regenerate file lists again - incase something has changed
-
-    videoPage.menuList = getPathsForMenu(videoPage); //getPathsInFolder("/home/pi/Videos/", "video");
-    sendMenuList("/LIST/VIDEO", videoPage.menuList);
-    patternPage.menuList = getPathsForMenu(patternPage); // getPathsInFolder("/home/pi/Shaders/", "shader");
-    sendMenuList("/LIST/PATTERN", patternPage.menuList);
-    effectPage.menuList = getPathsForMenu(effectPage);
-    sendMenuList("/LIST/EFFECT", effectPage.menuList);
-    textPage.menuList = getPathsForMenu(textPage);
-    sendMenuList("/LIST/TEXT", textPage.menuList);
-    fontPage.menuList = getPathsForMenu(fontPage);
-    sendMenuList("/LIST/FONT", fontPage.menuList);
+    regenerateAndSendList(videoPage);
+    regenerateAndSendList(patternPage);
+    regenerateAndSendList(effectPage);
+    regenerateAndSendList(textPage);
+    regenerateAndSendList(fontPage);
 
     currentSourceIndex = (currentSourceIndex + 1) % sourceModes.size() ;
     currentPage = sourceModes[currentSourceIndex];
@@ -696,6 +729,7 @@ void ofApp::sendMenuList(string address, vector<string> list) {
         if (estimatedSize > OSC_MESSAGE_SIZE_LIMIT) {
             // Send the current message
             sender.sendMessage(response, true);
+            ofSleepMillis(10);
 
             // Start a new message
             response.clear();
@@ -726,11 +760,23 @@ void ofApp::sendMenuList(string address, vector<string> list) {
 //     sender.sendMessage(response, true);
 // }
 
+void ofApp::regenerateAndSendList(pageObject& thisObject) {
+    thisObject.menuList = getPathsForMenu(thisObject);
+    thisObject.selectedRow = 0;
+    thisObject.playingRow = -1;
+    sendMenuList("/LIST/" + thisObject.name, thisObject.menuList);
+    sendIntMessage("/SELECTED_ROW/" + thisObject.name, 0);
+    sendIntMessage("/PLAYING_ROW/" + thisObject.name, -1);
+}
+
 bool alphabetical(string a, string b){return a<b;}
 
 vector<string> ofApp::getPathsForMenu(pageObject& thisObject){
     vector<string> combinedPaths;
     vector<string> folderPaths;
+
+    ofSort(combinedPaths, alphabetical);
+
     if(thisObject.currentFolder == "/"){
         // this object needs combined root menu
         folderPaths = getPathFromCombinedRootLocations(thisObject.name); 
@@ -859,6 +905,8 @@ vector<string> ofApp::getPathsInFolder(string folderPath, string mode){
                 }
             } 
         }
+        ofSort(thisList, alphabetical);
+
         return thisList;
     }
     else{
@@ -954,6 +1002,13 @@ void ofApp::updateSettings(string settingLine){
         if(result[1] == "true"){ setting.textEnable = false; }
         else{ setting.textEnable = true; }
     }
+    else if(result[0] == "VIDEO_SPEED_ENABLE"){
+        if(result[1] == "true"){ 
+            setting.videoSpeedEnable = false;
+            setVideoSpeed(0.5);
+         }
+        else{ setting.videoSpeedEnable = true; }
+    }
     else if(result[0] == "CV_BUTTON"){
         if(result[1] == "true"){ setting.cvButton = false; }
         else{ setting.cvButton = true; }
@@ -983,18 +1038,48 @@ void ofApp::updateSettings(string settingLine){
 	std::vector<char> cmd(command.begin(), command.end());
 	cmd.push_back('\0'); // Ensure null termination
 	myExec(cmd.data());  // Pass mutable char* to myExec
-        
-        int unmountStatus = system("mountpoint -q /media/usb0 || echo 0");
-        if (unmountStatus == 0) {
+        bool unmounted = (system("mountpoint -q /media/usb0") != 0);
+
+        if (unmounted) {
             showMessage("eject successful");
             ofSleepMillis(3000);
             removeMessage();
         } else {
-            showMessage("eject failed");
+            showMessage("eject failed\n content from usb\nmay be playing");
             ofSleepMillis(3000);
             removeMessage();
             }
     }
+    else if(result[0] == "ASSET_SERVER"){
+        if(result[1] == "true"){
+            showMessage("ASSET_SERVER DISABLED");
+            setting.assetServer = false;
+            system("sudo systemctl stop asset_server.service"); 
+        }
+        else{
+            showMessage("ASSET_SERVER ENABLED\nCONNECT WITH PI & OPEN\nHTTP:\/\/RECURBOY.LOCAL");
+            setting.assetServer = true;
+            system("sudo systemctl start asset_server.service");
+        }       
+        ofSleepMillis(3000);
+        removeMessage();
+    }
+    else if(result[0] == "ACCESS_POINT"){
+        if(result[1] == "true"){ 
+            showMessage("ACCESS_POINT DISABLED");
+            setting.accessPoint = false;  
+            system("sudo sh ~/recurBOY/software/ofRecurBoy/ap_stop.sh"); 
+        }
+        else{
+            showMessage("ACCESS_POINT ENABLED\nconnect to\nSSID: recurBOY\nPW: cyberboy666");
+            setting.accessPoint = true; 
+            system("sudo sh ~/recurBOY/software/ofRecurBoy/ap_start.sh");
+            system("sudo systemctl start asset_server.service");
+        }       
+        ofSleepMillis(3000);
+        removeMessage();
+    }
+
     else if(result[0] == "COPY_CONTENT"){
         showMessage("copying please wait...");
         int status = std::system("bash /home/pi/openframeworks10.1/apps/myApps/ofRecurBoy/copy_usb_to_internal.sh");
@@ -1135,4 +1220,32 @@ void ofApp::checkSafeShutdown(){
         system("sudo shutdown -h now");
     }
     safeShutdownLastTime = nowGetTime;
+}
+
+bool ofApp::getImageSize(const std::string& path, int &w, int &h)
+{
+    FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(path.c_str(), 0);
+
+    if (fif == FIF_UNKNOWN) {
+        fif = FreeImage_GetFIFFromFilename(path.c_str());
+    }
+
+    if (fif == FIF_UNKNOWN) {
+        ofLogError() << "Unknown image format: " << path;
+        return false;
+    }
+
+    // IMPORTANT: FIF_LOAD_NOPIXELS avoids full decode
+    FIBITMAP* dib = FreeImage_Load(fif, path.c_str(), FIF_LOAD_NOPIXELS);
+
+    if (!dib) {
+        ofLogError() << "FreeImage failed to open: " << path;
+        return false;
+    }
+
+    w = FreeImage_GetWidth(dib);
+    h = FreeImage_GetHeight(dib);
+
+    FreeImage_Unload(dib);
+    return true;
 }
