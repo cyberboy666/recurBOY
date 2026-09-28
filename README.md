@@ -96,7 +96,7 @@ for example, i can tell that the [waveshare](https://www.waveshare.com/1.8inch-l
 
 ### 5 way tact switch
 
-to save space on the interface we used this 5 way tact switch (10x10mm through hole) - also sourced from [aliexpress](https://www.aliexpress.com/item/1005004357075585.html) - you can find these on other places such as amazon and ebay aswell.
+to save space on the interface we used [this 5 way tact switch](https://www.adafruit.com/product/504) (10x10mm through hole) - also sourced from [aliexpress](https://www.aliexpress.com/item/1005004357075585.html) - you can find these on other places such as amazon and ebay aswell.
 
 ![image](https://user-images.githubusercontent.com/12017938/207749550-0d12a8e7-d50b-4868-9567-5842c159ec25.png)
 
