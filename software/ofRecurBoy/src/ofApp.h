@@ -1,5 +1,7 @@
 #pragma once
-
+#define LONG LONG_FI
+#include <FreeImage.h>
+#undef LONG
 #include "ofMain.h"
 #include "incur.h"
 #include "ofxOsc.h"
@@ -86,10 +88,14 @@ static string moveFolderUpOneLevel(const string& path) {
         string hdmiType;
         string cvUpper;
         bool textEnable;
+        bool videoSpeedEnable;
         bool cvButton;
         string imageRatio;
         bool showFps;
         bool pixelOffset;
+        bool assetServer = false;
+        bool accessPoint = false;
+        bool firstBoot;
 
         void loadJson(){
             bool parsingSuccessful = jsonObject.open("settings.json");
@@ -103,10 +109,13 @@ static string moveFolderUpOneLevel(const string& path) {
             hdmiType = jsonObject["HDMI_TYPE"].asString();
             cvUpper = jsonObject["CV_UPPER"].asString();
             textEnable = jsonObject["TEXT_ENABLE"].asBool();
+            videoSpeedEnable = jsonObject["VIDEO_SPEED_ENABLE"].asBool();
             cvButton = jsonObject["CV_BUTTON"].asBool();
             imageRatio = jsonObject["IMAGE_RATIO"].asString();
             showFps = jsonObject["SHOW_FPS"].asBool();
             pixelOffset = jsonObject["PIXEL_OFFSET"].asBool();
+            firstBoot = jsonObject["FIRST_BOOT"].asBool();
+
         }
         void saveJson(){
 
@@ -119,10 +128,12 @@ static string moveFolderUpOneLevel(const string& path) {
             jsonObject["HDMI_TYPE"] = hdmiType;
             jsonObject["CV_UPPER"] = cvUpper;
             jsonObject["TEXT_ENABLE"] = textEnable;
+            jsonObject["VIDEO_SPEED_ENABLE"] = videoSpeedEnable;
             jsonObject["CV_BUTTON"] = cvButton;
             jsonObject["IMAGE_RATIO"] = imageRatio;
             jsonObject["SHOW_FPS"] = showFps;
             jsonObject["PIXEL_OFFSET"] = pixelOffset;
+            jsonObject["FIRST_BOOT"] = firstBoot;
 
             jsonObject.save("settings.json", true);
         }
@@ -133,6 +144,7 @@ static string moveFolderUpOneLevel(const string& path) {
             menuList.push_back("HDMI_TYPE: " + hdmiType);
             menuList.push_back("CV_UPPER: " + cvUpper);
             menuList.push_back("TEXT_ENABLE: " + boolToString(textEnable));
+            menuList.push_back("VIDEO_SPEED_ENABLE: " + boolToString(videoSpeedEnable));
             menuList.push_back("CV_BUTTON: " + boolToString(cvButton));
             menuList.push_back("IMAGE_RATIO: " + imageRatio);
             menuList.push_back("SHOW_FPS: " + boolToString(showFps));
@@ -140,8 +152,10 @@ static string moveFolderUpOneLevel(const string& path) {
             menuList.push_back("PIXEL_OFFSET: " + boolToString(pixelOffset));
             menuList.push_back("EJECT_USB:");
             menuList.push_back("COPY_CONTENT:");
+            menuList.push_back("ASSET_SERVER: " + boolToString(assetServer));
+            menuList.push_back("ACCESS_POINT: " + boolToString(accessPoint));
             menuList.push_back("SHUTDOWN:");
-            menuList.push_back("FIRMWARE: v3.0.0s");
+            menuList.push_back("FIRMWARE: v3.1.0s");
 
             return menuList;
         }
@@ -195,6 +209,8 @@ static string moveFolderUpOneLevel(const string& path) {
     void setParam1(float value);
     void setParam2(float value);
     void setSpeed(float value);
+
+    void setVideoSpeed(float value);
 
     void setParam0Invert(float value);
     void setParam1Invert(float value);
@@ -261,6 +277,7 @@ static string moveFolderUpOneLevel(const string& path) {
 
     pageObject& getPagebyName(string pageName);
     vector<string> getPathsForMenu(pageObject& thisObject);
+    void regenerateAndSendList(pageObject& thisObject);
 
     string currentPage; // currentPage is the page shown on display
     string runningSource; // runningSource is the source that is being used right now (could be different to what is shown on display)
@@ -318,5 +335,6 @@ static string moveFolderUpOneLevel(const string& path) {
     int safeShutdownCount;
     float safeShutdownLastTime;
     void checkSafeShutdown();
+    bool getImageSize(const std::string& path, int &w, int &h);
 
 };
